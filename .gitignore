@@ -37,3 +37,7 @@ tmp/
 # Adresar _info/
 _info/out
 _info/~*
+
+# Vaadin 
+webpack.generated.js
+node_modules/

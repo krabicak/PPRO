@@ -1,9 +1,10 @@
-package cz.uhk.ppro.vehicle.registry.app;
+package cz.uhk.ppro.vehicle.registry.app.old;
 
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 
+@Deprecated
 @Service
 public class GreetService implements Serializable {
 

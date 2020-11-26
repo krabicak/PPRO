@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app;
+package cz.uhk.ppro.vehicle.registry.app.old;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -23,7 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * A new instance of this class is created for every new user and every
  * browser tab/window.
  */
-@Route
+@Deprecated
+@Route("prvniTest")
 @PWA(name = "Vaadin Application",
         shortName = "Vaadin App",
         description = "This is an example Vaadin application.",

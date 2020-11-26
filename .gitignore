@@ -41,3 +41,5 @@ _info/~*
 # Vaadin 
 webpack.generated.js
 node_modules/
+types.d.ts
+tsconfig.json

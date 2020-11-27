@@ -3,6 +3,12 @@ package cz.uhk.ppro.vehicle.registry.entities;
 
 import javax.persistence.*;
 
+/**
+ * Entity jakékoliv osoby, ať už pojištovák
+ * uživatel systému nebo jen identifikace majitele
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "PERSON")
 public class Person {
@@ -12,9 +18,15 @@ public class Person {
   @GeneratedValue
   private long idPerson;
 
+  /**
+   * Jméno
+   */
   @Column(nullable = false, length = 45)
   private String firstName;
 
+  /**
+   * Příjmení
+   */
   @Column(nullable = false, length = 45)
   private String lastName;
 

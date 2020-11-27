@@ -2,6 +2,11 @@ package cz.uhk.ppro.vehicle.registry.entities;
 
 import javax.persistence.*;
 
+/**
+ * Pojišťovna
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "INSURANCE_COMPANY")
 public class InsuranceCompany {
@@ -11,6 +16,9 @@ public class InsuranceCompany {
   @GeneratedValue
   private long idInsuranceCompany;
 
+  /**
+   * Název pojišťovny
+   */
   @Column(nullable = false, length = 45)
   private String companyName;
 

@@ -2,6 +2,11 @@ package cz.uhk.ppro.vehicle.registry.entities;
 
 import javax.persistence.*;
 
+/**
+ * číselník/smetiště pro SPZky
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "SPZ")
 public class Spz {
@@ -11,6 +16,9 @@ public class Spz {
   @GeneratedValue
   private long idSpz;
 
+  /**
+   * Samotná SPZ
+   */
   @Column(nullable = false, length = 20)
   private String spz;
 

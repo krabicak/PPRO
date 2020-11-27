@@ -45,10 +45,21 @@ public class Insurance {
   @JoinColumn(name = "IDVEHICLE")
   private Vehicle vehicle;
 
+  /**
+   * Pojišťovák, který tohle vozidlo pojistil
+   */
   @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "IDUSER")
-  private User user;
+  @JoinColumn(name = "IDINSURANCER")
+  private User insurancer;
+
+  /**
+   * Člověk, který toto vozidlo pojistil
+   */
+  @Column(nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "IDPERSON")
+  private Person person;
 
   public long getIdInsurance() {
     return idInsurance;
@@ -86,12 +97,20 @@ public class Insurance {
     this.vehicle = vehicle;
   }
 
-  public User getUser() {
-    return user;
+  public User getInsurancer() {
+    return insurancer;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setInsurancer(User insurancer) {
+    this.insurancer = insurancer;
+  }
+
+  public Person getPerson() {
+    return person;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
   @Override
@@ -102,7 +121,8 @@ public class Insurance {
             ", toDate=" + toDate +
             ", insuranceCompany=" + insuranceCompany +
             ", vehicle=" + vehicle +
-            ", user=" + user +
+            ", insurancer=" + insurancer +
+            ", person=" + person +
             '}';
   }
 }

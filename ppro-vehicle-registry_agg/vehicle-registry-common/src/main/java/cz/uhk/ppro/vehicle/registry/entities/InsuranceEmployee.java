@@ -2,6 +2,11 @@ package cz.uhk.ppro.vehicle.registry.entities;
 
 import javax.persistence.*;
 
+/**
+ * Zaměstnanec pojišťovny/pojišťovák
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "INSURANCE_EMPLOYEE")
 public class InsuranceEmployee {
@@ -12,6 +17,10 @@ public class InsuranceEmployee {
   @JoinColumn(name = "IDUSER")
   private User user;
 
+
+  /**
+   * Pojišťovna
+   */
   @Id
   @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)

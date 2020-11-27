@@ -4,23 +4,40 @@ import cz.uhk.ppro.vehicle.registry.converters.BooleanConverter;
 
 import javax.persistence.*;
 
+/**
+ * Uživatel systému
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "USER")
 public class User {
 
+  /**
+   * Informace o uživateli
+   */
   @Id
   @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDUSER")
   private Person iduser;
 
+  /**
+   * Role uživatele v systému
+   */
   @Column(nullable = false, length = 7)
   @Enumerated(EnumType.STRING)
   private UserRole role;
 
+  /**
+   * Heslo ve formě HASHE!
+   */
   @Column(nullable = false, length = 512)
   private String password;
 
+  /**
+   * Zdali je uživatel povolen využívat systém
+   */
   @Column(length = 1, nullable = false)
   @Convert(converter = BooleanConverter.class)
   private boolean enable;

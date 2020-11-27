@@ -4,6 +4,11 @@ import cz.uhk.ppro.vehicle.registry.converters.BooleanConverter;
 
 import javax.persistence.*;
 
+/**
+ * Entita vozidla
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "VEHICLE")
 public class Vehicle {
@@ -13,28 +18,46 @@ public class Vehicle {
   @GeneratedValue
   private long idVehicle;
 
+  /**
+   * SPZ ze smětiště
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDSPZ")
   private Spz spz;
 
+  /**
+   * VIN ze smetiště
+   */
   @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDVIN")
   private Vin vin;
 
+  /**
+   * Malý TP
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDSTECHNICALCERT")
   private Document sTechnicalCert;
 
+  /**
+   * velký TP
+   */
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDBTECHNICALCERT")
   private Document bTechnicalCert;
 
+  /**
+   * Majitel vozidla
+   */
   @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDOWNER")
   private Person owner;
 
+  /**
+   * Je vozidlo v provozu?
+   */
   @Column(length = 1, nullable = false)
   @Convert(converter = BooleanConverter.class)
   private boolean active;

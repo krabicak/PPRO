@@ -29,7 +29,7 @@
 
     <modules>
         <module>vehicle-registry-core</module>
-        <module>vehicle-registry-jpa</module>
+        <module>vehicle-registry-common</module>
         <module>vehicle-registry-app</module>
     </modules>
 

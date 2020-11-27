@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app.ui;
+package cz.uhk.ppro.vehicle.registry.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

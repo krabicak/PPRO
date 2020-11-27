@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app.ui;
+package cz.uhk.ppro.vehicle.registry.app.routes;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;

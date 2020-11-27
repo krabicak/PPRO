@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app.ui;
+package cz.uhk.ppro.vehicle.registry.app.components;
 
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;

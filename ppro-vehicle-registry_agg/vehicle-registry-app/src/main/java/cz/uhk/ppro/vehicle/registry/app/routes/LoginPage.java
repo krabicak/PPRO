@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app.components;
+package cz.uhk.ppro.vehicle.registry.app.routes;
 
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.TextField;
@@ -7,6 +7,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import cz.uhk.ppro.vehicle.registry.app.components.LoginForm;
 
 /**
  * A Designer generated component for the login-page template.

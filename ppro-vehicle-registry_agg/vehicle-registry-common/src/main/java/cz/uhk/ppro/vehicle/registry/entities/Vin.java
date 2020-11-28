@@ -2,6 +2,11 @@ package cz.uhk.ppro.vehicle.registry.entities;
 
 import javax.persistence.*;
 
+/**
+ * Entita pro vin
+ *
+ * @author hotov
+ */
 @Entity
 @Table(name = "VIN")
 public class Vin {
@@ -11,6 +16,9 @@ public class Vin {
   @GeneratedValue
   private long idvin;
 
+  /**
+   * samotné VIN
+   */
   @Column(length = 40, nullable = false)
   private String vin;
 

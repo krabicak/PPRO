@@ -1,5 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.app.old;
 
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -48,7 +50,12 @@ public class MainView extends VerticalLayout {
 
         // Button click listeners can be defined as lambda expressions
         Button button = new Button("Say hello",
-                e -> Notification.show(service.greet(textField.getValue())));
+                new ComponentEventListener<ClickEvent<Button>>() {
+                    @Override
+                    public void onComponentEvent(ClickEvent<Button> e) {
+                        Notification.show(service.greet(textField.getValue()));
+                    }
+                });
 
         // Theme variants give you predefined extra styles for components.
         // Example: Primary button has a more prominent look.

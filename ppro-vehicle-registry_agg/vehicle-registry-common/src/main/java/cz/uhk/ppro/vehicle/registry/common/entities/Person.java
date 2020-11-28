@@ -15,8 +15,12 @@ import java.io.Serializable;
 public class Person implements Serializable {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idPerson;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @PrimaryKeyJoinColumn(referencedColumnName = "IDUSER", name = "IDPERSON")
+  private User user;
 
   /**
    * Jméno
@@ -33,7 +37,7 @@ public class Person implements Serializable {
   public Person() {
   }
 
-  public long getIdPerson() {
+  public Long getIdPerson() {
     return idPerson;
   }
 

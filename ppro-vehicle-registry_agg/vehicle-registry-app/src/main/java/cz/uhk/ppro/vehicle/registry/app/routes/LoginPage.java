@@ -1,7 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.routes;
 
 import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;

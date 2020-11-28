@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @JoinColumn(name = "IDUSER")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
     /**
      * Informace o uživateli

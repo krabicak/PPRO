@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -44,34 +45,17 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
     @Id("vaadinVerticalLayout")
     private Element vaadinVerticalLayout;
 
-    private String sUsername;
-    private String sPassword;
     /**
      * Creates a new LoginForm.
      */
     public LoginForm() {
-        login.getElement().addEventListener("click", getOnClickLoginListener());
-
-
+        login.addClickListener(getOnClickLoginListener());
     }
 
-    private DomEventListener getOnClickLoginListener() {
-        return (DomEventListener) e -> {
-
-            sUsername = username.getValue();
-            sPassword = password.getValue();
-
-            MessageDigest digest = null;
+    private ComponentEventListener<ClickEvent<Button>> getOnClickLoginListener() {
+        return e -> {
             try {
-                digest = MessageDigest.getInstance("SHA-256");
-            } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-                noSuchAlgorithmException.printStackTrace();
-            }
-            byte[] hash = digest.digest(sPassword.getBytes(StandardCharsets.UTF_8));
-            //System.out.println("hash: " + hash);
-
-            try {
-                loginService.login(sUsername, sPassword);
+                loginService.login(username.getValue(), password.getValue());
             } catch (FaultLoginException faultLoginException) {
                 faultLoginException.printStackTrace();
             }

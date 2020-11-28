@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonRepo extends JpaRepository<Person, Long> {
+
+    Person findPersonByIdPerson(Long id);
 }

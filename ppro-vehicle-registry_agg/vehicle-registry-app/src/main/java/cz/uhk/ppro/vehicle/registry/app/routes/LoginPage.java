@@ -7,7 +7,6 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * A Designer generated component for the login-page template.
@@ -17,18 +16,22 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Tag("login-page")
 @JsModule("./src/views/login-page.js")
-
 public class LoginPage extends PolymerTemplate<LoginPage.LoginPageModel> {
-
 
     @Id("loginForm")
     private LoginForm loginForm;
+    @Id("vaadinVerticalLayout")
+    private Element vaadinVerticalLayout;
+    @Id("vaadinTextField")
+    private TextField vaadinTextField;
+    @Id("ironIcon")
+    private Element ironIcon;
 
     /**
      * Creates a new LoginPage.
      */
     public LoginPage() {
-
+        // You can initialise any data required for the connected UI components here.
     }
 
     /**

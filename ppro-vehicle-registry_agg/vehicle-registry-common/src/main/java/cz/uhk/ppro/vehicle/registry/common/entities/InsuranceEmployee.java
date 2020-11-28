@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.entities;
+package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
 
@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class InsuranceEmployee {
 
   @Id
-  @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDUSER")
   private User user;
@@ -22,7 +21,6 @@ public class InsuranceEmployee {
    * Pojišťovna
    */
   @Id
-  @Column(nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDINSURANCECOMPANY")
   private InsuranceCompany insuranceCompany;

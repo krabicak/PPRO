@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.entities;
+package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ public class Spz {
   @Id
   @Column(nullable = false)
   @GeneratedValue
-  private long idSpz;
+  private Long idSpz;
 
   /**
    * Samotná SPZ

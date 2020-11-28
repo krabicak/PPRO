@@ -4,6 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
     <import resource="classpath:/cz/uhk/ppro/vehicle/registry/common/spring-vehicle-registry-common-DataSource.xml" />
+    <import resource="classpath:/cz/uhk/ppro/vehicle/registry/common/spring-vehicle-registry-common-Interface.xml" />
+
+    <bean id="vehicleRegistry" class="cz.uhk.ppro.vehicle.registry.core.VehicleRegistryImpl" />
 
 </beans>
 

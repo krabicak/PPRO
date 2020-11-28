@@ -1,6 +1,6 @@
-package cz.uhk.ppro.vehicle.registry.entities;
+package cz.uhk.ppro.vehicle.registry.common.entities;
 
-import cz.uhk.ppro.vehicle.registry.converters.BooleanConverter;
+import cz.uhk.ppro.vehicle.registry.common.converters.BooleanConverter;
 
 import javax.persistence.*;
 
@@ -17,10 +17,9 @@ public class User {
    * Informace o uživateli
    */
   @Id
-  @Column(nullable = false)
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "IDUSER")
-  private Person iduser;
+  @OneToOne(fetch = FetchType.LAZY)
+  @PrimaryKeyJoinColumn(name = "IDUSER")
+  private Person person;
 
   /**
    * Role uživatele v systému
@@ -42,12 +41,31 @@ public class User {
   @Convert(converter = BooleanConverter.class)
   private boolean enable;
 
+
+  /**
+   * Login pro uživatele
+   */
+  @Column(nullable = false, length = 45)
+  private String login;
+
   public enum UserRole{
     ADMIN,INSURER,CLERK
   }
 
-  public Person getIduser() {
-    return iduser;
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public Person getPerson() {
+    return person;
+  }
+
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
   public UserRole getRole() {
@@ -77,10 +95,11 @@ public class User {
   @Override
   public String toString() {
     return "User{" +
-            "iduser=" + iduser +
+            "person=" + person +
             ", role=" + role +
             ", password='" + password + '\'' +
             ", enable=" + enable +
+            ", login='" + login + '\'' +
             '}';
   }
 }

@@ -1,11 +1,10 @@
-package cz.uhk.ppro.vehicle.registry.converters;
+package cz.uhk.ppro.vehicle.registry.common.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
 public class BooleanConverter implements AttributeConverter<Boolean, Integer> {
-
 
     public Integer convertToDatabaseColumn(Boolean value) {
         return Boolean.TRUE.equals(value) ? 1 : 0;

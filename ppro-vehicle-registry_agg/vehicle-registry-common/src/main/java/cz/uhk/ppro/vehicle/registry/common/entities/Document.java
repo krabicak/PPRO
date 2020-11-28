@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.entities;
+package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,7 +15,7 @@ public class Document {
   @Id
   @Column(nullable = false)
   @GeneratedValue
-  private long idDocument;
+  private Long idDocument;
 
   /**
    * Identifikát dokumentu

@@ -10,6 +10,4 @@
         <property name="locations" value="classpath:/application.properties"/>
     </bean>
 
-    <context:component-scan base-package="cz.uhk.ppro.vehicle.registry.app"/>
-
 </beans>

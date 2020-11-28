@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="cz.uhk.ppro.vehicle.registry.entities"/>
+        <property name="packagesToScan" value="cz.uhk.ppro.vehicle.registry.common.entities
+                ,cz.uhk.ppro.vehicle.registry.common.converters"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter"/>
         </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+                <entry key="eclipselink.cache.shared.default" value="false"/>
+                <entry key="eclipselink.logging.level" value="FINEST" />
+                <entry key="eclipselink.logging.sql" value="FINEST"/>
+                <entry key="eclipselink.logging.level.sql" value="FINEST"/>
+                <entry key="eclipselink.logging.parameters" value="true"/>
+            </map>
+        </property>
     </bean>
+
+    <jpa:repositories base-package="cz.uhk.ppro.vehicle.registry.common.repositories"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">

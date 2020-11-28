@@ -25,6 +25,7 @@ class MyView extends PolymerElement {
  </vaadin-horizontal-layout>
  <vaadin-horizontal-layout style="width: 100%; height: 100%; padding: var(--lumo-space-m);" theme="spacing">
   <vaadin-grid style="height: 100%; width: 100%;flex: 2;" id="grid"></vaadin-grid>
+  
   <contact-form style="flex: 1;"></contact-form>
  </vaadin-horizontal-layout>
 </vaadin-vertical-layout>

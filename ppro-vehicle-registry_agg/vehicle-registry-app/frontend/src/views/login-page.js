@@ -1,4 +1,5 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import './login-form.js';
 
 class LoginPage extends PolymerElement {
@@ -11,7 +12,9 @@ class LoginPage extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<login-form id="loginForm"></login-form>
+<vaadin-vertical-layout id="vaadinVerticalLayout" style="width: 100%; height: 100%;">
+ <login-form id="loginForm"></login-form>
+</vaadin-vertical-layout>
 `;
     }
 

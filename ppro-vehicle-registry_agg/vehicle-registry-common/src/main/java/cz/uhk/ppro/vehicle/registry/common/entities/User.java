@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.common.entities;
 import cz.uhk.ppro.vehicle.registry.common.converters.BooleanConverter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Uživatel systému
@@ -11,95 +12,100 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements Serializable {
 
-  /**
-   * Informace o uživateli
-   */
-  @Id
-  @OneToOne(fetch = FetchType.LAZY)
-  @PrimaryKeyJoinColumn(name = "IDUSER")
-  private Person person;
+    @Id
+    @JoinColumn(name = "IDUSER")
+    private Long idUser;
+    /**
+     * Informace o uživateli
+     */
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn(name = "IDUSER", referencedColumnName = "IDPERSON")
+    private Person person;
 
-  /**
-   * Role uživatele v systému
-   */
-  @Column(nullable = false, length = 7)
-  @Enumerated(EnumType.STRING)
-  private UserRole role;
+    /**
+     * Role uživatele v systému
+     */
+    @Column(nullable = false, length = 7)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
-  /**
-   * Heslo ve formě HASHE!
-   */
-  @Column(nullable = false, length = 512)
-  private String password;
+    /**
+     * Heslo ve formě HASHE!
+     */
+    @Column(nullable = false, length = 512)
+    private String password;
 
-  /**
-   * Zdali je uživatel povolen využívat systém
-   */
-  @Column(length = 1, nullable = false)
-  @Convert(converter = BooleanConverter.class)
-  private boolean enable;
+    /**
+     * Zdali je uživatel povolen využívat systém
+     */
+    @Column(length = 1, nullable = false)
+    @Convert(converter = BooleanConverter.class)
+    private boolean enable;
 
 
-  /**
-   * Login pro uživatele
-   */
-  @Column(nullable = false, length = 45)
-  private String login;
+    /**
+     * Login pro uživatele
+     */
+    @Column(nullable = false, length = 45)
+    private String login;
 
-  public enum UserRole{
-    ADMIN,INSURER,CLERK
-  }
+    public User() {
+    }
 
-  public String getLogin() {
-    return login;
-  }
+    public enum UserRole {
+        ADMIN, INSURER, CLERK
+    }
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
+    public String getLogin() {
+        return login;
+    }
 
-  public Person getPerson() {
-    return person;
-  }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-  public void setPerson(Person person) {
-    this.person = person;
-  }
+    public Person getPerson() {
+        return person;
+    }
 
-  public UserRole getRole() {
-    return role;
-  }
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-  public void setRole(UserRole role) {
-    this.role = role;
-  }
+    public UserRole getRole() {
+        return role;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public boolean isEnable() {
-    return enable;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setEnable(boolean enable) {
-    this.enable = enable;
-  }
+    public boolean isEnable() {
+        return enable;
+    }
 
-  @Override
-  public String toString() {
-    return "User{" +
-            "person=" + person +
-            ", role=" + role +
-            ", password='" + password + '\'' +
-            ", enable=" + enable +
-            ", login='" + login + '\'' +
-            '}';
-  }
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "person=" + person +
+                ", role=" + role +
+                ", password='" + password + '\'' +
+                ", enable=" + enable +
+                ", login='" + login + '\'' +
+                '}';
+    }
 }

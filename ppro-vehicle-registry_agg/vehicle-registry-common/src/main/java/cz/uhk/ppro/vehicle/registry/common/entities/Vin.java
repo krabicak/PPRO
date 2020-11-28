@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Entita pro vin
@@ -9,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "VIN")
-public class Vin {
+public class Vin implements Serializable {
 
   @Id
   @Column(nullable = false)
@@ -21,6 +22,9 @@ public class Vin {
    */
   @Column(length = 40, nullable = false)
   private String vin;
+
+  public Vin() {
+  }
 
   public long getIdvin() {
     return idvin;

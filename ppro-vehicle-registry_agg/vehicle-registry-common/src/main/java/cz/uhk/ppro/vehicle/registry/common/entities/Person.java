@@ -2,6 +2,7 @@ package cz.uhk.ppro.vehicle.registry.common.entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Entity jakékoliv osoby, ať už pojištovák
@@ -11,10 +12,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "PERSON")
-public class Person {
+public class Person implements Serializable {
 
   @Id
-  @Column(nullable = false)
   @GeneratedValue
   private Long idPerson;
 
@@ -29,6 +29,9 @@ public class Person {
    */
   @Column(nullable = false, length = 45)
   private String lastName;
+
+  public Person() {
+  }
 
   public long getIdPerson() {
     return idPerson;

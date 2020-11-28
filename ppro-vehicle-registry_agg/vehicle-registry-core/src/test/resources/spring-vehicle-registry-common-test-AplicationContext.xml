@@ -6,6 +6,8 @@
 
     <import resource="classpath:/cz/uhk/ppro/vehicle/registry/core/spring-vehicle-registry-core-Services.xml"/>
 
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations" value="classpath:/application.properties"/>
     </bean>

@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "DOCUMENT")
-public class Document {
+public class Document implements Serializable {
 
   @Id
   @Column(nullable = false)
@@ -27,7 +28,10 @@ public class Document {
    * Datum splatnosti dokumentu
    * nullable
    */
-  private java.sql.Timestamp toDate;
+  private Timestamp toDate;
+
+  public Document() {
+  }
 
   public long getIdDocument() {
     return idDocument;

@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Zaměstnanec pojišťovny/pojišťovák
@@ -9,10 +10,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "INSURANCE_EMPLOYEE")
-public class InsuranceEmployee {
+public class InsuranceEmployee implements Serializable {
 
   @Id
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDUSER")
   private User user;
 
@@ -21,9 +22,12 @@ public class InsuranceEmployee {
    * Pojišťovna
    */
   @Id
-  @ManyToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "IDINSURANCECOMPANY")
   private InsuranceCompany insuranceCompany;
+
+  public InsuranceEmployee() {
+  }
 
   public User getUser() {
     return user;

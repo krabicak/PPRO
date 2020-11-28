@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocumentRepo extends JpaRepository<Document, Long> {
 
+    Document getDocumentByDocumentNumber(String documentNumber);
 }

@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.common.entities;
 import cz.uhk.ppro.vehicle.registry.common.converters.BooleanConverter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Entita vozidla
@@ -11,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "VEHICLE")
-public class Vehicle {
+public class Vehicle implements Serializable {
 
     @Id
     @Column(nullable = false)
@@ -59,6 +60,9 @@ public class Vehicle {
     @Column(length = 1, nullable = false)
     @Convert(converter = BooleanConverter.class)
     private boolean active;
+
+    public Vehicle() {
+    }
 
     public long getIdVehicle() {
         return idVehicle;

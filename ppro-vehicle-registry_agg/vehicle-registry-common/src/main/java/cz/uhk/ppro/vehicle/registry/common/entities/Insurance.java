@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "INSURANCE")
-public class Insurance {
+public class Insurance implements Serializable {
 
     @Id
     @Column(nullable = false)
@@ -56,6 +57,9 @@ public class Insurance {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDPERSON", nullable = false)
     private Person person;
+
+    public Insurance() {
+    }
 
     public long getIdInsurance() {
         return idInsurance;

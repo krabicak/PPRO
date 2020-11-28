@@ -6,10 +6,16 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ClickableRenderer;
+import com.vaadin.flow.dom.DomEvent;
+import com.vaadin.flow.dom.DomEventListener;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.event.MouseEvent;
 
@@ -23,6 +29,8 @@ import java.awt.event.MouseEvent;
 @JsModule("./src/views/login-form.js")
 public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
 
+    @Autowired
+    private LoginService loginService;
 
     @Id("password")
     private PasswordField password;
@@ -30,6 +38,8 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
     private TextField username;
     @Id("login")
     private Button login;
+    @Id("vaadinVerticalLayout")
+    private Element vaadinVerticalLayout;
 
     /**
      * Creates a new LoginForm.
@@ -37,11 +47,21 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
     public LoginForm() {
 
 
-        login.getElement().addEventListener("click", e -> {
+        login.getElement().addEventListener("click", getOnClickLoginListener());
+
+
+    }
+
+    private DomEventListener getOnClickLoginListener() {
+        return (DomEventListener) e -> {
             login.getElement().setText("KLIK");
-        });
 
-
+            try {
+                loginService.login(null, null);
+            } catch (FaultLoginException faultLoginException) {
+                faultLoginException.printStackTrace();
+            }
+        };
     }
 
     /**

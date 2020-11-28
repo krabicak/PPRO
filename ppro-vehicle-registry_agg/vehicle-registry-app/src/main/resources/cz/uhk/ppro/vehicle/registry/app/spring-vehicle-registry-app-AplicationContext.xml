@@ -12,6 +12,4 @@
 
     <context:component-scan base-package="cz.uhk.ppro.vehicle.registry.app"/>
 
-    <bean id="loginService" class="cz.uhk.ppro.vehicle.registry.app.services.LoginService" />
-
 </beans>

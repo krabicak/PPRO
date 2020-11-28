@@ -19,7 +19,6 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
  */
 @Tag("my-view")
 @JsModule("./src/views/my-view.js")
-@Route("")
 public class MyView extends PolymerTemplate<MyView.MyViewModel> {
 
     @Id("vaadinVerticalLayout")

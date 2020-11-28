@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.app.components;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -16,16 +17,13 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
  */
 @Tag("login-page")
 @JsModule("./src/views/login-page.js")
+@Route("")
 public class LoginPage extends PolymerTemplate<LoginPage.LoginPageModel> {
 
     @Id("loginForm")
     private LoginForm loginForm;
     @Id("vaadinVerticalLayout")
     private Element vaadinVerticalLayout;
-    @Id("vaadinTextField")
-    private TextField vaadinTextField;
-    @Id("ironIcon")
-    private Element ironIcon;
 
     /**
      * Creates a new LoginPage.

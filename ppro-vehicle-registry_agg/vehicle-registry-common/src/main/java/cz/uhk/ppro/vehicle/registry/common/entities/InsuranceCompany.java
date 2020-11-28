@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Pojišťovna
@@ -9,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "INSURANCE_COMPANY")
-public class InsuranceCompany {
+public class InsuranceCompany implements Serializable {
 
   @Id
   @Column(nullable = false)
@@ -21,6 +22,9 @@ public class InsuranceCompany {
    */
   @Column(nullable = false, length = 45)
   private String companyName;
+
+  public InsuranceCompany() {
+  }
 
   public long getIdInsuranceCompany() {
     return idInsuranceCompany;

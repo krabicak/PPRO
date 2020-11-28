@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * číselník/smetiště pro SPZky
@@ -9,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "SPZ")
-public class Spz {
+public class Spz implements Serializable {
 
   @Id
   @Column(nullable = false)
@@ -21,6 +22,9 @@ public class Spz {
    */
   @Column(nullable = false, length = 20)
   private String spz;
+
+  public Spz() {
+  }
 
   public long getIdSpz() {
     return idSpz;

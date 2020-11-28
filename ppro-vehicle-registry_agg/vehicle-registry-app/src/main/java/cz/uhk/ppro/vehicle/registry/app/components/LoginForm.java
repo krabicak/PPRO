@@ -18,6 +18,9 @@ import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.event.MouseEvent;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A Designer generated component for the login-form template.
@@ -41,12 +44,12 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
     @Id("vaadinVerticalLayout")
     private Element vaadinVerticalLayout;
 
+    private String sUsername;
+    private String sPassword;
     /**
      * Creates a new LoginForm.
      */
     public LoginForm() {
-
-
         login.getElement().addEventListener("click", getOnClickLoginListener());
 
 
@@ -54,10 +57,21 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
 
     private DomEventListener getOnClickLoginListener() {
         return (DomEventListener) e -> {
-            login.getElement().setText("KLIK");
+
+            sUsername = username.getValue();
+            sPassword = password.getValue();
+
+            MessageDigest digest = null;
+            try {
+                digest = MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+                noSuchAlgorithmException.printStackTrace();
+            }
+            byte[] hash = digest.digest(sPassword.getBytes(StandardCharsets.UTF_8));
+            //System.out.println("hash: " + hash);
 
             try {
-                loginService.login(null, null);
+                loginService.login(sUsername, sPassword);
             } catch (FaultLoginException faultLoginException) {
                 faultLoginException.printStackTrace();
             }

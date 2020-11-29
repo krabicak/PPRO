@@ -44,9 +44,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void addUser(User user) throws PersonException {
         if (user.getPerson()==null) throw new PersonException("Neexistují údaje o osobě");
         if (user.getPerson().getIdPerson()==null){
-            personRepo.save(user.getPerson());
+            personRepo.saveAndFlush(user.getPerson());
+            user.setIdUser(user.getPerson().getIdPerson());
         }
-        userRepo.save(user);
+        userRepo.saveAndFlush(user);
     }
 
 }

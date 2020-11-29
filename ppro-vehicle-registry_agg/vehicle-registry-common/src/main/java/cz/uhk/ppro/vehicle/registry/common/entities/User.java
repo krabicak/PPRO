@@ -15,13 +15,13 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
     private Long idUser;
     /**
      * Informace o uživateli
      */
     @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn(name = "IDUSER", referencedColumnName = "IDPERSON")
+    @PrimaryKeyJoinColumn(name = "IDUSER")
     private Person person;
 
     /**
@@ -98,10 +98,19 @@ public class User implements Serializable {
         this.enable = enable;
     }
 
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "person=" + person +
+                "idUser=" + idUser +
+                ", person=" + person +
                 ", role=" + role +
                 ", password='" + password + '\'' +
                 ", enable=" + enable +

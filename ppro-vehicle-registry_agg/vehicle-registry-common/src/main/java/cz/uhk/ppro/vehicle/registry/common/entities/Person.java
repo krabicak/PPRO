@@ -16,11 +16,8 @@ public class Person implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(nullable = false, updatable = false)
   private Long idPerson;
-
-  @OneToOne(fetch = FetchType.LAZY)
-  @PrimaryKeyJoinColumn(referencedColumnName = "IDUSER", name = "IDPERSON")
-  private User user;
 
   /**
    * Jméno

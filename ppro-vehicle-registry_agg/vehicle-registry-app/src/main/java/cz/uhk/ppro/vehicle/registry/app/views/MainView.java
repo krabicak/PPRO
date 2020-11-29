@@ -1,16 +1,25 @@
 package cz.uhk.ppro.vehicle.registry.app.views;
 
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.components.LoginForm;
 import cz.uhk.ppro.vehicle.registry.app.layouts.MainLayout;
+import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
+import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
+import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -23,14 +32,30 @@ import javax.annotation.PostConstruct;
 public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     @Autowired
+    private LoginService loginService;
+    @Autowired
+    private DialogService dialogService;
+    @Autowired
     private SessionService sessionService;
+    @Autowired
+    private NavigatorService navigatorService;
+    @Id("gridUsers")
+    private Grid gridUsers;
+    @Id("buttonLogout")
+    private Button buttonLogout;
 
     @PostConstruct
     public void init() {
+        buttonLogout.addClickListener(getOnClickLogoutListener());
+    }
 
+    private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {
+        return e -> {
+            loginService.logout();
+            navigatorService.navigateToLogin();
+        };
     }
 
     public interface MainViewModel extends TemplateModel {
-        // Add setters and getters for template properties here.
     }
 }

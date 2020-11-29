@@ -1,8 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.views;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.templatemodel.AllowClientUpdates;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.components.LoginForm;
 import cz.uhk.ppro.vehicle.registry.app.layouts.MainLayout;
@@ -34,11 +32,9 @@ public class LoginView extends LoginForm {
     @PostConstruct
     public void init() {
         addOnLoginListener(componentEvent -> {
-            getUI().ifPresent(ui -> {
-                if (sessionService.isLogged()) {
-                    navigatorService.navigateToMain(ui);
-                }
-            });
+            if (sessionService.isLogged()) {
+                navigatorService.reroutoToMain();
+            }
         });
     }
 

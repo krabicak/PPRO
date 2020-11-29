@@ -1,5 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.services;
 
+import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterListener;
@@ -10,23 +11,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class NavigatorService {
 
-    public void navigateToLogin(UI ui) {
-        ui.addBeforeEnterListener((BeforeEnterListener) beforeEnterEvent -> {
-            beforeEnterEvent.rerouteTo(LoginView.class);
-        });
+    public void navigateToLogin() {
+        UI.getCurrent().navigate(LoginView.class);
     }
 
-    public void navigateToLogin(BeforeEnterEvent beforeEnterEvent) {
+    public void reroutoToLogin(BeforeEnterEvent beforeEnterEvent) {
         beforeEnterEvent.rerouteTo(LoginView.class);
     }
 
-    public void navigateToMain(UI ui) {
-        ui.addBeforeEnterListener((BeforeEnterListener) beforeEnterEvent -> {
-            beforeEnterEvent.rerouteTo(MainView.class);
-        });
+    public void reroutoToMain() {
+        UI.getCurrent().navigate(MainView.class);
     }
 
-    public void navigateToMain(BeforeEnterEvent beforeEnterEvent) {
+    public void reroutoToMain(BeforeEnterEvent beforeEnterEvent) {
         beforeEnterEvent.rerouteTo(MainView.class);
     }
 

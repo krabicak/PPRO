@@ -20,7 +20,7 @@ public class MainLayout
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        if (!sessionService.isLogged()) navigatorService.reroutoToLogin(event);
+        if (!sessionService.isLogged()) navigatorService.rerouteToLogin(event);
     }
 
     public MainLayout() {

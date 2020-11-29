@@ -33,7 +33,7 @@ public class LoginView extends LoginForm {
     public void init() {
         addOnLoginListener(componentEvent -> {
             if (sessionService.isLogged()) {
-                navigatorService.reroutoToMain();
+                navigatorService.navigateToMain();
             }
         });
     }

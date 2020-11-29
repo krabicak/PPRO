@@ -1,4 +1,4 @@
-package cz.uhk.ppro.vehicle.registry.app.components;
+package cz.uhk.ppro.vehicle.registry.app.old;
 
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
@@ -11,6 +11,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
+@Deprecated
 @Tag("contact-form")
 @JsModule("./src/views/contact-form.js")
 public class ContactForm extends PolymerTemplate<ContactForm.ContactFormModel> {

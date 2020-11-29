@@ -1,8 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Span;
@@ -14,9 +12,9 @@ import com.vaadin.flow.dom.DomEvent;
 import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,8 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private DialogService dialogService;
 
     @Id("password")
     private PasswordField password;
@@ -55,21 +55,16 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
         login.addClickListener(getOnClickLoginListener());
     }
 
+    public void addOnLoginListener(ComponentEventListener listener){
+        login.addClickListener(listener);
+    }
+
     private ComponentEventListener<ClickEvent<Button>> getOnClickLoginListener() {
         return e -> {
             try {
                 loginService.login(username.getValue(), password.getValue());
             } catch (FaultLoginException faultLoginException) {
-
-                faultLoginException.printStackTrace();
-
-
-                Dialog dialog = new Dialog();
-                dialog.add(new Text("Chyba přihlášení"));
-                dialog.open();
-
-
-
+                dialogService.showErrorDialog(faultLoginException);
             }
         };
     }

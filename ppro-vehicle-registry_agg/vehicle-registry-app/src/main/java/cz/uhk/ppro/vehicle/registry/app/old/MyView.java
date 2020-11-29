@@ -1,11 +1,10 @@
-package cz.uhk.ppro.vehicle.registry.app.routes;
+package cz.uhk.ppro.vehicle.registry.app.old;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -17,6 +16,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
+@Deprecated
 @Tag("my-view")
 @JsModule("./src/views/my-view.js")
 public class MyView extends PolymerTemplate<MyView.MyViewModel> {

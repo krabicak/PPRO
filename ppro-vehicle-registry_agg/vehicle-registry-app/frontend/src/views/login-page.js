@@ -13,7 +13,7 @@ class LoginPage extends PolymerElement {
                 }
             </style>
 <vaadin-vertical-layout id="vaadinVerticalLayout" style="width: 100%; height: 100%;">
- <login-form id="loginForm"></login-form>
+ <login-form id="loginForm" style="align-self: center; flex-grow: 0; flex-shrink: 1;"></login-form>
 </vaadin-vertical-layout>
 `;
     }

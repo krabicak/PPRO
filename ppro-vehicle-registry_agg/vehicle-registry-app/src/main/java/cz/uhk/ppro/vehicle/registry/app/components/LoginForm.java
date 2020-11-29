@@ -2,7 +2,10 @@ package cz.uhk.ppro.vehicle.registry.app.components;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -57,7 +60,16 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
             try {
                 loginService.login(username.getValue(), password.getValue());
             } catch (FaultLoginException faultLoginException) {
+
                 faultLoginException.printStackTrace();
+
+
+                Dialog dialog = new Dialog();
+                dialog.add(new Text("Chyba přihlášení"));
+                dialog.open();
+
+
+
             }
         };
     }

@@ -53,7 +53,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     @PostConstruct
     public void init() {
         buttonLogout.addClickListener(getOnClickLogoutListener());
-       // if(vaadinTabs)
     }
 
     private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {

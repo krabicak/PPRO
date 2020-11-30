@@ -10,6 +10,8 @@ import com.vaadin.flow.router.RouterLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
+import cz.uhk.ppro.vehicle.registry.app.services.UserService;
+import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -23,26 +25,31 @@ public class MainLayout
     @Autowired
     private NavigatorService navigatorService;
 
+    @Autowired
+    private UserService userService;
+
     private H2 loggedUser;
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
+        if (sessionService.isLogged()) {
+            String login = sessionService.getLogin();
+            Person person = userService.getUserByLogin(login).getPerson();
+            loggedUser.setText(person.getFirstName() + " " + person.getLastName() + " (" + login + ")");
+        }
         if (!sessionService.isLogged()) {
             navigatorService.rerouteToLogin(event);
         }
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.setWidthFull();
         add(new H1("Registr Vozidel"));
         add(new H2("Uzivatel: "));
         loggedUser = new H2();
-loggedUser.setText(sessionService.getLogin());
+        loggedUser.setText(sessionService.getLogin());
         add(loggedUser);
     }
 
-    public MainLayout() {
-
-    }
 }

@@ -16,7 +16,7 @@ class MainView extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch;" id="textLoggedUser">
+<vaadin-vertical-layout style="height: 100%; align-items: stretch; width: 100%;" id="verticalLayout">
  <vaadin-button id="buttonLogout" style="align-self: stretch;">
   <iron-icon icon="lumo:arrow-right" slot="prefix"></iron-icon>Odhlásit se 
  </vaadin-button>

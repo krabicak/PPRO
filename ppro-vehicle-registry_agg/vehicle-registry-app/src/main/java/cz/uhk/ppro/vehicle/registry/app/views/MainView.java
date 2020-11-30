@@ -47,13 +47,13 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private Button buttonLogout;
     @Id("vaadinTabs")
     private Tabs vaadinTabs;
-    @Id("textLoggedUser")
-    private Element textLoggedUser;
-
+    @Id("verticalLayout")
+    private Element verticalLayout;
 
     @PostConstruct
     public void init() {
         buttonLogout.addClickListener(getOnClickLogoutListener());
+       // if(vaadinTabs)
     }
 
     private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {

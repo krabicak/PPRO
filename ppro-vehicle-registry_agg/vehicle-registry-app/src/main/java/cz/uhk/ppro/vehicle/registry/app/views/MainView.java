@@ -43,8 +43,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     @Autowired
     private NavigatorService navigatorService;
 
-    @Id("buttonLogout")
-    private Button buttonLogout;
     @Id("vaadinTabs")
     private Tabs vaadinTabs;
     @Id("verticalLayout")
@@ -52,15 +50,14 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     @PostConstruct
     public void init() {
-        buttonLogout.addClickListener(getOnClickLogoutListener());
+       // buttonLogout.addClickListener(getOnClickLogoutListener());
     }
 
-    private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {
+  /*  private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {
         return e -> {
             loginService.logout();
             navigatorService.navigateToLogin();
-        };
-    }
+        };    }*/
 
     public interface MainViewModel extends TemplateModel {
     }

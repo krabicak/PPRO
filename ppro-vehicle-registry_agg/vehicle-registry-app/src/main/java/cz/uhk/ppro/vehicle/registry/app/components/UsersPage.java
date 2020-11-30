@@ -7,6 +7,10 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import cz.uhk.ppro.vehicle.registry.common.entities.Person;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Designer generated component for the users-page template.
@@ -19,7 +23,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 public class UsersPage extends PolymerTemplate<UsersPage.UsersPageModel> {
 
     @Id("gridUsers")
-    private Grid gridUsers;
+    private Grid<Person> gridUsers;
     @Id("verticalGrid")
     private Element verticalGrid;
 
@@ -27,7 +31,16 @@ public class UsersPage extends PolymerTemplate<UsersPage.UsersPageModel> {
      * Creates a new UsersPage.
      */
     public UsersPage() {
-        // You can initialise any data required for the connected UI components here.
+        List<Person> personList = new ArrayList<>();
+        Person p1 = new Person();
+        p1.setFirstName("Pepa");
+        p1.setLastName("Jahoda");
+        personList.add(p1);
+
+        gridUsers.addColumn(Person::getFirstName).setHeader("Jméno");
+        gridUsers.addColumn(Person::getLastName).setHeader("Přijmení");
+        gridUsers.setItems(p1);
+        //gridUsers.setColumns(na);
     }
 
     /**

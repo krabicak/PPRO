@@ -14,10 +14,10 @@ class LoginForm extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<vaadin-vertical-layout style="width: 100%; height: 100%;" id="vaadinVerticalLayout">
- <vaadin-text-field label="Uživatelské jméno" id="username" style="align-self: center;"></vaadin-text-field>
- <vaadin-password-field label="Heslo" value="secret1" id="password" style="align-self: center;" has-value></vaadin-password-field>
- <vaadin-button theme="primary" id="login" style="align-self: center;">
+<vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch; flex-direction: column; justify-content: center;" id="vaadinVerticalLayout">
+ <vaadin-text-field label="Uživatelské jméno" id="username" style="align-self: stretch;"></vaadin-text-field>
+ <vaadin-password-field label="Heslo" value="secret1" id="password" style="align-self: stretch;" has-value></vaadin-password-field>
+ <vaadin-button theme="primary" id="login" style="align-self: stretch;">
    Přihlásit 
  </vaadin-button>
 </vaadin-vertical-layout>

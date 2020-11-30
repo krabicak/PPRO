@@ -10,10 +10,13 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.components.LoginForm;
+import cz.uhk.ppro.vehicle.registry.app.components.UsersPage;
 import cz.uhk.ppro.vehicle.registry.app.layouts.MainLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
@@ -39,10 +42,14 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private SessionService sessionService;
     @Autowired
     private NavigatorService navigatorService;
-    @Id("gridUsers")
-    private Grid gridUsers;
+
     @Id("buttonLogout")
     private Button buttonLogout;
+    @Id("vaadinTabs")
+    private Tabs vaadinTabs;
+    @Id("textLoggedUser")
+    private Element textLoggedUser;
+
 
     @PostConstruct
     public void init() {

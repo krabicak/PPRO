@@ -1,28 +1,23 @@
 package cz.uhk.ppro.vehicle.registry.app.views;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import cz.uhk.ppro.vehicle.registry.app.components.LoginForm;
-import cz.uhk.ppro.vehicle.registry.app.components.UsersPage;
+import cz.uhk.ppro.vehicle.registry.app.components.UsersForm;
 import cz.uhk.ppro.vehicle.registry.app.layouts.MainLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -42,22 +37,35 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private SessionService sessionService;
     @Autowired
     private NavigatorService navigatorService;
-
-    @Id("vaadinTabs")
-    private Tabs vaadinTabs;
+    @Id("vaadinVerticalLayout")
+    private Element vaadinVerticalLayout;
     @Id("verticalLayout")
     private Element verticalLayout;
+    @Id("vaadinTab1")
+    private Tab vaadinTab1;
+    @Id("vaadinTab2")
+    private Tab vaadinTab2;
+    @Id("usersForm")
+    private UsersForm usersForm;
+    @Id("tabUserManagement")
+    private Tab tabUserManagement;
+    @Id("tabNavigation")
+    private Tabs tabNavigation;
+
 
     @PostConstruct
     public void init() {
-       // buttonLogout.addClickListener(getOnClickLogoutListener());
+        tabNavigation.addSelectedChangeListener((event -> {
+            if(event.getSelectedTab().equals(tabUserManagement)){
+                usersForm.setVisible(true);
+                vaadinTab2.getElement().setText("ANOOO");
+            }
+            else{
+                usersForm.setVisible(false);
+                vaadinTab2.getElement().setText("NEE");
+            }
+        }));
     }
-
-  /*  private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {
-        return e -> {
-            loginService.logout();
-            navigatorService.navigateToLogin();
-        };    }*/
 
     public interface MainViewModel extends TemplateModel {
     }

@@ -1,0 +1,49 @@
+import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
+import '@vaadin/vaadin-grid/src/vaadin-grid.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@polymer/iron-icon/iron-icon.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+
+class UsersForm extends PolymerElement {
+
+    static get template() {
+        return html`
+<style include="shared-styles">
+                :host {
+                    display: block;
+                    height: 100%;
+                }
+            </style>
+<vaadin-horizontal-layout class="content" style="width: 100%; height: 100%;" id="vaadinHorizontalLayoutUsers">
+ <vaadin-grid items="[[items]]" id="gridUsers" style="flex-shrink: 0; width: 50%;"></vaadin-grid>
+ <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 100%; height: 100%; padding: var(--lumo-space-m);">
+  <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
+  <vaadin-text-field label="Příjmení" placeholder="Příjmení" id="fieldSurname" style="align-self: flex-start;"></vaadin-text-field>
+  <vaadin-button id="buttonEditUser">
+   <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
+  </vaadin-button>
+  <vaadin-button id="ButtonDeleteUser">
+   <iron-icon icon="lumo:cross" slot="prefix" id="ironIcon"></iron-icon>Smazat 
+  </vaadin-button>
+  <vaadin-button id="buttonAddUser" style="align-self: flex-start;">
+   <iron-icon icon="lumo:plus" slot="prefix"></iron-icon>Přidat 
+  </vaadin-button>
+ </vaadin-vertical-layout>
+</vaadin-horizontal-layout>
+`;
+    }
+
+    static get is() {
+        return 'users-form';
+    }
+
+    static get properties() {
+        return {
+            // Declare your properties here.
+        };
+    }
+}
+
+customElements.define(UsersForm.is, UsersForm);

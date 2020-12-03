@@ -1,10 +1,12 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
+import '@vaadin/vaadin-radio-button/src/vaadin-radio-group.js';
+import '@vaadin/vaadin-radio-button/src/vaadin-radio-button.js';
 
 class UsersForm extends PolymerElement {
 
@@ -17,10 +19,25 @@ class UsersForm extends PolymerElement {
                 }
             </style>
 <vaadin-horizontal-layout class="content" style="width: 100%; height: 100%;" id="vaadinHorizontalLayoutUsers">
- <vaadin-grid items="[[items]]" id="gridUsers" style="flex-shrink: 0; width: 50%;"></vaadin-grid>
- <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 100%; height: 100%; padding: var(--lumo-space-m);">
+ <vaadin-grid items="[[items]]" id="gridUsers" style="flex-shrink: 0; width: 80%;"></vaadin-grid>
+ <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
+  <vaadin-text-field label="ID User" placeholder="ID User" id="fieldIdUser"></vaadin-text-field>
+  <vaadin-radio-group value="foo" id="radioRole">
+   <vaadin-radio-button name="foo">
+     Foo 
+   </vaadin-radio-button>
+   <vaadin-radio-button name="bar">
+     Bar 
+   </vaadin-radio-button>
+   <vaadin-radio-button name="baz">
+     Baz 
+   </vaadin-radio-button>
+  </vaadin-radio-group>
+  <vaadin-text-field label="Login" placeholder="Login" id="fieldLogin"></vaadin-text-field>
+  <vaadin-text-field label="Heslo" placeholder="Heslo" id="fieldPassword"></vaadin-text-field>
+  <vaadin-text-field label="ID Person" placeholder="ID Person" id="fieldIdPerson"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
-  <vaadin-text-field label="Příjmení" placeholder="Příjmení" id="fieldSurname" style="align-self: flex-start;"></vaadin-text-field>
+  <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>
   <vaadin-button id="buttonEditUser">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>

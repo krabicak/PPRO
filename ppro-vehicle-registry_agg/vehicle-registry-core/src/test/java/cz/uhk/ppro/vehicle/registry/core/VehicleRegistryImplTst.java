@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-vehicle-registry-common-test-AplicationContext.xml")
+@ContextConfiguration("classpath:/spring-vehicle-registry-common-test-AplicationContext.xml")
 public class VehicleRegistryImplTst {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTst.class);
@@ -30,7 +30,7 @@ public class VehicleRegistryImplTst {
 
     @Test
     public void loginUserTest() throws FaultLoginException {
-        User user = vehicleRegistry.loginUser("hotov","94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
+        User user = vehicleRegistry.loginUser("hotov", "94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
         logger.info(user.toString());
     }
 
@@ -40,8 +40,11 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
-    public void getAllUsersTest(){
-        List<User> users = vehicleRegistry.getAllUsers();
+    public void getAllUsersTest() {
+        final List<User> users = vehicleRegistry.getAllUsers();
+        users.forEach(user -> {
+            logger.info(user.toString());
+        });
     }
 
     @Test
@@ -57,12 +60,18 @@ public class VehicleRegistryImplTst {
         person.setLastName("test");
         user.setPerson(person);
 
-        vehicleRegistry.addUser(user);
+        vehicleRegistry.addOrUpdateUser(user);
     }
 
     @Test
-    public void getDocumentTest(){
+    public void getDocumentTest() {
         documentRepo.getDocumentByDocumentNumber(null);
+    }
+
+    @Test
+    public void removeUserTest() throws PersonException {
+        User user = vehicleRegistry.getUserByLogin("test");
+        vehicleRegistry.removeUser(user);
     }
 
 }

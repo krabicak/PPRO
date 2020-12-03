@@ -14,6 +14,8 @@ public interface VehicleRegistry {
 
     List<User> getAllUsers();
 
-    void addUser(User user) throws PersonException;
+    void addOrUpdateUser(User user) throws PersonException;
+
+    void removeUser(User user) throws PersonException;
 
 }

@@ -2,6 +2,7 @@ package cz.uhk.ppro.vehicle.registry.core;
 
 
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
+import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
@@ -41,13 +42,21 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return userRepo.findAllByOrderByPerson();
     }
 
-    public void addUser(User user) throws PersonException {
-        if (user.getPerson()==null) throw new PersonException("Neexistují údaje o osobě");
-        if (user.getPerson().getIdPerson()==null){
+    public void addOrUpdateUser(User user) throws PersonException {
+        if (user.getPerson() == null) throw new PersonException("Neexistují údaje o osobě");
+        if (user.getPerson().getIdPerson() == null) {
             personRepo.saveAndFlush(user.getPerson());
             user.setIdUser(user.getPerson().getIdPerson());
         }
+        if (getUserByLogin(user.getLogin()) != null)
+            throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
         userRepo.saveAndFlush(user);
+    }
+
+    public void removeUser(User user) throws PersonException {
+        if (user == null) throw new PersonException("Neexistující uživatel");
+        if (user.getIdUser() == null) throw new PersonException("Zadaný uživatel, nebyl dosud zapsán do databáze");
+        userRepo.delete(user);
     }
 
 }

@@ -52,7 +52,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     @Id("fieldPassword")
     private TextField fieldPassword;
 
-    private Person actualPerson;
     private User actualUser;
     @Id("fieldIdUser")
     private TextField fieldIdUser;
@@ -73,24 +72,21 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     @PostConstruct
     public void init() {
         //grid
-        //gridUsers.addColumn(User::getIdUser).setHeader("ID User");
         gridUsers.addColumn(User::getRole).setHeader("Role");
         gridUsers.addColumn(User::getLogin).setHeader("Login");
-        //gridUsers.addColumn(User::getPassword).setHeader("Heslo");
         gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno");
         gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
-        gridUsers.setItems(userService.getAllUsers());
+        refreshGrid();
 
         //form vpravo
         fieldIdUser.setVisible(false);
         fieldIdPerson.setVisible(false);
 
         gridUsers.addItemClickListener(event -> {
-            actualPerson = event.getItem().getPerson();
             actualUser = event.getItem();
-            //TODO actual user x person duplikatni
+
             fieldIdUser.setValue(event.getItem().getIdUser().toString());
             fieldLogin.setValue(event.getItem().getLogin());
             fieldPassword.setValue(event.getItem().getPassword());
@@ -123,26 +119,20 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditUserListener() {
         return e -> {
-            User tmpUser = actualUser;
             String login = fieldLogin.getValue();
-            if (!tmpUser.getLogin().equals(login))
-                tmpUser.setLogin(fieldLogin.getValue());
+            if (!actualUser.getLogin().equals(login))
+                actualUser.setLogin(fieldLogin.getValue());
 
-            tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
-            tmpUser.setIdUser(Long.valueOf(fieldIdUser.getValue()));
-            tmpUser.setRole(radioRole.getValue());
+            actualUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
+            actualUser.setRole(radioRole.getValue());
 
-            Person tmpPerson = new Person();
-            tmpPerson.setFirstName(fieldName.getValue());
-            tmpPerson.setLastName(fieldSurname.getValue());
-
-            tmpUser.setPerson(tmpPerson);
+            actualUser.getPerson().setFirstName(fieldName.getValue());
+            actualUser.getPerson().setLastName(fieldSurname.getValue());
 
             try {
-                userService.addOrUpdateUser(tmpUser);
+                userService.addOrUpdateUser(actualUser);
             } catch (PersonException f) {
-                f.printStackTrace();
-                //TODO pridat dialog
+                dialogService.showErrorDialog(f);
             }
             refreshGrid();
         };
@@ -155,19 +145,24 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonAddUserListener() {
         //TODO CELY
         return e -> {
-           /* User tmp = new User();
-            tmp.setLogin(fieldLogin.getValue());
-            tmp.setPassword(fieldPassword.getValue());
-            tmp.setIdUser(Long.valueOf(fieldId.getValue()));
-            tmp.setRole(User.UserRole.ADMIN);
+           User tmpUser = new User();
+            tmpUser.setLogin(fieldLogin.getValue());
+            tmpUser.setPassword(fieldPassword.getValue());
+            tmpUser.setRole(radioRole.getValue());
+
+            Person tmpPerson = new Person();
+            tmpPerson.setFirstName(fieldName.getValue());
+            tmpPerson.setLastName(fieldSurname.getValue());
+
+            tmpUser.setPerson(tmpPerson);
 
             try {
-                userService.addOrUpdateUser(tmp);
+                userService.addOrUpdateUser(tmpUser);
             } catch (PersonException f) {
                 f.printStackTrace();
-                //TODO pridat dialog
+                dialogService.showErrorDialog(f);
             }
-            gridUsers.setItems(userService.getAllUsers());*/
+            refreshGrid();
         };
     }
 

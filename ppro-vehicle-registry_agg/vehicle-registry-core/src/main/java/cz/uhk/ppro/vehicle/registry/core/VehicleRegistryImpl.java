@@ -44,12 +44,22 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
     public void addOrUpdateUser(User user) throws PersonException {
         if (user.getPerson() == null) throw new PersonException("Neexistují údaje o osobě");
+
+        // dělám insert tedy nemůžu dát tma kde je unique
+        if (user.getIdUser() == null && getUserByLogin(user.getLogin()) != null)
+            throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
+        else {
+            String oldLogin = userRepo.getUserByIdUser(user.getIdUser()).getLogin();
+            if (!oldLogin.equals(user.getLogin()) && getUserByLogin(user.getLogin()) != null)
+                throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
+        }
+
         personRepo.saveAndFlush(user.getPerson());
         if (user.getIdUser() == null) {
             user.setIdUser(user.getPerson().getIdPerson());
         }
-        if (getUserByLogin(user.getLogin()) != null)
-            throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
+
+
         userRepo.saveAndFlush(user);
     }
 

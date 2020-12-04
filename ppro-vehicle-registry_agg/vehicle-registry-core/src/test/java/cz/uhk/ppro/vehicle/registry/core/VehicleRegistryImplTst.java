@@ -67,6 +67,10 @@ public class VehicleRegistryImplTst {
     public void updateLoginTest() throws PersonException {
         User user = vehicleRegistry.getUserByLogin("test");
         logger.info(user.toString());
+        logger.info(user.getPassword());
+        user.setPassword("heslo-edit");
+        user.setLogin("test-edit");
+        user.setRole(User.UserRole.INSURER);
         vehicleRegistry.addOrUpdateUser(user);
     }
 

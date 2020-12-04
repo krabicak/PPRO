@@ -55,7 +55,18 @@ public class User implements Serializable {
     }
 
     public enum UserRole {
-        ADMIN, INSURER, CLERK
+        ADMIN("Administrátor"), INSURER("Pojistitel"), CLERK("Úředník");
+
+        private String data;
+
+        UserRole(String data) {
+            this.data = data;
+        }
+
+        @Override
+        public String toString() {
+            return data;
+        }
     }
 
     public String getLogin() {

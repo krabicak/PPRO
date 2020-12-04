@@ -67,9 +67,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     @Id("radioRole")
     private RadioButtonGroup<User.UserRole> radioRole;
 
-    public UsersForm() {
-    }
-
     /**
      * Creates a new UsersForm.
      */
@@ -126,8 +123,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditUserListener() {
         return e -> {
-            User tmpUser = new User();
-            tmpUser.setLogin(fieldLogin.getValue());
+            User tmpUser = actualUser;
+            String login = fieldLogin.getValue();
+            if (!tmpUser.getLogin().equals(login))
+                tmpUser.setLogin(fieldLogin.getValue());
+
             tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
             tmpUser.setIdUser(Long.valueOf(fieldIdUser.getValue()));
             tmpUser.setRole(radioRole.getValue());
@@ -147,7 +147,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             refreshGrid();
         };
     }
-    private void refreshGrid(){
+
+    private void refreshGrid() {
         gridUsers.setItems(userService.getAllUsers());
     }
 

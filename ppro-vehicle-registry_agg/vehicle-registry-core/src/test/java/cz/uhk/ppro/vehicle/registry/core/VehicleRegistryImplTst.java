@@ -64,6 +64,13 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
+    public void updateLoginTest() throws PersonException {
+        User user = vehicleRegistry.getUserByLogin("test");
+        logger.info(user.toString());
+        vehicleRegistry.addOrUpdateUser(user);
+    }
+
+    @Test
     public void getDocumentTest() {
         documentRepo.getDocumentByDocumentNumber(null);
     }

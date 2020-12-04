@@ -48,9 +48,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         // dělám insert tedy nemůžu dát tma kde je unique
         if (user.getIdUser() == null && getUserByLogin(user.getLogin()) != null)
             throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
-        else {
-            String oldLogin = userRepo.getUserByIdUser(user.getIdUser()).getLogin();
-            if (!oldLogin.equals(user.getLogin()) && getUserByLogin(user.getLogin()) != null)
+        else if (user.getIdUser() != null) {
+            User oldUser = userRepo.getUserByIdUser(user.getIdUser());
+            if (!oldUser.getLogin().equals(user.getLogin())
+                    && userRepo.getUserByLoginAndIdUserIsNot(user.getLogin(), user.getIdUser()) != null)
                 throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
         }
 

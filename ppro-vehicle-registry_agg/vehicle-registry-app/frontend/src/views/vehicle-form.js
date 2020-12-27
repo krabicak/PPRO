@@ -5,9 +5,10 @@ import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-group.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-button.js';
 import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
-import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
+import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 
 class VehicleForm extends PolymerElement {
 
@@ -41,8 +42,8 @@ class VehicleForm extends PolymerElement {
    </vaadin-radio-button>
   </vaadin-radio-group>
   <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin"></vaadin-text-field>
-  <vaadin-text-field label="Heslo" placeholder="Heslo" id="fieldPassword"></vaadin-text-field>
-  <vaadin-text-field label="ID Person" placeholder="ID Person" id="fieldIdPerson"></vaadin-text-field>
+  <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical"></vaadin-date-picker>
+  <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical"></vaadin-date-picker>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>
   <vaadin-checkbox id="checkBoxActive">

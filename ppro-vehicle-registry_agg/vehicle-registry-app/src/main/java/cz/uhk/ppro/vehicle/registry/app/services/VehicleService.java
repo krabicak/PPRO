@@ -14,16 +14,16 @@ public class VehicleService {
 
     @Autowired
     private VehicleRegistry vehicleRegistry;
-/*
+
     public List<Vehicle> getAllVehicles() {
         return vehicleRegistry.getAllVehicles();
     }
 
-    public void addOrUpdateVehicle(Vehicle vehicle) throws VehicleException {
-        vehicleRegistry.addOrUpdateUser(vehicle);
+    public void addOrUpdateVehicle(Vehicle vehicle){
+        vehicleRegistry.addOrUpdateVehicle(vehicle);
     }
-
+/*
     public void removeVehicle(Vehicle vehicle) throws VehicleException {
-        vehicleRegistry.removeUser(vehicle);
+        vehicleRegistry.r(vehicle);
     }*/
 }

@@ -48,6 +48,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         // dělám insert tedy nemůžu dát tma kde je unique
         if (user.getIdUser() == null && getUserByLogin(user.getLogin()) != null)
             throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
+        //dělám update, kontroluji jestli se měnil login, pokud ano tak kontroluji unique
         else if (user.getIdUser() != null) {
             User oldUser = userRepo.getUserByIdUser(user.getIdUser());
             if (!oldUser.getLogin().equals(user.getLogin())

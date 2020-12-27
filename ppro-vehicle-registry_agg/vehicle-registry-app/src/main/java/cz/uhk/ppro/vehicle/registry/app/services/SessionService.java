@@ -1,6 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.app.services;
 
 import com.vaadin.flow.server.VaadinSession;
+import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import org.springframework.stereotype.Service;
 
 @Service

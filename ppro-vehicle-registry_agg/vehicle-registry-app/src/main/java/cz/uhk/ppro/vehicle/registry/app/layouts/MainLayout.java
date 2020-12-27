@@ -8,13 +8,19 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.RouterLayout;
+import com.vaadin.flow.router.RouterLink;
+import cz.uhk.ppro.vehicle.registry.app.components.UsersForm;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
+import cz.uhk.ppro.vehicle.registry.app.views.MainView;
+import cz.uhk.ppro.vehicle.registry.app.views.UsersView;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,29 +33,13 @@ public class MainLayout
 
     @Autowired
     private SessionService sessionService;
-
     @Autowired
     private NavigatorService navigatorService;
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private UserService userService;
-
-    private Paragraph userName;
-    private Button buttonLogout;
-    private Div divUserComplete;
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        if (sessionService.isLogged()) {
-            String login = sessionService.getLogin();
-            Person person = userService.getUserByLogin(login).getPerson();
-            userName.setText(person.getFirstName() + " " + person.getLastName() + " (" + login + ")");
-            divUserComplete.setVisible(true);
-        }
         if (!sessionService.isLogged()) {
             navigatorService.rerouteToLogin(event);
-            divUserComplete.setVisible(false);
         }
     }
 
@@ -57,37 +47,6 @@ public class MainLayout
     public void init() {
         this.setWidthFull();
         add(new H1("Registr Vozidel"));
-
-        Div divUser = new Div();
-        divUser.setClassName("divUser");
-
-        Paragraph userLabel = new Paragraph("Uživatel: ");
-        divUser.add(userLabel);
-
-        userName = new Paragraph();
-        userName.setText(sessionService.getLogin());
-        userName.setId("userName");
-        divUser.add(userName);
-
-        buttonLogout = new Button();
-        buttonLogout.setText("Odhlásit se");
-        buttonLogout.addClickListener(getOnClickLogoutListener());
-
-
-
-        divUserComplete = new Div();
-        divUserComplete.setClassName("divUserComplete");
-        divUserComplete.add(divUser);
-        divUserComplete.add(buttonLogout);
-        add(divUserComplete);
-
-    }
-
-    private ComponentEventListener<ClickEvent<Button>> getOnClickLogoutListener() {
-        return e -> {
-            loginService.logout();
-            navigatorService.navigateToLogin();
-        };
     }
 
 }

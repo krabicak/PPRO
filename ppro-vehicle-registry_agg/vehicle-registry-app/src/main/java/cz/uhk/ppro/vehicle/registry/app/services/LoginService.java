@@ -26,4 +26,10 @@ public class LoginService {
         sessionService.clearLogin();
     }
 
+
+    public boolean isLoggedUserAdmin() {
+        User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
+        return user.getRole() == User.UserRole.ADMIN;
+    }
+
 }

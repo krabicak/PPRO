@@ -26,7 +26,7 @@ public class UserService {
         vehicleRegistry.removeUser(user);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return vehicleRegistry.getAllUsers();
     }
 }

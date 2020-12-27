@@ -1,5 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.services;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import cz.uhk.ppro.vehicle.registry.app.views.LoginView;
@@ -25,5 +26,7 @@ public class NavigatorService {
         beforeEnterEvent.rerouteTo(MainView.class);
     }
 
-
+    public void navigateToClass(Class<? extends Component> aClass) {
+        UI.getCurrent().navigate(aClass);
+    }
 }

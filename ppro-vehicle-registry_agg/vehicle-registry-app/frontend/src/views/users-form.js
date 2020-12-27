@@ -7,6 +7,7 @@ import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-group.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-button.js';
+import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
 
 class UsersForm extends PolymerElement {
 
@@ -38,6 +39,9 @@ class UsersForm extends PolymerElement {
   <vaadin-text-field label="ID Person" placeholder="ID Person" id="fieldIdPerson"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>
+  <vaadin-checkbox id="checkBoxActive">
+   Aktivní
+  </vaadin-checkbox>
   <vaadin-button id="buttonEditUser">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>

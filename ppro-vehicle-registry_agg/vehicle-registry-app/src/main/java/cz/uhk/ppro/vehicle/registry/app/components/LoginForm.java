@@ -53,6 +53,7 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
      */
     public LoginForm() {
         login.addClickListener(getOnClickLoginListener());
+        login.addClickShortcut(Key.ENTER);
     }
 
     public void addOnLoginListener(ComponentEventListener listener){

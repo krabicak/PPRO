@@ -1,5 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.views;
 
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -55,17 +56,15 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
     @PostConstruct
     public void init() {
-        tabNavigation.addSelectedChangeListener((event -> {
-            if(event.getSelectedTab().equals(tabUserManagement)){
-                usersForm.setVisible(true);
-                vaadinTab2.getElement().setText("ANOOO");
-            }
-            else{
-                usersForm.setVisible(false);
-                vaadinTab2.getElement().setText("NEE");
-            }
-        }));
+        Tab tab1 = new Tab("Form1");
+        //tab1.add(usersForm);
+        tabNavigation.add(tab1);
+
+
+
     }
+
+
 
     public interface MainViewModel extends TemplateModel {
     }

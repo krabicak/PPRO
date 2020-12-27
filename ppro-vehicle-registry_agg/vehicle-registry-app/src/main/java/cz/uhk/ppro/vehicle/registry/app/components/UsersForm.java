@@ -1,16 +1,16 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
@@ -65,6 +65,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private TextField fieldLogin;
     @Id("radioRole")
     private RadioButtonGroup<User.UserRole> radioRole;
+    @Id("checkBoxActive")
+    private Checkbox checkBoxActive;
 
     /**
      * Creates a new UsersForm.
@@ -76,6 +78,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         gridUsers.addColumn(User::getLogin).setHeader("Login");
         gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno");
         gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
+        gridUsers.addColumn(user -> user.isEnable()).setHeader("Aktivní");
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -95,6 +98,12 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             fieldName.setValue(event.getItem().getPerson().getFirstName());
             fieldSurname.setValue(event.getItem().getPerson().getLastName());
             radioRole.setValue(event.getItem().getRole());
+            if(event.getItem().isEnable()){
+                checkBoxActive.setValue(true);
+            }
+            else{
+                checkBoxActive.setValue(false);
+            }
         });
 
         //volic role
@@ -105,6 +114,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonEditUser.addClickListener(buttonEditUserListener());
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
     }
+
 
     private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
         return e -> {
@@ -128,6 +138,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
             actualUser.getPerson().setFirstName(fieldName.getValue());
             actualUser.getPerson().setLastName(fieldSurname.getValue());
+            actualUser.setEnable(checkBoxActive.getValue());
 
             try {
                 userService.addOrUpdateUser(actualUser);
@@ -143,7 +154,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddUserListener() {
-        //TODO CELY
+        //dodelat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return e -> {
            User tmpUser = new User();
             tmpUser.setLogin(fieldLogin.getValue());

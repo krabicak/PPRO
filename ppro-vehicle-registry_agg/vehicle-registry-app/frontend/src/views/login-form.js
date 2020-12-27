@@ -12,6 +12,9 @@ class LoginForm extends PolymerElement {
                 :host {
                     display: block;
                     height: 100%;
+                    width: 100%;
+                    max-width: 250px;
+                    margin: auto;
                 }
             </style>
 <vaadin-vertical-layout style="width: 100%; height: 100%; align-items: stretch; flex-direction: column; justify-content: center;" id="vaadinVerticalLayout">

@@ -9,7 +9,7 @@ import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 
-class UsersForm extends PolymerElement {
+class VehicleForm extends PolymerElement {
 
     static get template() {
         return html`
@@ -25,10 +25,10 @@ class UsersForm extends PolymerElement {
   <vaadin-text-field placeholder="Hledat" id="fieldSearch">
    <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
   </vaadin-text-field>
-  <vaadin-grid items="[[items]]" id="gridUsers" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
+  <vaadin-grid items="[[items]]" id="gridVehicles" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
  <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
-  <vaadin-text-field label="ID User" placeholder="ID User" id="fieldIdUser"></vaadin-text-field>
+  <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz"></vaadin-text-field>
   <vaadin-radio-group value="foo" id="radioRole">
    <vaadin-radio-button name="foo">
      Foo 
@@ -40,7 +40,7 @@ class UsersForm extends PolymerElement {
      Baz 
    </vaadin-radio-button>
   </vaadin-radio-group>
-  <vaadin-text-field label="Login" placeholder="Login" id="fieldLogin"></vaadin-text-field>
+  <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin"></vaadin-text-field>
   <vaadin-text-field label="Heslo" placeholder="Heslo" id="fieldPassword"></vaadin-text-field>
   <vaadin-text-field label="ID Person" placeholder="ID Person" id="fieldIdPerson"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
@@ -54,7 +54,7 @@ class UsersForm extends PolymerElement {
   <vaadin-button id="ButtonDeleteUser">
    <iron-icon icon="lumo:cross" slot="prefix" id="ironIcon"></iron-icon>Smazat 
   </vaadin-button>
-  <vaadin-button id="buttonAddUser" style="align-self: flex-start;">
+  <vaadin-button id="buttonAddVehicle" style="align-self: flex-start;">
    <iron-icon icon="lumo:plus" slot="prefix"></iron-icon>Přidat 
   </vaadin-button>
  </vaadin-vertical-layout>
@@ -63,7 +63,7 @@ class UsersForm extends PolymerElement {
     }
 
     static get is() {
-        return 'users-form';
+        return 'vehicle-form';
     }
 
     static get properties() {
@@ -73,4 +73,4 @@ class UsersForm extends PolymerElement {
     }
 }
 
-customElements.define(UsersForm.is, UsersForm);
+customElements.define(VehicleForm.is, VehicleForm);

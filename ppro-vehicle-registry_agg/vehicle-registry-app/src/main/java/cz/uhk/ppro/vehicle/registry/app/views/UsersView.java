@@ -9,7 +9,5 @@ import javax.annotation.PostConstruct;
 
 @Route(value = "users-view", layout = InternalLayout.class)
 public class UsersView extends UsersForm {
-    @PostConstruct
-    public void init() {
-    }
+
 }

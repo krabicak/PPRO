@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
@@ -23,8 +24,10 @@ import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.CollectionUtils;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * A Designer generated component for the users-form template.
@@ -70,12 +73,22 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private RadioButtonGroup<User.UserRole> radioRole;
     @Id("checkBoxActive")
     private Checkbox checkBoxActive;
+    @Id("fieldSearch")
+    private TextField fieldSearch;
+    @Id("vaadinVerticalLayout")
+    private Element vaadinVerticalLayout;
+
+    //private CustomerService service = CustomerService.getInstance();
 
     /**
      * Creates a new UsersForm.
      */
     @PostConstruct
     public void init() {
+        //hledat
+        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSearch.addValueChangeListener(e -> updateList());
+        
         //grid
         gridUsers.addColumn(User::getRole).setHeader("Role");
         gridUsers.addColumn(User::getLogin).setHeader("Login");
@@ -116,6 +129,13 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonAddUser.addClickListener(buttonAddUserListener());
         buttonEditUser.addClickListener(buttonEditUserListener());
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
+    }
+
+    private void updateList() {
+/*if()
+        List allUsers = userService.getAllUsers();
+        CollectionUtils.filter(allUsers, o -> ((User) o).getRole().equals(User.UserRole.CLERK));
+        gridUsers.setItems(allUsers);*/
     }
 
 

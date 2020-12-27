@@ -8,12 +8,14 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
+import cz.uhk.ppro.vehicle.registry.app.components.VehicleForm;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.app.views.MainView;
 import cz.uhk.ppro.vehicle.registry.app.views.UsersView;
+import cz.uhk.ppro.vehicle.registry.app.views.VehicleView;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -75,17 +77,20 @@ public class InternalLayout extends MainLayout {
         Tabs tabs = new Tabs();
 
         if (loginService.isLoggedUserAdmin()) {
-            Tab userTab = new Tab("Správa uživatel");
+            Tab userTab = new Tab("Správa uživatelů");
             Tab mainTab = new Tab("Úvod");
-            tabs.add(mainTab, userTab);
+            Tab vehicleTab = new Tab("Vozidla");
+
+            tabs.add(mainTab, userTab, vehicleTab);
 
             Map<Tab, Class> map = new HashMap<>();
 
             map.put(userTab, UsersView.class);
             map.put(mainTab, MainView.class);
+            map.put(vehicleTab, VehicleView.class);
 
             tabs.addSelectedChangeListener(e -> {
-                navigatorService.navigateToClass(map.get( e.getSource().getSelectedTab()));
+                navigatorService.navigateToClass(map.get(e.getSource().getSelectedTab()));
             });
         }
         add(tabs);

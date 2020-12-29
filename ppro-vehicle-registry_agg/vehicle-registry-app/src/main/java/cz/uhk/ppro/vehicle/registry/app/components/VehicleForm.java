@@ -74,8 +74,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP");
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getToDate()).setHeader("Splatnost m. TP");
 
-        //tlacitka
-        buttonAddVehicle.addClickListener(buttonAddVehicleListener());
+/*        //tlacitka
+        buttonAddVehicle.addClickListener(buttonAddVehicleListener());*/
 
         //refresh
         gridVehicles.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -104,7 +104,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         };
     }
 
-    private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
+/*    private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
         return e -> {
 
             Vehicle v1 = new Vehicle();
@@ -140,7 +140,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
             refreshGrid();
         };
-    }
+    }*/
 
     private void refreshGrid() {
         gridVehicles.setItems(vehicleService.getAllVehicles());

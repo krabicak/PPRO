@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class InsuranceService {
+public class InsuranceCompanyService {
 
     @Autowired
     private VehicleRegistry vehicleRegistry;
 
-    /*public List<InsuranceCompany> getAllInsurancies() {
-        return vehicleRegistry.getAllInsurancies;
-    }*/
+    public List<InsuranceCompany> getAllInsuranceCompanies() {
+        return vehicleRegistry.getAllInsuranceCompanies();
+    }
 }

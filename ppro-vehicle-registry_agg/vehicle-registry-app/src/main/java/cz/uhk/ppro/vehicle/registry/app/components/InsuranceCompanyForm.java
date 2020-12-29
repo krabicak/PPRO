@@ -18,9 +18,9 @@ import javax.annotation.PostConstruct;
  * Designer will add and remove fields with @Id mappings but
  * does not overwrite or otherwise change this file.
  */
-@Tag("insurance-form")
-@JsModule("./src/views/insurance-form.js")
-public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormModel> {
+@Tag("insurance-company-form")
+@JsModule("./src/views/insurance-company-form.js")
+public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.InsuranceCompanyFormModel> {
 
     @Id("gridInsurancies")
     private Grid<InsuranceCompany> gridInsurancies;
@@ -41,14 +41,14 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         gridInsurancies.addColumn(vehicle -> vehicle.getCompanyName()).setHeader("Jméno");
     }
 
-    public InsuranceForm() {
+    public InsuranceCompanyForm() {
         // You can initialise any data required for the connected UI components here.
     }
 
     /**
      * This model binds properties between InsuranceForm and insurance-form
      */
-    public interface InsuranceFormModel extends TemplateModel {
+    public interface InsuranceCompanyFormModel extends TemplateModel {
         // Add setters and getters for template properties here.
     }
 }

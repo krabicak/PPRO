@@ -2,11 +2,13 @@ package cz.uhk.ppro.vehicle.registry.core;
 
 
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
+import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.repositories.InsuranceCompanyRepo;
 import cz.uhk.ppro.vehicle.registry.common.repositories.PersonRepo;
 import cz.uhk.ppro.vehicle.registry.common.repositories.UserRepo;
 import cz.uhk.ppro.vehicle.registry.common.repositories.VehicleRepo;
@@ -29,6 +31,8 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private PersonRepo personRepo;
     @Autowired
     private VehicleRepo vehicleRepo;
+    @Autowired
+    private InsuranceCompanyRepo insuranceCompanyRepo;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -84,6 +88,16 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateVehicle(Vehicle vehicle) {
         vehicleRepo.save(vehicle);
+    }
+
+    @Override
+    public List<InsuranceCompany> getAllInsuranceCompanies() {
+        return insuranceCompanyRepo.findAll();
+    }
+
+    @Override
+    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) {
+        insuranceCompanyRepo.save(insuranceCompany);
     }
 
 }

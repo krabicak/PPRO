@@ -6,7 +6,7 @@ import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
 
-class InsuranceForm extends PolymerElement {
+class InsuranceCompanyForm extends PolymerElement {
 
     static get template() {
         return html`
@@ -38,7 +38,7 @@ class InsuranceForm extends PolymerElement {
     }
 
     static get is() {
-        return 'insurance-form';
+        return 'insurance-company-form';
     }
 
     static get properties() {
@@ -48,4 +48,4 @@ class InsuranceForm extends PolymerElement {
     }
 }
 
-customElements.define(InsuranceForm.is, InsuranceForm);
+customElements.define(InsuranceCompanyForm.is, InsuranceCompanyForm);

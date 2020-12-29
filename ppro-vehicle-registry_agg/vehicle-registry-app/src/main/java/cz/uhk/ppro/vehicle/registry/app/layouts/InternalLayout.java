@@ -7,13 +7,11 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.RouterLink;
-import cz.uhk.ppro.vehicle.registry.app.components.VehicleForm;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
-import cz.uhk.ppro.vehicle.registry.app.views.InsuranceView;
+import cz.uhk.ppro.vehicle.registry.app.views.InsuranceCompanyView;
 import cz.uhk.ppro.vehicle.registry.app.views.MainView;
 import cz.uhk.ppro.vehicle.registry.app.views.UsersView;
 import cz.uhk.ppro.vehicle.registry.app.views.VehicleView;
@@ -52,7 +50,6 @@ public class InternalLayout extends MainLayout {
 
     private void prepare() {
         Div divUser = new Div();
-        divUser.setClassName("divUser");
 
         Paragraph userLabel = new Paragraph("Uživatel: ");
         divUser.add(userLabel);
@@ -90,7 +87,7 @@ public class InternalLayout extends MainLayout {
             map.put(userTab, UsersView.class);
             map.put(mainTab, MainView.class);
             map.put(vehicleTab, VehicleView.class);
-            map.put(insuranceTab, InsuranceView.class);
+            map.put(insuranceTab, InsuranceCompanyView.class);
 
             tabs.addSelectedChangeListener(e -> {
                 navigatorService.navigateToClass(map.get(e.getSource().getSelectedTab()));
@@ -121,7 +118,7 @@ public class InternalLayout extends MainLayout {
             Map<Tab, Class> map = new HashMap<>();
 
             map.put(mainTab, MainView.class);
-            map.put(insuranceTab, InsuranceView.class);
+            map.put(insuranceTab, InsuranceCompanyView.class);
 
             tabs.addSelectedChangeListener(e -> {
                 navigatorService.navigateToClass(map.get(e.getSource().getSelectedTab()));

@@ -31,6 +31,12 @@ public class Person implements Serializable {
   @Column(nullable = false, length = 45)
   private String lastName;
 
+  /**
+   * RČ
+   */
+  @Column(nullable = false, length = 25)
+  private String bornNum;
+
   public Person() {
   }
 
@@ -54,12 +60,21 @@ public class Person implements Serializable {
     this.lastName = lastName;
   }
 
+  public String getBornNum() {
+    return bornNum;
+  }
+
+  public void setBornNum(String bornNum) {
+    this.bornNum = bornNum;
+  }
+
   @Override
   public String toString() {
     return "Person{" +
             "idPerson=" + idPerson +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
+            ", bornNum='" + bornNum + '\'' +
             '}';
   }
 }

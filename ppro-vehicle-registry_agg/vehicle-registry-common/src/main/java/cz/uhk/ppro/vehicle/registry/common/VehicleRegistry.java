@@ -1,5 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common;
 
+import cz.uhk.ppro.vehicle.registry.common.entities.Insurance;
+import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
@@ -22,5 +24,9 @@ public interface VehicleRegistry {
     List<Vehicle> getAllVehicles();
 
     void addOrUpdateVehicle(Vehicle vehicle);
+
+    List<InsuranceCompany> getAllInsuranceCompanies();
+
+    void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany);
 
 }

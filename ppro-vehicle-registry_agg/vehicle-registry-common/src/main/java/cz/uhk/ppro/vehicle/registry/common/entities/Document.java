@@ -33,8 +33,12 @@ public class Document implements Serializable {
   public Document() {
   }
 
-  public long getIdDocument() {
+  public Long getIdDocument() {
     return idDocument;
+  }
+
+  public void setIdDocument(Long idDocument) {
+    this.idDocument = idDocument;
   }
 
   public String getDocumentNumber() {

@@ -26,7 +26,11 @@ public class Vin implements Serializable {
   public Vin() {
   }
 
-  public long getIdvin() {
+  public void setIdvin(Long idvin) {
+    this.idvin = idvin;
+  }
+
+  public Long getIdvin() {
     return idvin;
   }
 

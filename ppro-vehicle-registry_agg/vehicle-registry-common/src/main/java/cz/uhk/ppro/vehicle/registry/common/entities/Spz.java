@@ -26,7 +26,11 @@ public class Spz implements Serializable {
   public Spz() {
   }
 
-  public long getIdSpz() {
+  public void setIdSpz(Long idSpz) {
+    this.idSpz = idSpz;
+  }
+
+  public Long getIdSpz() {
     return idSpz;
   }
 

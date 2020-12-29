@@ -2,16 +2,10 @@ package cz.uhk.ppro.vehicle.registry.core;
 
 
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
-import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
-import cz.uhk.ppro.vehicle.registry.common.entities.Person;
-import cz.uhk.ppro.vehicle.registry.common.entities.User;
-import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
+import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
-import cz.uhk.ppro.vehicle.registry.common.repositories.InsuranceCompanyRepo;
-import cz.uhk.ppro.vehicle.registry.common.repositories.PersonRepo;
-import cz.uhk.ppro.vehicle.registry.common.repositories.UserRepo;
-import cz.uhk.ppro.vehicle.registry.common.repositories.VehicleRepo;
+import cz.uhk.ppro.vehicle.registry.common.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,12 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private VehicleRepo vehicleRepo;
     @Autowired
     private InsuranceCompanyRepo insuranceCompanyRepo;
+    @Autowired
+    private DocumentRepo documentRepo;
+    @Autowired
+    private SpzRepo spzRepo;
+    @Autowired
+    private VinRepo vinRepo;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -87,6 +87,27 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
     @Override
     public void addOrUpdateVehicle(Vehicle vehicle) {
+        Document documentb = vehicle.getbTechnicalCert();
+        if (documentb.getIdDocument() != null
+                && documentRepo.getDocumentByDocumentNumber(documentb.getDocumentNumber()) == null)
+            documentb.setIdDocument(null);
+        documentRepo.save(documentb);
+        Document documents = vehicle.getsTechnicalCert();
+        if (documents.getIdDocument() != null
+                && documentRepo.getDocumentByDocumentNumber(documents.getDocumentNumber()) == null)
+            documents.setIdDocument(null);
+        documentRepo.save(documents);
+        Person person = vehicle.getOwner();
+        personRepo.save(person);
+        Spz spz = vehicle.getSpz();
+        if (spz.getIdSpz() != null
+                && spzRepo.findBySpz(spz.getSpz()) == null)
+            spz.setIdSpz(null);
+        spzRepo.save(spz);
+        Vin vin = vehicle.getVin();
+        if (vin.getIdvin() != null && vinRepo.findByVin(vin.getVin()) == null)
+            vin.setIdvin(null);
+        vinRepo.save(vin);
         vehicleRepo.save(vehicle);
     }
 

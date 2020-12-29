@@ -18,11 +18,11 @@ public class LoginService {
 
     public User login(String userName, String password) throws FaultLoginException {
         User user = vehicleRegistry.loginUser(userName, DigestUtils.sha256Hex(password));
-        if (user!=null) sessionService.saveLogin(userName);
+        if (user != null) sessionService.saveLogin(userName);
         return user;
     }
 
-    public void logout(){
+    public void logout() {
         sessionService.clearLogin();
     }
 
@@ -31,10 +31,12 @@ public class LoginService {
         User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
         return user.getRole() == User.UserRole.ADMIN;
     }
+
     public boolean isLoggedUserClerk() {
         User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
         return user.getRole() == User.UserRole.CLERK;
     }
+
     public boolean isLoggedUserInsurer() {
         User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
         return user.getRole() == User.UserRole.INSURER;

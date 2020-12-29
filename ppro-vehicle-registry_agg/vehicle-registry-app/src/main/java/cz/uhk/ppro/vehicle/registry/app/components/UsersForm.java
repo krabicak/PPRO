@@ -3,31 +3,28 @@ package cz.uhk.ppro.vehicle.registry.app.components;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.dom.Element;
-import com.vaadin.flow.router.PreserveOnRefresh;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import cz.uhk.ppro.vehicle.registry.app.layouts.MainLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
+import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
-import cz.uhk.ppro.vehicle.registry.app.views.MainView;
+import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.CollectionUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * A Designer generated component for the users-form template.
@@ -43,14 +40,14 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private DialogService dialogService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private InsuranceCompanyService insuranceCompanyService;
     @Id("vaadinHorizontalLayoutUsers")
     private HorizontalLayout vaadinHorizontalLayoutUsers;
     @Id("vaadinVerticalLayoutUsers")
     private Element vaadinVerticalLayoutUsers;
     @Id("gridUsers")
     private Grid<User> gridUsers;
-    @Id("buttonAddUser")
-    private Button buttonAddUser;
     @Id("ButtonDeleteUser")
     private Button buttonDeleteUser;
     @Id("buttonEditUser")
@@ -77,6 +74,10 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private TextField fieldSearch;
     @Id("vaadinVerticalLayout")
     private Element vaadinVerticalLayout;
+    @Id("buttonAddUser")
+    private Button buttonAddUser;
+    @Id("selectInsuranceCompany")
+    private ComboBox<InsuranceCompany> selectInsuranceCompany;
 
     //private CustomerService service = CustomerService.getInstance();
 
@@ -88,7 +89,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         //hledat
         fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
         fieldSearch.addValueChangeListener(e -> updateList());
-        
+
         //grid
         gridUsers.addColumn(User::getRole).setHeader("Role");
         gridUsers.addColumn(User::getLogin).setHeader("Login");
@@ -114,22 +115,37 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             fieldName.setValue(event.getItem().getPerson().getFirstName());
             fieldSurname.setValue(event.getItem().getPerson().getLastName());
             radioRole.setValue(event.getItem().getRole());
-            if(event.getItem().isEnable()){
+            if (event.getItem().isEnable()) {
                 checkBoxActive.setValue(true);
-            }
-            else{
+            } else {
                 checkBoxActive.setValue(false);
             }
         });
 
         //volic role
         radioRole.setItems(User.UserRole.ADMIN, User.UserRole.CLERK, User.UserRole.INSURER);
+        radioRole.addValueChangeListener(radioRoleListener());
+
+        //select pojistovny
+        selectInsuranceCompany.setItems(insuranceCompanyService.getAllInsuranceCompanies());
+        selectInsuranceCompany.setItemLabelGenerator(InsuranceCompany::getCompanyName);
 
         //tlacitka
         buttonAddUser.addClickListener(buttonAddUserListener());
         buttonEditUser.addClickListener(buttonEditUserListener());
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
     }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<RadioButtonGroup<User.UserRole>, User.UserRole>> radioRoleListener() {
+        return e -> {
+            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
+                selectInsuranceCompany.setEnabled(true);
+            } else {
+                selectInsuranceCompany.setEnabled(false);
+            }
+        };
+    }
+
 
     private void updateList() {
 /*if()
@@ -179,7 +195,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonAddUserListener() {
         //dodelat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return e -> {
-           User tmpUser = new User();
+            User tmpUser = new User();
             tmpUser.setLogin(fieldLogin.getValue());
             tmpUser.setPassword(fieldPassword.getValue());
             tmpUser.setRole(radioRole.getValue());

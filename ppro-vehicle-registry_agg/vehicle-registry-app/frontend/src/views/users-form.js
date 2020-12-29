@@ -4,10 +4,11 @@ import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-group.js';
 import '@vaadin/vaadin-radio-button/src/vaadin-radio-button.js';
-import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
+import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
 
 class UsersForm extends PolymerElement {
 
@@ -36,7 +37,7 @@ class UsersForm extends PolymerElement {
    <vaadin-radio-button name="bar">
      Bar 
    </vaadin-radio-button>
-   <vaadin-radio-button name="baz">
+   <vaadin-radio-button name="baz" checked>
      Baz 
    </vaadin-radio-button>
   </vaadin-radio-group>
@@ -45,6 +46,7 @@ class UsersForm extends PolymerElement {
   <vaadin-text-field label="ID Person" placeholder="ID Person" id="fieldIdPerson"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>
+  <vaadin-combo-box id="selectInsuranceCompany" label="Pojišťovna"></vaadin-combo-box>
   <vaadin-checkbox id="checkBoxActive">
     Aktivní 
   </vaadin-checkbox>

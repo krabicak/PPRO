@@ -1,14 +1,12 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-radio-button/src/vaadin-radio-group.js';
-import '@vaadin/vaadin-radio-button/src/vaadin-radio-button.js';
 import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
-import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@polymer/iron-icon/iron-icon.js';
 
 class VehicleForm extends PolymerElement {
 
@@ -30,19 +28,10 @@ class VehicleForm extends PolymerElement {
  </vaadin-vertical-layout>
  <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
   <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz"></vaadin-text-field>
-  <vaadin-radio-group value="foo" id="radioRole">
-   <vaadin-radio-button name="foo">
-     Foo 
-   </vaadin-radio-button>
-   <vaadin-radio-button name="bar">
-     Bar 
-   </vaadin-radio-button>
-   <vaadin-radio-button name="baz">
-     Baz 
-   </vaadin-radio-button>
-  </vaadin-radio-group>
   <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin"></vaadin-text-field>
+  <vaadin-text-field label="Číslo malého TP" placeholder="Číslo malého TP" id="fieldSmallTechnical"></vaadin-text-field>
   <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical"></vaadin-date-picker>
+  <vaadin-text-field label="Číslo velkého TP" placeholder="Číslo velkého TP" id="fieldBigTechnical"></vaadin-text-field>
   <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical"></vaadin-date-picker>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>

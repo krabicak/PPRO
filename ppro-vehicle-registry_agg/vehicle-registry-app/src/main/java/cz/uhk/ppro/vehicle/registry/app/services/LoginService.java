@@ -31,5 +31,13 @@ public class LoginService {
         User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
         return user.getRole() == User.UserRole.ADMIN;
     }
+    public boolean isLoggedUserClerk() {
+        User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
+        return user.getRole() == User.UserRole.CLERK;
+    }
+    public boolean isLoggedUserInsurer() {
+        User user = vehicleRegistry.getUserByLogin(sessionService.getLogin());
+        return user.getRole() == User.UserRole.INSURER;
+    }
 
 }

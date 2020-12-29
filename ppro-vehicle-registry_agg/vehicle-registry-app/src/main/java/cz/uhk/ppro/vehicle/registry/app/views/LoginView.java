@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
  * does not overwrite or otherwise change this file.
  */
 @Route(value = "login", layout = MainLayout.class)
+@PageTitle("Login")
 @RouteAlias(value = "login-page", layout = MainLayout.class)
 public class LoginView extends LoginForm {
 
@@ -25,6 +26,8 @@ public class LoginView extends LoginForm {
 
     @Autowired
     private NavigatorService navigatorService;
+
+
 
     /**
      * Creates a new LoginPage.

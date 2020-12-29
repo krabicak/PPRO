@@ -20,7 +20,7 @@ public class NotFoundView extends Div implements HasErrorParameter<NotFoundExcep
             BeforeEnterEvent event,
             ErrorParameter<NotFoundException> parameter) {
 
-        error.setText("Cannot find URL: " + event.getLocation().getPath());
+        error.setText("Nelze najít URL: " + event.getLocation().getPath());
         return HttpServletResponse.SC_NOT_FOUND;
     }
 }

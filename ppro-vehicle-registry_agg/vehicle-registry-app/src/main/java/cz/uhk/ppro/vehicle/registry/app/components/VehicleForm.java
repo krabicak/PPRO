@@ -50,17 +50,20 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private DatePicker dateSmallTechnical;
     @Id("dateBigTechnical")
     private DatePicker dateBigTechnical;
-    @Id("fieldName")
-    private TextField fieldName;
     @Id("fieldSurname")
     private TextField fieldSurname;
     @Id("checkBoxActive")
     private Checkbox checkBoxActive;
+    @Id("fieldSmallTechnical")
+    private TextField fieldSmallTechnical;
+    @Id("fieldBigTechnical")
+    private TextField fieldBigTechnical;
+    @Id("fieldName")
+    private TextField fieldName;
 
 
     @PostConstruct
     public void init() {
-        //testovaci, potom smazat
         //konec testovaciho
         gridVehicles.addColumn(vehicle -> vehicle.getSpz().getSpz()).setHeader("SPZ");
         gridVehicles.addColumn(vehicle -> vehicle.getVin().getVin()).setHeader("VIN");
@@ -92,6 +95,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             LocalDate localDateSmallTechnical = e.getItem().getsTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
             dateBigTechnical.setValue(localDateBigTechnical);
             dateSmallTechnical.setValue(localDateSmallTechnical);
+            fieldBigTechnical.setValue(e.getItem().getbTechnicalCert().getDocumentNumber());
+            fieldSmallTechnical.setValue(e.getItem().getsTechnicalCert().getDocumentNumber());
 
             //Osoba
             fieldName.setValue(e.getItem().getOwner().getFirstName());

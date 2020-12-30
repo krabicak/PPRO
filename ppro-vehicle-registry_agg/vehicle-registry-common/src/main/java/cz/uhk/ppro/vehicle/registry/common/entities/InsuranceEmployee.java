@@ -13,10 +13,14 @@ import java.io.Serializable;
 public class InsuranceEmployee implements Serializable {
 
   @Id
+  @Column(nullable = false, updatable = false)
+  private Long idUser;
+  /**
+   * Informace o uživateli
+   */
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "IDUSER")
+  @PrimaryKeyJoinColumn(name = "IDUSER")
   private User user;
-
 
   /**
    * Pojišťovna
@@ -27,6 +31,18 @@ public class InsuranceEmployee implements Serializable {
   private InsuranceCompany insuranceCompany;
 
   public InsuranceEmployee() {
+  }
+
+  public Long getIdUser() {
+    return idUser;
+  }
+
+  public void setIdUser(Long idUser) {
+    this.idUser = idUser;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public User getUser() {

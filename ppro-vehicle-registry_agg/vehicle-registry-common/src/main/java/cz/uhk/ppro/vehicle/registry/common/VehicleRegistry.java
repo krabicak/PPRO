@@ -28,6 +28,6 @@ public interface VehicleRegistry {
 
     void removeInsuranceCompany(InsuranceCompany insuranceCompany);
 
-    void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee);
+    void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException;
 
 }

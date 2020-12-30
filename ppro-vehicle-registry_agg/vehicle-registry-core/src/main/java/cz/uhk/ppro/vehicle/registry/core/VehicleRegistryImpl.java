@@ -65,13 +65,13 @@ public class VehicleRegistryImpl implements VehicleRegistry {
                 throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
         }
 
-        personRepo.saveAndFlush(user.getPerson());
+        personRepo.save(user.getPerson());
         if (user.getIdUser() == null) {
             user.setIdUser(user.getPerson().getIdPerson());
         }
 
 
-        userRepo.saveAndFlush(user);
+        userRepo.save(user);
     }
 
     public void removeUser(User user) throws PersonException {
@@ -130,7 +130,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) {
+    public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException {
+        addOrUpdateUser(insuranceEmployee.getUser());
+        if (insuranceEmployee.getIdUser()==null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
         insuranceEmployeeRepo.save(insuranceEmployee);
     }
 

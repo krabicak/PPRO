@@ -98,6 +98,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
             documents.setIdDocument(null);
         documentRepo.save(documents);
         Person person = vehicle.getOwner();
+        if (person.getIdPerson() != null
+                && !personRepo.findPersonByIdPerson(person.getIdPerson()).getBornNum().equals(person.getBornNum()))
+            person.setIdPerson(null);
         personRepo.save(person);
         Spz spz = vehicle.getSpz();
         if (spz.getIdSpz() != null

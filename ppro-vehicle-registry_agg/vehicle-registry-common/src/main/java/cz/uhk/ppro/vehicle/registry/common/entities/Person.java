@@ -40,6 +40,10 @@ public class Person implements Serializable {
   public Person() {
   }
 
+  public void setIdPerson(Long idPerson) {
+    this.idPerson = idPerson;
+  }
+
   public Long getIdPerson() {
     return idPerson;
   }

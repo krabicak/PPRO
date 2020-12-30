@@ -29,4 +29,6 @@ public interface VehicleRegistry {
 
     void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany);
 
+    void removeInsuranceCompany(InsuranceCompany insuranceCompany);
+
 }

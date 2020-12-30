@@ -1,6 +1,5 @@
 package cz.uhk.ppro.vehicle.registry.core;
 
-
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -122,6 +120,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) {
         insuranceCompanyRepo.save(insuranceCompany);
+    }
+
+    @Override
+    public void removeInsuranceCompany(InsuranceCompany insuranceCompany) {
+        insuranceCompanyRepo.delete(insuranceCompany);
     }
 
 }

@@ -95,7 +95,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         gridUsers.addColumn(User::getLogin).setHeader("Login");
         gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno");
         gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
-        gridUsers.addColumn(user -> user.isEnable()).setHeader("Aktivní");
+        gridUsers.addColumn(User::isEnable).setHeader("Aktivní");
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -138,20 +138,13 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<RadioButtonGroup<User.UserRole>, User.UserRole>> radioRoleListener() {
         return e -> {
-            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                selectInsuranceCompany.setEnabled(true);
-            } else {
-                selectInsuranceCompany.setEnabled(false);
-            }
+            selectInsuranceCompany.setEnabled(radioRole.getValue().equals(User.UserRole.INSURER));
         };
     }
 
 
     private void updateList() {
-/*if()
-        List allUsers = userService.getAllUsers();
-        CollectionUtils.filter(allUsers, o -> ((User) o).getRole().equals(User.UserRole.CLERK));
-        gridUsers.setItems(allUsers);*/
+
     }
 
 

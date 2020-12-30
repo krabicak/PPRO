@@ -1,27 +1,23 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
-import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
-import cz.uhk.ppro.vehicle.registry.common.entities.*;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -62,6 +58,13 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private TextField fieldName;
 
 
+    /**
+     * Creates a new VehicleForm.
+     */
+    public VehicleForm() {
+        // You can initialise any data required for the connected UI components here.
+    }
+
     @PostConstruct
     public void init() {
         //konec testovaciho
@@ -83,25 +86,6 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
         //listener na grid
         gridVehicles.addItemClickListener(gridVehiclesListener());
-    }
-
-    private ComponentEventListener<ItemClickEvent<Vehicle>> gridVehiclesListener() {
-        return e -> {
-            fieldSpz.setValue(e.getItem().getSpz().getSpz());
-            fieldVin.setValue(e.getItem().getVin().getVin());
-
-            //TP
-            LocalDate localDateBigTechnical = e.getItem().getbTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
-            LocalDate localDateSmallTechnical = e.getItem().getsTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
-            dateBigTechnical.setValue(localDateBigTechnical);
-            dateSmallTechnical.setValue(localDateSmallTechnical);
-            fieldBigTechnical.setValue(e.getItem().getbTechnicalCert().getDocumentNumber());
-            fieldSmallTechnical.setValue(e.getItem().getsTechnicalCert().getDocumentNumber());
-
-            //Osoba
-            fieldName.setValue(e.getItem().getOwner().getFirstName());
-            fieldSurname.setValue(e.getItem().getOwner().getLastName());
-        };
     }
 
 /*    private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
@@ -142,15 +126,27 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         };
     }*/
 
-    private void refreshGrid() {
-        gridVehicles.setItems(vehicleService.getAllVehicles());
+    private ComponentEventListener<ItemClickEvent<Vehicle>> gridVehiclesListener() {
+        return e -> {
+            fieldSpz.setValue(e.getItem().getSpz().getSpz());
+            fieldVin.setValue(e.getItem().getVin().getVin());
+
+            //TP
+            LocalDate localDateBigTechnical = e.getItem().getbTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
+            LocalDate localDateSmallTechnical = e.getItem().getsTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
+            dateBigTechnical.setValue(localDateBigTechnical);
+            dateSmallTechnical.setValue(localDateSmallTechnical);
+            fieldBigTechnical.setValue(e.getItem().getbTechnicalCert().getDocumentNumber());
+            fieldSmallTechnical.setValue(e.getItem().getsTechnicalCert().getDocumentNumber());
+
+            //Osoba
+            fieldName.setValue(e.getItem().getOwner().getFirstName());
+            fieldSurname.setValue(e.getItem().getOwner().getLastName());
+        };
     }
 
-    /**
-     * Creates a new VehicleForm.
-     */
-    public VehicleForm() {
-        // You can initialise any data required for the connected UI components here.
+    private void refreshGrid() {
+        gridVehicles.setItems(vehicleService.getAllVehicles());
     }
 
     /**

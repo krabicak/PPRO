@@ -2,15 +2,15 @@ package cz.uhk.ppro.vehicle.registry.app.components;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,12 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     @Autowired
     private InsuranceCompanyService insuranceService;
 
+    private InsuranceCompany actualInsuranceCompany;
+
+    public InsuranceCompanyForm() {
+        // You can initialise any data required for the connected UI components here.
+    }
+
     /**
      * Creates a new InsuranceForm.
      */
@@ -53,6 +59,23 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
 
         //tlacitko
         buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
+        buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
+        buttonEditInsurance.addClickListener(buttonEditInsuranceListener());
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
+        return e -> {
+            actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
+            insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
+            refreshGrid();
+        };
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
+        return e -> {
+            insuranceService.removeInsuranceCompany(actualInsuranceCompany);
+            refreshGrid();
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddInsuranceListener() {
@@ -60,7 +83,6 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             InsuranceCompany tmp = new InsuranceCompany();
             tmp.setCompanyName(fieldInsurance.getValue());
             insuranceService.addOrUpdateInsuranceCompany(tmp);
-
             refreshGrid();
         };
     }
@@ -68,11 +90,12 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private ComponentEventListener<ItemClickEvent<InsuranceCompany>> gridInsuranciesListener() {
         return e -> {
             fieldInsurance.setValue(e.getItem().getCompanyName());
+            actualInsuranceCompany = e.getItem();
         };
     }
 
-    public InsuranceCompanyForm() {
-        // You can initialise any data required for the connected UI components here.
+    private void refreshGrid() {
+        gridInsurancies.setItems(insuranceService.getAllInsuranceCompanies());
     }
 
     /**
@@ -80,9 +103,5 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
      */
     public interface InsuranceCompanyFormModel extends TemplateModel {
         // Add setters and getters for template properties here.
-    }
-
-    private void refreshGrid() {
-        gridInsurancies.setItems(insuranceService.getAllInsuranceCompanies());
     }
 }

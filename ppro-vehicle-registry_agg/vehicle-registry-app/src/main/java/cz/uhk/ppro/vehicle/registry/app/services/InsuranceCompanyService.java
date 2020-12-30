@@ -21,5 +21,9 @@ public class InsuranceCompanyService {
         vehicleRegistry.addOrUpdateInsuranceCompany(insuranceCompany);
     }
 
+    public void removeInsuranceCompany(InsuranceCompany insuranceCompany){
+        vehicleRegistry.removeInsuranceCompany(insuranceCompany);
+    }
+
 
 }

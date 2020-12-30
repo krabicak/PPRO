@@ -6,10 +6,12 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.dom.Element;
@@ -52,8 +54,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private Button buttonDeleteUser;
     @Id("buttonEditUser")
     private Button buttonEditUser;
-    @Id("fieldPassword")
-    private TextField fieldPassword;
 
     private User actualUser;
     @Id("fieldIdUser")
@@ -78,6 +78,10 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private Button buttonAddUser;
     @Id("selectInsuranceCompany")
     private ComboBox<InsuranceCompany> selectInsuranceCompany;
+    @Id("fieldPassword")
+    private PasswordField fieldPassword;
+    @Id("fieldBornnum")
+    private TextField fieldBornnum;
 
     //private CustomerService service = CustomerService.getInstance();
 
@@ -96,6 +100,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno");
         gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
         gridUsers.addColumn(User::isEnable).setHeader("Aktivní");
+        gridUsers.addColumn(user -> user.getPerson().getBornNum()).setHeader("Rodné číslo");
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -104,27 +109,12 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldIdUser.setVisible(false);
         fieldIdPerson.setVisible(false);
 
-        gridUsers.addItemClickListener(event -> {
-            actualUser = event.getItem();
-
-            fieldIdUser.setValue(event.getItem().getIdUser().toString());
-            fieldLogin.setValue(event.getItem().getLogin());
-            fieldPassword.setValue(event.getItem().getPassword());
-
-            fieldIdPerson.setValue(event.getItem().getPerson().getIdPerson().toString());
-            fieldName.setValue(event.getItem().getPerson().getFirstName());
-            fieldSurname.setValue(event.getItem().getPerson().getLastName());
-            radioRole.setValue(event.getItem().getRole());
-            if (event.getItem().isEnable()) {
-                checkBoxActive.setValue(true);
-            } else {
-                checkBoxActive.setValue(false);
-            }
-        });
+        gridUsers.addItemClickListener(gridCLickListener());
 
         //volic role
         radioRole.setItems(User.UserRole.ADMIN, User.UserRole.CLERK, User.UserRole.INSURER);
         radioRole.addValueChangeListener(radioRoleListener());
+        radioRole.setValue(User.UserRole.ADMIN);
 
         //select pojistovny
         selectInsuranceCompany.setItems(insuranceCompanyService.getAllInsuranceCompanies());
@@ -134,6 +124,22 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonAddUser.addClickListener(buttonAddUserListener());
         buttonEditUser.addClickListener(buttonEditUserListener());
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
+    }
+
+    private ComponentEventListener<ItemClickEvent<User>> gridCLickListener() {
+        return e -> {
+            actualUser = e.getItem();
+
+            fieldIdUser.setValue(e.getItem().getIdUser().toString());
+            fieldLogin.setValue(e.getItem().getLogin());
+
+            fieldIdPerson.setValue(e.getItem().getPerson().getIdPerson().toString());
+            fieldName.setValue(e.getItem().getPerson().getFirstName());
+            fieldSurname.setValue(e.getItem().getPerson().getLastName());
+            radioRole.setValue(e.getItem().getRole());
+            fieldBornnum.setValue(e.getItem().getPerson().getBornNum());
+                checkBoxActive.setValue(e.getItem().isEnable());
+        };
     }
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<RadioButtonGroup<User.UserRole>, User.UserRole>> radioRoleListener() {
@@ -164,13 +170,16 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             String login = fieldLogin.getValue();
             if (!actualUser.getLogin().equals(login))
                 actualUser.setLogin(fieldLogin.getValue());
+            if (!fieldPassword.getValue().isEmpty()) {
+                actualUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
+            }
 
-            actualUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
             actualUser.setRole(radioRole.getValue());
 
             actualUser.getPerson().setFirstName(fieldName.getValue());
             actualUser.getPerson().setLastName(fieldSurname.getValue());
             actualUser.setEnable(checkBoxActive.getValue());
+            actualUser.getPerson().setBornNum(fieldBornnum.getValue());
 
             try {
                 userService.addOrUpdateUser(actualUser);
@@ -186,18 +195,22 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddUserListener() {
-        //dodelat!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return e -> {
             User tmpUser = new User();
             tmpUser.setLogin(fieldLogin.getValue());
-            tmpUser.setPassword(fieldPassword.getValue());
+            tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
             tmpUser.setRole(radioRole.getValue());
 
             Person tmpPerson = new Person();
             tmpPerson.setFirstName(fieldName.getValue());
             tmpPerson.setLastName(fieldSurname.getValue());
+            tmpPerson.setBornNum(fieldBornnum.getValue());
 
             tmpUser.setPerson(tmpPerson);
+
+            if(radioRole.getValue().equals(User.UserRole.INSURER)){
+
+            }
 
             try {
                 userService.addOrUpdateUser(tmpUser);

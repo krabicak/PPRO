@@ -31,6 +31,8 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private SpzRepo spzRepo;
     @Autowired
     private VinRepo vinRepo;
+    @Autowired
+    private InsuranceEmployeeRepo insuranceEmployeeRepo;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -125,6 +127,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void removeInsuranceCompany(InsuranceCompany insuranceCompany) {
         insuranceCompanyRepo.delete(insuranceCompany);
+    }
+
+    @Override
+    public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) {
+        insuranceEmployeeRepo.save(insuranceEmployee);
     }
 
 }

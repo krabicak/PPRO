@@ -19,15 +19,18 @@ public class InsuranceEmployee implements Serializable {
    * Informace o uživateli
    */
   @OneToOne(fetch = FetchType.LAZY)
-  @PrimaryKeyJoinColumn(name = "IDUSER")
+  @PrimaryKeyJoinColumn(name = "IDUSER", referencedColumnName="IDUSER")
   private User user;
 
   /**
    * Pojišťovna
    */
   @Id
+  @Column(nullable = false, updatable = false)
+  private Long idInsuranceCompany;
+
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "IDINSURANCECOMPANY")
+  @PrimaryKeyJoinColumn(name = "IDINSURANCECOMPANY", referencedColumnName="IDINSURANCECOMPANY")
   private InsuranceCompany insuranceCompany;
 
   public InsuranceEmployee() {
@@ -49,9 +52,13 @@ public class InsuranceEmployee implements Serializable {
     return user;
   }
 
-  /*public void setUser(User user) {
-    this.user = user;
-  }*/
+  public Long getIdInsuranceCompany() {
+    return idInsuranceCompany;
+  }
+
+  public void setIdInsuranceCompany(Long idInsuranceCompany) {
+    this.idInsuranceCompany = idInsuranceCompany;
+  }
 
   public InsuranceCompany getInsuranceCompany() {
     return insuranceCompany;

@@ -216,7 +216,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 InsuranceEmployee ie = new InsuranceEmployee();
                 ie.setInsuranceCompany(selectInsuranceCompany.getValue());
                 //ie.setUser(tmpUser);
-                insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
+                try {
+                    insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
+                } catch (PersonException personException) {
+                    dialogService.showErrorDialog(personException);
+                }
             }
 
             try {

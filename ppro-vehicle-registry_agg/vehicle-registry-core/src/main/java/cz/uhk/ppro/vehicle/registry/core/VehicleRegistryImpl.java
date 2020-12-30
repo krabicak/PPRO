@@ -133,6 +133,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException {
         addOrUpdateUser(insuranceEmployee.getUser());
         if (insuranceEmployee.getIdUser()==null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
+        if (insuranceEmployee.getIdInsuranceCompany()==null) insuranceEmployee.setIdInsuranceCompany(insuranceEmployee.getInsuranceCompany().getIdInsuranceCompany());
         insuranceEmployeeRepo.save(insuranceEmployee);
     }
 

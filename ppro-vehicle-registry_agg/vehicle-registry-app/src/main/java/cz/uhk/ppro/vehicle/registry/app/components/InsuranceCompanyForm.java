@@ -1,5 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -50,6 +51,17 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         gridInsurancies.addColumn(vehicle -> vehicle.getCompanyName()).setHeader("Jméno");
         gridInsurancies.addItemClickListener(gridInsuranciesListener());
         refreshGrid();
+
+        //tlacitko
+        buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonAddInsuranceListener() {
+        return e -> {
+            InsuranceCompany tmp = new InsuranceCompany();
+            tmp.setCompanyName(fieldInsurance.getValue());
+            insuranceService.addOrUpdateInsuranceCompany(tmp);
+        };
     }
 
     private ComponentEventListener<ItemClickEvent<InsuranceCompany>> gridInsuranciesListener() {

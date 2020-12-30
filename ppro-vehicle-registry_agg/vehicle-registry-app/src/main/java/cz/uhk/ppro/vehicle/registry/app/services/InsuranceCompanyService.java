@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class InsuranceCompanyService {
 
@@ -15,4 +16,10 @@ public class InsuranceCompanyService {
     public List<InsuranceCompany> getAllInsuranceCompanies() {
         return vehicleRegistry.getAllInsuranceCompanies();
     }
+
+    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) {
+        vehicleRegistry.addOrUpdateInsuranceCompany(insuranceCompany);
+    }
+
+
 }

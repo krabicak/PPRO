@@ -16,7 +16,6 @@ import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 
 /**
  * A Designer generated component for the insurance-form template.
@@ -48,7 +47,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     public void init() {
 
         //grid
-        gridInsurancies.addColumn(vehicle -> vehicle.getCompanyName()).setHeader("Jméno");
+        gridInsurancies.addColumn(InsuranceCompany::getCompanyName).setHeader("Jméno");
         gridInsurancies.addItemClickListener(gridInsuranciesListener());
         refreshGrid();
 
@@ -61,6 +60,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             InsuranceCompany tmp = new InsuranceCompany();
             tmp.setCompanyName(fieldInsurance.getValue());
             insuranceService.addOrUpdateInsuranceCompany(tmp);
+
+            refreshGrid();
         };
     }
 

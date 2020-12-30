@@ -9,6 +9,6 @@ public class InsuranceEmployeeService {
     private VehicleRegistry vehicleRegistry;
 
     public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee){
-       // vehicleRegistry.add
+       vehicleRegistry.addOrUpdateInsuranceEmployee(insuranceEmployee);
     }
 }

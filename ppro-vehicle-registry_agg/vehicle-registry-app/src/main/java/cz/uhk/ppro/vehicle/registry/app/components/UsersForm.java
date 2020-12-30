@@ -18,8 +18,10 @@ import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
+import cz.uhk.ppro.vehicle.registry.app.services.InsuranceEmployeeService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
+import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceEmployee;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
@@ -44,6 +46,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private UserService userService;
     @Autowired
     private InsuranceCompanyService insuranceCompanyService;
+    @Autowired
+    private InsuranceEmployeeService insuranceEmployeeService;
     @Id("vaadinHorizontalLayoutUsers")
     private HorizontalLayout vaadinHorizontalLayoutUsers;
     @Id("vaadinVerticalLayoutUsers")
@@ -138,7 +142,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             fieldSurname.setValue(e.getItem().getPerson().getLastName());
             radioRole.setValue(e.getItem().getRole());
             fieldBornnum.setValue(e.getItem().getPerson().getBornNum());
-                checkBoxActive.setValue(e.getItem().isEnable());
+            checkBoxActive.setValue(e.getItem().isEnable());
         };
     }
 
@@ -208,8 +212,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
             tmpUser.setPerson(tmpPerson);
 
-            if(radioRole.getValue().equals(User.UserRole.INSURER)){
-
+            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
+                InsuranceEmployee ie = new InsuranceEmployee();
+                ie.setInsuranceCompany(selectInsuranceCompany.getValue());
+                //ie.setUser(tmpUser);
+                insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
             }
 
             try {

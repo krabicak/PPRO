@@ -86,6 +86,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private PasswordField fieldPassword;
     @Id("fieldBornnum")
     private TextField fieldBornnum;
+    @Id("buttonReset")
+    private Button buttonReset;
 
     //private CustomerService service = CustomerService.getInstance();
 
@@ -128,6 +130,26 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonAddUser.addClickListener(buttonAddUserListener());
         buttonEditUser.addClickListener(buttonEditUserListener());
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
+        buttonReset.addClickListener(buttonResetListener());
+
+        //pole
+        fieldName.setRequiredIndicatorVisible(true);
+        fieldSurname.setRequiredIndicatorVisible(true);
+        fieldLogin.setRequiredIndicatorVisible(true);
+        fieldBornnum.setRequiredIndicatorVisible(true);
+    }
+
+
+
+    private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
+        return e->{
+            fieldSurname.setValue("");
+            fieldName.setValue("");
+            fieldLogin.setValue("");
+            fieldPassword.setValue("");
+            fieldBornnum.setValue("");
+            selectInsuranceCompany.setValue(null);
+        };
     }
 
     private ComponentEventListener<ItemClickEvent<User>> gridCLickListener() {
@@ -215,7 +237,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             if (radioRole.getValue().equals(User.UserRole.INSURER)) {
                 InsuranceEmployee ie = new InsuranceEmployee();
                 ie.setInsuranceCompany(selectInsuranceCompany.getValue());
-                //ie.setUser(tmpUser);
                 try {
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
                 } catch (PersonException personException) {

@@ -13,8 +13,7 @@ import java.io.Serializable;
 public class InsuranceCompany implements Serializable {
 
   @Id
-  @Column(nullable = false)
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idInsuranceCompany;
 
   /**
@@ -26,7 +25,7 @@ public class InsuranceCompany implements Serializable {
   public InsuranceCompany() {
   }
 
-  public long getIdInsuranceCompany() {
+  public Long getIdInsuranceCompany() {
     return idInsuranceCompany;
   }
 

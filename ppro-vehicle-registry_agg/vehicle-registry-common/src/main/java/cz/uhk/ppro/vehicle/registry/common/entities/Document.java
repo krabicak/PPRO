@@ -14,8 +14,7 @@ import java.sql.Timestamp;
 public class Document implements Serializable {
 
   @Id
-  @Column(nullable = false)
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idDocument;
 
   /**

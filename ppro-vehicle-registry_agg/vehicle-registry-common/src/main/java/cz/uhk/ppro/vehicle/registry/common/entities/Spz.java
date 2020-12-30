@@ -13,8 +13,7 @@ import java.io.Serializable;
 public class Spz implements Serializable {
 
   @Id
-  @Column(nullable = false)
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long idSpz;
 
   /**

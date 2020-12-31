@@ -6,14 +6,20 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.LoadingIndicatorConfiguration;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.InitialPageSettings;
+import com.vaadin.flow.server.PageConfigurator;
+import cz.uhk.ppro.vehicle.registry.app.components.MainLayoutTopBar;
 import cz.uhk.ppro.vehicle.registry.app.components.UsersForm;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
@@ -28,7 +34,7 @@ import javax.annotation.PostConstruct;
 
 @CssImport("./styles/moje.css")
 public class MainLayout
-        extends VerticalLayout implements RouterLayout, BeforeEnterObserver {
+        extends VerticalLayout implements PageConfigurator, RouterLayout, BeforeEnterObserver {
     // Import a style sheet into the global scope
 
     @Autowired
@@ -46,7 +52,19 @@ public class MainLayout
     @PostConstruct
     public void init() {
         this.setWidthFull();
-        add(new H1("Registr Vozidel"));
+        this.setHeightFull();
+        this.setPadding(false);
+        HorizontalLayout topbar = new HorizontalLayout();
+        topbar.setWidthFull();
+        topbar.add(new MainLayoutTopBar());
+        add(topbar);
     }
 
+    @Override
+    public void configurePage(InitialPageSettings initialPageSettings) {
+        LoadingIndicatorConfiguration conf = initialPageSettings.getLoadingIndicatorConfiguration();
+
+        conf.setApplyDefaultTheme(false);
+
+    }
 }

@@ -11,6 +11,6 @@ public class InsuranceService {
     private VehicleRegistry vehicleRegistry;
 
     public void addOrUpdateInsurance(Insurance insurance){
-        //vehicleRegistry.add
+        vehicleRegistry.addOrUpdateInsurance(insurance);
     }
 }

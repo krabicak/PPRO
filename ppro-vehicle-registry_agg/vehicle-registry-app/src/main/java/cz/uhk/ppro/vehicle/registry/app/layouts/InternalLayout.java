@@ -11,10 +11,7 @@ import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.app.services.NavigatorService;
 import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
-import cz.uhk.ppro.vehicle.registry.app.views.InsuranceCompanyView;
-import cz.uhk.ppro.vehicle.registry.app.views.MainView;
-import cz.uhk.ppro.vehicle.registry.app.views.UsersView;
-import cz.uhk.ppro.vehicle.registry.app.views.VehicleView;
+import cz.uhk.ppro.vehicle.registry.app.views.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -78,16 +75,18 @@ public class InternalLayout extends MainLayout {
             Tab userTab = new Tab("Správa uživatelů");
             Tab mainTab = new Tab("Úvod");
             Tab vehicleTab = new Tab("Vozidla");
-            Tab insuranceTab = new Tab("Pojišťovny");
+            Tab insuranceCompanyTab = new Tab("Pojišťovny");
+            Tab insuranceTab = new Tab("Pojištění");
 
-            tabs.add(mainTab, userTab, vehicleTab,insuranceTab);
+            tabs.add(mainTab, userTab, vehicleTab,insuranceCompanyTab,insuranceTab);
 
             Map<Tab, Class> map = new HashMap<>();
 
             map.put(userTab, UsersView.class);
             map.put(mainTab, MainView.class);
             map.put(vehicleTab, VehicleView.class);
-            map.put(insuranceTab, InsuranceCompanyView.class);
+            map.put(insuranceCompanyTab, InsuranceCompanyView.class);
+            map.put(insuranceTab, InsuranceView.class);
 
             tabs.addSelectedChangeListener(e -> {
                 navigatorService.navigateToClass(map.get(e.getSource().getSelectedTab()));
@@ -111,14 +110,14 @@ public class InternalLayout extends MainLayout {
         }
         else if(loginService.isLoggedUserInsurer()){
             Tab mainTab = new Tab("Úvod");
-            Tab insuranceTab = new Tab("Pojišťovny");
+            Tab insuranceTab = new Tab("Pojištění");
 
             tabs.add(mainTab,insuranceTab);
 
             Map<Tab, Class> map = new HashMap<>();
 
             map.put(mainTab, MainView.class);
-            map.put(insuranceTab, InsuranceCompanyView.class);
+            map.put(insuranceTab, InsuranceView.class);
 
             tabs.addSelectedChangeListener(e -> {
                 navigatorService.navigateToClass(map.get(e.getSource().getSelectedTab()));

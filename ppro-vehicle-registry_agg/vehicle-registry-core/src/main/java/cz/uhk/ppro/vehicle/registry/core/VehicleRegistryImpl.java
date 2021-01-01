@@ -33,6 +33,8 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private VinRepo vinRepo;
     @Autowired
     private InsuranceEmployeeRepo insuranceEmployeeRepo;
+    @Autowired
+    private InsuranceRepo insuranceRepo;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -135,6 +137,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         if (insuranceEmployee.getIdUser()==null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
         if (insuranceEmployee.getIdInsuranceCompany()==null) insuranceEmployee.setIdInsuranceCompany(insuranceEmployee.getInsuranceCompany().getIdInsuranceCompany());
         insuranceEmployeeRepo.save(insuranceEmployee);
+    }
+
+    @Override
+    public void addOrUpdateInsurance(Insurance insurance) {
+        insuranceRepo.save(insurance);
     }
 
 }

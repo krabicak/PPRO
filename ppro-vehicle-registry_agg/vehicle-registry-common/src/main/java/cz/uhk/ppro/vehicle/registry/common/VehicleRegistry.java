@@ -30,4 +30,6 @@ public interface VehicleRegistry {
 
     void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException;
 
+    void addOrUpdateInsurance(Insurance insurance);
+
 }

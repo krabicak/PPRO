@@ -7,6 +7,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -30,12 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-/**
- * A Designer generated component for the users-form template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("users-form")
 @JsModule("./src/views/users-form.js")
 public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
@@ -109,9 +104,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         gridUsers.addColumn(user -> user.getPerson().getBornNum()).setHeader("Rodné číslo");
         gridUsers.addColumn(user -> {
             InsuranceCompany company = insuranceCompanyService.getInsuranceCompany(user);
-            if (company==null) return null;
+            if (company == null) return null;
             return company.getCompanyName();
-        });
+        }).setHeader("Pojišťovna");
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -167,7 +162,13 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             fieldName.setValue(e.getItem().getPerson().getFirstName());
             fieldSurname.setValue(e.getItem().getPerson().getLastName());
             radioRole.setValue(e.getItem().getRole());
+            if (e.getItem().getRole().equals(User.UserRole.INSURER)) {
+                selectInsuranceCompany.setValue(insuranceCompanyService.getInsuranceCompany(e.getItem()));
+            } else {
+                selectInsuranceCompany.setValue(null);
+            }
             fieldBornnum.setValue(e.getItem().getPerson().getBornNum());
+            //TODO check box nefunguje
             checkBoxActive.setValue(e.getItem().isEnable());
         };
     }
@@ -186,7 +187,14 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
         return e -> {
             try {
-                userService.removeUser(actualUser);
+                if (radioRole.getValue().equals(User.UserRole.INSURER)) {
+                    //TODO dodelat mazani pojistovaka
+                }
+                else {
+                    userService.removeUser(actualUser);
+                }
+                Notification notification = new Notification("Uživatel smazán", 3000);
+                notification.open();
             } catch (PersonException personException) {
                 personException.printStackTrace();
             }
@@ -210,12 +218,23 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             actualUser.setEnable(checkBoxActive.getValue());
             actualUser.getPerson().setBornNum(fieldBornnum.getValue());
 
-            try {
-                userService.addOrUpdateUser(actualUser);
-            } catch (PersonException f) {
-                dialogService.showErrorDialog(f);
+            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
+                //TODO nejde upravovat pojistovna
+                /*try {
+                    insuranceEmployeeService.addOrUpdateInsuranceEmployee();
+                } catch (PersonException f) {
+                    dialogService.showErrorDialog(f);
+                }*/
+            } else {
+                try {
+                    userService.addOrUpdateUser(actualUser);
+                } catch (PersonException f) {
+                    dialogService.showErrorDialog(f);
+                }
             }
             refreshGrid();
+            Notification notification = new Notification("Uživatel upraven", 3000);
+            notification.open();
         };
     }
 
@@ -238,29 +257,29 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             tmpUser.setPerson(tmpPerson);
 
             if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                InsuranceEmployee ie = new InsuranceEmployee();
-                ie.setInsuranceCompany(selectInsuranceCompany.getValue());
                 try {
+                    InsuranceEmployee ie = new InsuranceEmployee();
+                    ie.setInsuranceCompany(selectInsuranceCompany.getValue());
+                    ie.setUser(tmpUser);
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
                 } catch (PersonException personException) {
                     dialogService.showErrorDialog(personException);
                 }
-            }
-
-            try {
-                userService.addOrUpdateUser(tmpUser);
-            } catch (PersonException f) {
-                f.printStackTrace();
-                dialogService.showErrorDialog(f);
+            } else {
+                try {
+                    userService.addOrUpdateUser(tmpUser);
+                } catch (PersonException f) {
+                    f.printStackTrace();
+                    dialogService.showErrorDialog(f);
+                }
             }
             refreshGrid();
+            Notification notification = new Notification("Uživatel přidán", 3000);
+            notification.open();
         };
     }
 
-    /**
-     * This model binds properties between UsersForm and users-form
-     */
     public interface UsersFormModel extends TemplateModel {
-        // Add setters and getters for template properties here.
+
     }
 }

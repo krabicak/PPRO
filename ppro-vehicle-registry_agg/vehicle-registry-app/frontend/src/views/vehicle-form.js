@@ -26,22 +26,26 @@ class VehicleForm extends PolymerElement {
   </vaadin-text-field>
   <vaadin-grid items="[[items]]" id="gridVehicles" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
- <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
-  <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz"></vaadin-text-field>
-  <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin"></vaadin-text-field>
-  <vaadin-text-field label="Číslo malého TP" placeholder="Číslo malého TP" id="fieldSmallTechnical"></vaadin-text-field>
-  <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical"></vaadin-date-picker>
-  <vaadin-text-field label="Číslo velkého TP" placeholder="Číslo velkého TP" id="fieldBigTechnical"></vaadin-text-field>
-  <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical"></vaadin-date-picker>
-  <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
-  <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname"></vaadin-text-field>
+ <vaadin-vertical-layout theme="spacing-s" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-s); margin: var(--lumo-space-s);">
+  <vaadin-button id="buttonReset">
+   Reset 
+  </vaadin-button>
+  <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz" required></vaadin-text-field>
+  <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin" required></vaadin-text-field>
+  <vaadin-text-field label="Číslo malého TP" placeholder="Číslo malého TP" id="fieldSmallTechnical" required></vaadin-text-field>
+  <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical" required></vaadin-date-picker>
+  <vaadin-text-field label="Číslo velkého TP" placeholder="Číslo velkého TP" id="fieldBigTechnical" required></vaadin-text-field>
+  <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical" required></vaadin-date-picker>
+  <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName" required></vaadin-text-field>
+  <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname" required></vaadin-text-field>
+  <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum" required></vaadin-text-field>
   <vaadin-checkbox id="checkBoxActive">
     Aktivní 
   </vaadin-checkbox>
-  <vaadin-button id="buttonEditUser">
+  <vaadin-button id="buttonEditVehicle">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>
-  <vaadin-button id="ButtonDeleteUser">
+  <vaadin-button id="buttonRemoveVehicle">
    <iron-icon icon="lumo:cross" slot="prefix" id="ironIcon"></iron-icon>Smazat 
   </vaadin-button>
   <vaadin-button id="buttonAddVehicle" style="align-self: flex-start;">

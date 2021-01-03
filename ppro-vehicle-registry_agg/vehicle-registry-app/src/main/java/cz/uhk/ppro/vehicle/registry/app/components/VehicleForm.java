@@ -1,5 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
+import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -8,16 +9,18 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
-import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
+import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -56,6 +59,14 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private TextField fieldBigTechnical;
     @Id("fieldName")
     private TextField fieldName;
+    @Id("fieldBornnum")
+    private TextField fieldBornnum;
+    @Id("buttonReset")
+    private Button buttonReset;
+    @Id("buttonRemoveVehicle")
+    private Button buttonRemoveVehicle;
+    @Id("buttonEditVehicle")
+    private Button buttonEditVehicle;
 
 
     /**
@@ -67,18 +78,21 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
     @PostConstruct
     public void init() {
-        //konec testovaciho
+        //grid
         gridVehicles.addColumn(vehicle -> vehicle.getSpz().getSpz()).setHeader("SPZ");
         gridVehicles.addColumn(vehicle -> vehicle.getVin().getVin()).setHeader("VIN");
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getFirstName()).setHeader("Jméno");
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getLastName()).setHeader("Přijmení");
+        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getBornNum()).setHeader("Rodné číslo");
         gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getDocumentNumber()).setHeader("Číslo v. TP");
         gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getToDate()).setHeader("Splatnost v. TP");
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP");
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getToDate()).setHeader("Splatnost m. TP");
+        gridVehicles.addColumn(vehicle -> vehicle.isActive()).setHeader("Aktivní");
 
-/*        //tlacitka
-        buttonAddVehicle.addClickListener(buttonAddVehicleListener());*/
+        //tlacitka
+        buttonAddVehicle.addClickListener(buttonAddVehicleListener());
+        buttonRemoveVehicle.addClickListener(buttonRemoveVehicleListener());
 
         //refresh
         gridVehicles.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -88,43 +102,58 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.addItemClickListener(gridVehiclesListener());
     }
 
-/*    private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
+    private ComponentEventListener<ClickEvent<Button>> buttonRemoveVehicleListener() {
+        return e->{
+          /*try{
+              vehicleService.
+          }
+          catch{}*/
+        };
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
         return e -> {
+            //TODO k tomuhle dodelat exception
 
             Vehicle v1 = new Vehicle();
 
-            v1.setActive(false);
-
+            v1.setActive(checkBoxActive.getValue());
 
             Spz spz1 = new Spz();
-            spz1.setSpz("6L51346");
+            spz1.setSpz(fieldSpz.getValue());
             v1.setSpz(spz1);
 
             Vin vin1 = new Vin();
-            vin1.setVin("TMBHA61Z8A8011106");
+            vin1.setVin(fieldVin.getValue());
             v1.setVin(vin1);
 
             Person p1 = new Person();
-            p1.setFirstName("Jan");
-            p1.setLastName("Novak");
+            p1.setFirstName(fieldName.getValue());
+            p1.setLastName(fieldSurname.getValue());
+            p1.setBornNum(fieldBornnum.getValue());
 
             v1.setOwner(p1);
 
-            Document d1 = new Document();
-            d1.setToDate(new Timestamp(System.currentTimeMillis()));
-            d1.setDocumentNumber("999");
+            Document docBtech = new Document();
+            //TODO zmenit na cas z pole
+            docBtech.setToDate(new Timestamp(System.currentTimeMillis()));
+            docBtech.setDocumentNumber(fieldBigTechnical.getValue());
 
-            Document d2 = new Document();
-            d2.setToDate(new Timestamp(System.currentTimeMillis()));
-            d2.setDocumentNumber("888");
+            Document docStech = new Document();
+            //TODO zmenit na cas z pole
+            docStech.setToDate(new Timestamp(System.currentTimeMillis()));
+            docStech.setDocumentNumber(fieldSmallTechnical.getValue());
 
-            v1.setbTechnicalCert(d1);
-            v1.setsTechnicalCert(d2);
+            v1.setbTechnicalCert(docBtech);
+            v1.setsTechnicalCert(docStech);
             vehicleService.addOrUpdateVehicle(v1);
 
             refreshGrid();
+            Notification notification = new Notification("Vozidlo přidáno", 3000);
+            notification.open();
         };
-    }*/
+
+    }
 
     private ComponentEventListener<ItemClickEvent<Vehicle>> gridVehiclesListener() {
         return e -> {

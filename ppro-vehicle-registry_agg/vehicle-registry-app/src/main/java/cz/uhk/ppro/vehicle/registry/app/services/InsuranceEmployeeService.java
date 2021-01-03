@@ -14,4 +14,7 @@ public class InsuranceEmployeeService {
     public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException {
        vehicleRegistry.addOrUpdateInsuranceEmployee(insuranceEmployee);
     }
+    /*public void removeInsuranceEmployee(){
+        vehicleRegistry.re
+    }*/
 }

@@ -22,8 +22,8 @@ public class VehicleService {
     public void addOrUpdateVehicle(Vehicle vehicle){
         vehicleRegistry.addOrUpdateVehicle(vehicle);
     }
-/*
-    public void removeVehicle(Vehicle vehicle) throws VehicleException {
-        vehicleRegistry.r(vehicle);
-    }*/
+
+    public void removeVehicle(Vehicle vehicle){
+        //vehicleRegistry.re
+    }
 }

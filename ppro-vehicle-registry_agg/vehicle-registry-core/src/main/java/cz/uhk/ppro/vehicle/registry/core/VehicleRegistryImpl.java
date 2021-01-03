@@ -139,9 +139,17 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         insuranceEmployeeRepo.save(insuranceEmployee);
     }
 
+
+
     @Override
     public void addOrUpdateInsurance(Insurance insurance) {
+        personRepo.save(insurance.getPerson());
         insuranceRepo.save(insurance);
+    }
+
+    @Override
+    public InsuranceEmployee getInsuranceEmployee(User user) {
+        return insuranceEmployeeRepo.getByUser(user);
     }
 
 }

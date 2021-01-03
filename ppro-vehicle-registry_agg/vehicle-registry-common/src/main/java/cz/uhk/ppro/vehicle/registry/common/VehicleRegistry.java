@@ -32,4 +32,6 @@ public interface VehicleRegistry {
 
     void addOrUpdateInsurance(Insurance insurance);
 
+    InsuranceEmployee getInsuranceEmployee(User user);
+
 }

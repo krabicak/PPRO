@@ -148,6 +148,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             fieldPassword.setValue("");
             fieldBornnum.setValue("");
             selectInsuranceCompany.setValue(null);
+
+            actualUser = new User();
+            gridUsers.deselectAll();
         };
     }
 

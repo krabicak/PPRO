@@ -21,15 +21,18 @@ class InsuranceCompanyForm extends PolymerElement {
  <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayout" style="width: 80%; padding: var(--lumo-space-m);">
   <vaadin-grid items="[[items]]" id="gridInsurancies" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
- <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
+ <vaadin-vertical-layout theme="spacing-s" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-s); margin: var(--lumo-space-s);">
+  <vaadin-button id="buttonReset">
+   Reset 
+  </vaadin-button>
   <vaadin-text-field label="Název pojišťovny" placeholder="Název pojišťovny" id="fieldInsurance"></vaadin-text-field>
   <vaadin-button id="buttonEditInsurance">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>
-  <vaadin-button id="ButtonDeleteInsurance">
+  <vaadin-button theme="primary error" id="ButtonDeleteInsurance">
    <iron-icon icon="lumo:cross" slot="prefix" id="ironIcon"></iron-icon>Smazat 
   </vaadin-button>
-  <vaadin-button id="buttonAddInsurance" style="align-self: flex-start;">
+  <vaadin-button id="buttonAddInsurance" theme="primary success" style="align-self: flex-start;">
    <iron-icon icon="lumo:plus" slot="prefix"></iron-icon>Přidat 
   </vaadin-button>
  </vaadin-vertical-layout>

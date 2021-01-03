@@ -107,6 +107,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
         gridUsers.addColumn(User::isEnable).setHeader("Aktivní");
         gridUsers.addColumn(user -> user.getPerson().getBornNum()).setHeader("Rodné číslo");
+        gridUsers.addColumn(user -> {
+            InsuranceCompany company = insuranceCompanyService.getInsuranceCompany(user);
+            if (company==null) return null;
+            return company.getCompanyName();
+        });
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -140,9 +145,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
 
-
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
-        return e->{
+        return e -> {
             fieldSurname.setValue("");
             fieldName.setValue("");
             fieldLogin.setValue("");
@@ -176,7 +180,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
 
     private void updateList() {
-
     }
 
 

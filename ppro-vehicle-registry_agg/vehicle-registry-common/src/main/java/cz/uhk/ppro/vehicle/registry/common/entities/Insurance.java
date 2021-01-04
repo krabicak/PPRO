@@ -48,7 +48,7 @@ public class Insurance implements Serializable {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDINSURANCER", nullable = false)
-    private InsuranceEmployee insurancer;
+    private User insurancer;
 
     /**
      * Člověk, který toto vozidlo pojistil
@@ -96,11 +96,11 @@ public class Insurance implements Serializable {
         this.vehicle = vehicle;
     }
 
-    public InsuranceEmployee getInsurancer() {
+    public User getInsurancer() {
         return insurancer;
     }
 
-    public void setInsurancer(InsuranceEmployee insurancer) {
+    public void setInsurancer(User insurancer) {
         this.insurancer = insurancer;
     }
 

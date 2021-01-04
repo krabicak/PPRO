@@ -6,8 +6,12 @@ import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.DocumentRepo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +21,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @ContextConfiguration("classpath:/spring-vehicle-registry-common-test-AplicationContext.xml")
 public class VehicleRegistryImplTst {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTst.class);
 
-    @Autowired
+    @Mock
     private VehicleRegistry vehicleRegistry;
 
-    @Autowired
+    @Mock
     private DocumentRepo documentRepo;
+
+    @BeforeEach
+    void init() {
+
+    }
 
     @Test
     public void loginUserTest() throws FaultLoginException {

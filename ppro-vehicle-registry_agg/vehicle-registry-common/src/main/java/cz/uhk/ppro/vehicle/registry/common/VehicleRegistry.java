@@ -38,4 +38,8 @@ public interface VehicleRegistry {
 
     List<InsuranceEmployee> getAllInsuranceEmployees();
 
+    List<Insurance> getAllInsurancie();
+
+    void removeInsurance(Insurance insurance);
+
 }

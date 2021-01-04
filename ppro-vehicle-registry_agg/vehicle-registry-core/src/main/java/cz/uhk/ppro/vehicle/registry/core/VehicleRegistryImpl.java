@@ -168,4 +168,14 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return insuranceEmployeeRepo.findAll();
     }
 
+    @Override
+    public List<Insurance> getAllInsurancie() {
+        return insuranceRepo.findAll();
+    }
+
+    @Override
+    public void removeInsurance(Insurance insurance) {
+        insuranceRepo.delete(insurance);
+    }
+
 }

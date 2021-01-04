@@ -30,8 +30,12 @@ public interface VehicleRegistry {
 
     void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException;
 
+    void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee);
+
     void addOrUpdateInsurance(Insurance insurance);
 
     InsuranceEmployee getInsuranceEmployee(User user);
+
+    List<InsuranceEmployee> getAllInsuranceEmployees();
 
 }

@@ -4,6 +4,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.dialog.Dialog;
 //import cz.uhk.ppro.vehicle.registry.app.components.PersonForm;
+import com.vaadin.flow.component.notification.Notification;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,8 @@ public class DialogService {
         dialog.open();
     }
 
-    public void showPersonDialog(ComponentEventListener listener, Person person) {
-        /*
-        Dialog dialog = new Dialog();
-        dialog.add(new PersonForm(person));
-        dialog.open();
-
-         */
+    public void showNotification(String message) {
+        Notification notification = new Notification(message, 3000);
+        notification.open();
     }
 }

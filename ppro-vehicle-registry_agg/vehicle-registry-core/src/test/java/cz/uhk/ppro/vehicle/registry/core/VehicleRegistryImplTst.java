@@ -6,17 +6,17 @@ import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.DocumentRepo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration("classpath:/spring-vehicle-registry-common-test-AplicationContext.xml")
 public class VehicleRegistryImplTst {
 

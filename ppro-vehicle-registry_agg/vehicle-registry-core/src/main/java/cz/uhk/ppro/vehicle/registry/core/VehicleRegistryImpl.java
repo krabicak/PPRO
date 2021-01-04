@@ -67,6 +67,12 @@ public class VehicleRegistryImpl implements VehicleRegistry {
                 throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
         }
 
+        if (user.getRole() != User.UserRole.INSURER) {
+            InsuranceEmployee employee = getInsuranceEmployee(user);
+            if (employee != null)
+                insuranceEmployeeRepo.delete(employee);
+        }
+
         personRepo.save(user.getPerson());
         if (user.getIdUser() == null) {
             user.setIdUser(user.getPerson().getIdPerson());
@@ -134,11 +140,16 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException {
         addOrUpdateUser(insuranceEmployee.getUser());
-        if (insuranceEmployee.getIdUser()==null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
-        if (insuranceEmployee.getIdInsuranceCompany()==null) insuranceEmployee.setIdInsuranceCompany(insuranceEmployee.getInsuranceCompany().getIdInsuranceCompany());
+        if (insuranceEmployee.getIdUser() == null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
+        if (insuranceEmployee.getIdInsuranceCompany() == null)
+            insuranceEmployee.setIdInsuranceCompany(insuranceEmployee.getInsuranceCompany().getIdInsuranceCompany());
         insuranceEmployeeRepo.save(insuranceEmployee);
     }
 
+    @Override
+    public void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee) {
+        insuranceEmployeeRepo.delete(insuranceEmployee);
+    }
 
 
     @Override
@@ -150,6 +161,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public InsuranceEmployee getInsuranceEmployee(User user) {
         return insuranceEmployeeRepo.getByUser(user);
+    }
+
+    @Override
+    public List<InsuranceEmployee> getAllInsuranceEmployees() {
+        return insuranceEmployeeRepo.findAll();
     }
 
 }

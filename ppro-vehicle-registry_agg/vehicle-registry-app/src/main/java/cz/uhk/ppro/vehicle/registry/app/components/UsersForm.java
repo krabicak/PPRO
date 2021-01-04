@@ -7,7 +7,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -31,6 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * A Designer generated component for the users-form template.
+ * <p>
+ * Designer will add and remove fields with @Id mappings but
+ * does not overwrite or otherwise change this file.
+ */
 @Tag("users-form")
 @JsModule("./src/views/users-form.js")
 public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
@@ -142,6 +147,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
+            gridUsers.select(null);
             fieldSurname.setValue("");
             fieldName.setValue("");
             fieldLogin.setValue("");
@@ -187,14 +193,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
         return e -> {
             try {
-                if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                    //TODO dodelat mazani pojistovaka
+                if (actualUser.getRole() == User.UserRole.INSURER) {
+                    insuranceEmployeeService.removeInsuranceEmployee(actualUser);
                 }
-                else {
-                    userService.removeUser(actualUser);
-                }
-                Notification notification = new Notification("Uživatel smazán", 3000);
-                notification.open();
+                userService.removeUser(actualUser);
+                dialogService.showNotification("Uživatel smazán");
             } catch (PersonException personException) {
                 personException.printStackTrace();
             }
@@ -219,12 +222,14 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
             actualUser.getPerson().setBornNum(fieldBornnum.getValue());
 
             if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                //TODO nejde upravovat pojistovna
-                /*try {
-                    insuranceEmployeeService.addOrUpdateInsuranceEmployee();
+                try {
+                    InsuranceEmployee employee = new InsuranceEmployee();
+                    employee.setUser(actualUser);
+                    employee.setInsuranceCompany(selectInsuranceCompany.getValue());
+                    insuranceEmployeeService.addOrUpdateInsuranceEmployee(employee);
                 } catch (PersonException f) {
                     dialogService.showErrorDialog(f);
-                }*/
+                }
             } else {
                 try {
                     userService.addOrUpdateUser(actualUser);
@@ -233,8 +238,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 }
             }
             refreshGrid();
-            Notification notification = new Notification("Uživatel upraven", 3000);
-            notification.open();
+            dialogService.showNotification("Uživatel upraven");
         };
     }
 
@@ -274,8 +278,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 }
             }
             refreshGrid();
-            Notification notification = new Notification("Uživatel přidán", 3000);
-            notification.open();
+            dialogService.showNotification("Uživatel přidán");
         };
     }
 

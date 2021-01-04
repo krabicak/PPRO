@@ -7,6 +7,8 @@ import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InsuranceEmployeeService {
     @Autowired
@@ -16,8 +18,8 @@ public class InsuranceEmployeeService {
         vehicleRegistry.addOrUpdateInsuranceEmployee(insuranceEmployee);
     }
 
-    public void getAllInsuranceEmployee(){
-        //return vehicleRegistry.get
+    public List<InsuranceEmployee> getAllInsuranceEmployee(){
+        return vehicleRegistry.getAllInsuranceEmployees();
     }
 
     public void removeInsuranceEmployee(User user) {

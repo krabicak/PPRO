@@ -13,4 +13,7 @@ public class InsuranceService {
     public void addOrUpdateInsurance(Insurance insurance){
         vehicleRegistry.addOrUpdateInsurance(insurance);
     }
+    public void getAllInsurance(){
+       // vehicleRegistry.getAll
+    }
 }

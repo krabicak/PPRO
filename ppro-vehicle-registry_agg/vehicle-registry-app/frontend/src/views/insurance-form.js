@@ -26,7 +26,7 @@ class InsuranceForm extends PolymerElement {
   </vaadin-text-field>
   <vaadin-grid items="[[items]]" id="gridInsurancies" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
- <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-m);">
+ <vaadin-vertical-layout theme="spacing-s" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-s); margin: var(--lumo-space-s);">
   <vaadin-button id="buttonReset">
    <iron-icon icon="lumo:cross" slot="prefix"></iron-icon>Reset 
   </vaadin-button>

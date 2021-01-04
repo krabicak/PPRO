@@ -16,10 +16,7 @@ import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceEmployeeService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
-import cz.uhk.ppro.vehicle.registry.common.entities.Insurance;
-import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
-import cz.uhk.ppro.vehicle.registry.common.entities.Person;
-import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
+import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -51,7 +48,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     @Id("fieldName")
     private TextField fieldName;
     @Id("selectInsurancerEmployee")
-    private ComboBox<Person> selectInsurancerEmployee;
+    private ComboBox<InsuranceEmployee> selectInsurancerEmployee;
     @Id("buttonEditInsurance")
     private Button buttonEditInsurance;
     @Id("buttonAddInsurance")
@@ -59,7 +56,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     @Id("buttonDeleteInsurance")
     private Button buttonDeleteInsurance;
     @Id("gridInsurancies")
-    private Grid gridInsurancies;
+    private Grid<Insurance> gridInsurancies;
     @Id("fieldBornnum")
     private TextField fieldBornnum;
     @Autowired
@@ -91,40 +88,50 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 + vehicle.getsTechnicalCert().getDocumentNumber());
 
         //select pojistovak
-        //selectInsurancerEmployee.setItems(insuranceEmployeeService.);
+        //TODO predelat na normalni vypis
+        selectInsurancerEmployee.setItems(insuranceEmployeeService.getAllInsuranceEmployee());
 
         //tlacitka
         buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
         buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
         buttonEditInsurance.addClickListener(buttonEditInsuranceListener());
         buttonReset.addClickListener(buttonResetListener());
+
+        //grid
+        gridInsurancies.addColumn(insurance -> insurance.getInsurancer()).setHeader("Pojišťovák");
+
+        refreshGrid();
+    }
+
+    private void refreshGrid() {
+        // gridInsurancies.setItems(insuranceService.);
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
-        return e->{
-          dateFrom.setValue(null);
-          dateTo.setValue(null);
-          selectInsuranceCompany.setValue(null);
-          selectVehicle.setValue(null);
-          selectInsurancerEmployee.setValue(null);
-          fieldName.setValue("");
-          fieldSurname.setValue("");
-          fieldBornnum.setValue("");
+        return e -> {
+            dateFrom.setValue(null);
+            dateTo.setValue(null);
+            selectInsuranceCompany.setValue(null);
+            selectVehicle.setValue(null);
+            selectInsurancerEmployee.setValue(null);
+            fieldName.setValue("");
+            fieldSurname.setValue("");
+            fieldBornnum.setValue("");
 
-          gridInsurancies.deselectAll();
-          actualInsurance = new Insurance();
+            gridInsurancies.deselectAll();
+            actualInsurance = new Insurance();
         };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
-        return e->{
-          //TODO dodelat
+        return e -> {
+            //TODO dodelat
         };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
-        return e->{
-          //TODO dodelat
+        return e -> {
+            //TODO dodelat
         };
     }
 
@@ -133,9 +140,8 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             Insurance tmpInsurance = new Insurance();
 
             //data
-            Timestamp tmpTimestamp = new Timestamp(System.currentTimeMillis());
-            tmpInsurance.setFromDate(tmpTimestamp);
-            tmpInsurance.setToDate(tmpTimestamp);
+            tmpInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
+            tmpInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
 
             //pojistovna
             tmpInsurance.setInsuranceCompany(selectInsuranceCompany.getValue());
@@ -144,7 +150,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             tmpInsurance.setVehicle(selectVehicle.getValue());
 
             //pojistovak
-            //tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue());
+            tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
 
             //nova osoba
             Person tmpPerson = new Person();

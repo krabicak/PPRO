@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
@@ -41,6 +42,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private InsuranceCompanyService insuranceService;
 
     private InsuranceCompany actualInsuranceCompany;
+    @Id("buttonReset")
+    private Button buttonReset;
 
     public InsuranceCompanyForm() {
         // You can initialise any data required for the connected UI components here.
@@ -61,6 +64,15 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
         buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
         buttonEditInsurance.addClickListener(buttonEditInsuranceListener());
+        buttonReset.addClickListener(buttonResetListener());
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
+        return e ->{
+            fieldInsurance.setValue("");
+            actualInsuranceCompany = new InsuranceCompany();
+            gridInsurancies.deselectAll();
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
@@ -68,6 +80,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
             insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
             refreshGrid();
+            Notification notification = new Notification("Pojišťovna upravena", 3000);
+            notification.open();
         };
     }
 
@@ -75,6 +89,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         return e -> {
             insuranceService.removeInsuranceCompany(actualInsuranceCompany);
             refreshGrid();
+            Notification notification = new Notification("Pojišťovna smazána", 3000);
+            notification.open();
         };
     }
 
@@ -84,6 +100,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             tmp.setCompanyName(fieldInsurance.getValue());
             insuranceService.addOrUpdateInsuranceCompany(tmp);
             refreshGrid();
+            Notification notification = new Notification("Pojišťovna přidána", 3000);
+            notification.open();
         };
     }
 

@@ -16,6 +16,10 @@ public class InsuranceEmployeeService {
         vehicleRegistry.addOrUpdateInsuranceEmployee(insuranceEmployee);
     }
 
+    public void getAllInsuranceEmployee(){
+        //return vehicleRegistry.get
+    }
+
     public void removeInsuranceEmployee(User user) {
         InsuranceEmployee employee = vehicleRegistry.getInsuranceEmployee(user);
         vehicleRegistry.removeInsuranceEmployee(employee);

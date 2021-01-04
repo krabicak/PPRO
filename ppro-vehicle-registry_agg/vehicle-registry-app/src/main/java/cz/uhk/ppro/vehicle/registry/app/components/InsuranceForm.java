@@ -13,6 +13,7 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
+import cz.uhk.ppro.vehicle.registry.app.services.InsuranceEmployeeService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
 import cz.uhk.ppro.vehicle.registry.common.entities.Insurance;
@@ -62,11 +63,14 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     @Id("fieldBornnum")
     private TextField fieldBornnum;
     @Autowired
+    private InsuranceEmployeeService insuranceEmployeeService;
+    @Autowired
     private InsuranceCompanyService insuranceCompanyService;
     @Autowired
     private VehicleService vehicleService;
     @Autowired
     private InsuranceService insuranceService;
+    private Insurance actualInsurance;
 
     public InsuranceForm() {
         // You can initialise any data required for the connected UI components here.
@@ -86,6 +90,9 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         selectVehicle.setItemLabelGenerator(vehicle -> vehicle.getVin().getVin() + "\r\n" + vehicle.getSpz().getSpz() + "\r\n" + vehicle.getbTechnicalCert().getDocumentNumber() + "\r\n"
                 + vehicle.getsTechnicalCert().getDocumentNumber());
 
+        //select pojistovak
+        //selectInsurancerEmployee.setItems(insuranceEmployeeService.);
+
         //tlacitka
         buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
         buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
@@ -103,6 +110,9 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
           fieldName.setValue("");
           fieldSurname.setValue("");
           fieldBornnum.setValue("");
+
+          gridInsurancies.deselectAll();
+          actualInsurance = new Insurance();
         };
     }
 

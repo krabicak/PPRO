@@ -45,10 +45,7 @@ class VehicleForm extends PolymerElement {
   <vaadin-button id="buttonEditVehicle">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>
-  <vaadin-button id="buttonRemoveVehicle">
-   <iron-icon icon="lumo:cross" slot="prefix" id="ironIcon"></iron-icon>Smazat 
-  </vaadin-button>
-  <vaadin-button id="buttonAddVehicle" style="align-self: flex-start;">
+  <vaadin-button id="buttonAddVehicle" theme="primary success" style="align-self: flex-start;">
    <iron-icon icon="lumo:plus" slot="prefix"></iron-icon>Přidat 
   </vaadin-button>
  </vaadin-vertical-layout>

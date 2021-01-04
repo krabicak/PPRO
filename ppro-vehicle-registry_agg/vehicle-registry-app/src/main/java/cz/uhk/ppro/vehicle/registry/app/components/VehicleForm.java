@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * A Designer generated component for the vehicle-form template.
@@ -63,10 +64,9 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private TextField fieldBornnum;
     @Id("buttonReset")
     private Button buttonReset;
-    @Id("buttonRemoveVehicle")
-    private Button buttonRemoveVehicle;
     @Id("buttonEditVehicle")
     private Button buttonEditVehicle;
+    private Vehicle actualVehicle;
 
 
     /**
@@ -92,7 +92,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
         //tlacitka
         buttonAddVehicle.addClickListener(buttonAddVehicleListener());
-        buttonRemoveVehicle.addClickListener(buttonRemoveVehicleListener());
+        buttonEditVehicle.addClickListener(buttonEditVehicleListener());
+        buttonReset.addClickListener(buttonResetListener());
 
         //refresh
         gridVehicles.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -102,12 +103,69 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.addItemClickListener(gridVehiclesListener());
     }
 
-    private ComponentEventListener<ClickEvent<Button>> buttonRemoveVehicleListener() {
+    private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e->{
-          /*try{
-              vehicleService.
-          }
-          catch{}*/
+            fieldSpz.setValue("");
+            fieldVin.setValue("");
+            fieldSmallTechnical.setValue("");
+            fieldBigTechnical.setValue("");
+            dateBigTechnical.setValue(null);
+            dateSmallTechnical.setValue(null);
+            fieldName.setValue("");
+            fieldSurname.setValue("");
+            fieldBornnum.setValue("");
+
+            checkBoxActive.setValue(false);
+            actualVehicle = new Vehicle();
+            gridVehicles.deselectAll();
+        };
+    }
+
+    private ComponentEventListener<ClickEvent<Button>> buttonEditVehicleListener() {
+        return e -> {
+            actualVehicle.setActive(checkBoxActive.getValue());
+
+            //spz
+            Spz tmpSpz = actualVehicle.getSpz();
+            tmpSpz.setSpz(fieldSpz.getValue());
+            actualVehicle.setSpz(tmpSpz);
+
+            //vin
+            Vin tmpVin = actualVehicle.getVin();
+            tmpVin.setVin(fieldVin.getValue());
+            actualVehicle.setVin(tmpVin);
+
+            //malej technicak
+            Document tmpSmallDocument = actualVehicle.getsTechnicalCert();
+            tmpSmallDocument.setDocumentNumber(fieldSmallTechnical.getValue());
+            //TODO zmenil bych tostring aby se to vypisovalo lip
+            tmpSmallDocument.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
+            actualVehicle.setsTechnicalCert(tmpSmallDocument);
+
+
+            //velkej technicka
+            Document tmpBigDocument = actualVehicle.getbTechnicalCert();
+            tmpBigDocument.setDocumentNumber(fieldBigTechnical.getValue());
+
+            tmpBigDocument.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
+
+            actualVehicle.setbTechnicalCert(tmpBigDocument);
+
+            //majitel
+            Person tmpPerson = actualVehicle.getOwner();
+            tmpPerson.setFirstName(fieldName.getValue());
+            tmpPerson.setLastName(fieldSurname.getValue());
+            tmpPerson.setBornNum(fieldBornnum.getValue());
+            actualVehicle.setOwner(tmpPerson);
+
+            //aktivni
+            actualVehicle.setActive(checkBoxActive.getValue());
+
+            vehicleService.addOrUpdateVehicle(actualVehicle);
+
+            refreshGrid();
+            Notification notification = new Notification("Vozidlo upraveno", 3000);
+            notification.open();
         };
     }
 
@@ -135,13 +193,11 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             v1.setOwner(p1);
 
             Document docBtech = new Document();
-            //TODO zmenit na cas z pole
-            docBtech.setToDate(new Timestamp(System.currentTimeMillis()));
+            docBtech.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
             docBtech.setDocumentNumber(fieldBigTechnical.getValue());
 
             Document docStech = new Document();
-            //TODO zmenit na cas z pole
-            docStech.setToDate(new Timestamp(System.currentTimeMillis()));
+            docStech.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
             docStech.setDocumentNumber(fieldSmallTechnical.getValue());
 
             v1.setbTechnicalCert(docBtech);
@@ -171,6 +227,9 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             //Osoba
             fieldName.setValue(e.getItem().getOwner().getFirstName());
             fieldSurname.setValue(e.getItem().getOwner().getLastName());
+            fieldBornnum.setValue(e.getItem().getOwner().getBornNum());
+
+            actualVehicle = e.getItem();
         };
     }
 

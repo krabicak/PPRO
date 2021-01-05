@@ -12,6 +12,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.InsuranceCompanyException;
@@ -41,6 +42,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private Button buttonAddInsurance;
     @Autowired
     private InsuranceCompanyService insuranceService;
+    @Autowired
+    private DialogService dialogService;
 
     private InsuranceCompany actualInsuranceCompany;
     @Id("buttonReset")
@@ -85,8 +88,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
                 ex.printStackTrace();
             }
             refreshGrid();
-            Notification notification = new Notification("Pojišťovna upravena", 3000);
-            notification.open();
+            dialogService.showNotification("Pojišťovna upravena");
         };
     }
 
@@ -94,8 +96,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         return e -> {
             insuranceService.removeInsuranceCompany(actualInsuranceCompany);
             refreshGrid();
-            Notification notification = new Notification("Pojišťovna smazána", 3000);
-            notification.open();
+            dialogService.showNotification("Pojišťovna smazána");
         };
     }
 
@@ -109,8 +110,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
                 ex.printStackTrace();
             }
             refreshGrid();
-            Notification notification = new Notification("Pojišťovna přidána", 3000);
-            notification.open();
+            dialogService.showNotification("Pojišťovna přidána");
         };
     }
 

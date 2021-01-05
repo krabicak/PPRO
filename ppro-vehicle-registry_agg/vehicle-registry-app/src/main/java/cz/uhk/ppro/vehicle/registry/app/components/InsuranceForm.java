@@ -9,14 +9,13 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
-import cz.uhk.ppro.vehicle.registry.app.services.InsuranceEmployeeService;
-import cz.uhk.ppro.vehicle.registry.app.services.InsuranceService;
-import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
+import cz.uhk.ppro.vehicle.registry.app.layouts.InternalLayout;
+import cz.uhk.ppro.vehicle.registry.app.services.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +35,22 @@ import java.util.Set;
 @JsModule("./src/views/insurance-form.js")
 public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormModel> {
 
+    @Autowired
+    private LoginService loginService;
+    @Autowired
+    private SessionService sessionService;
+
+
+
+
     @Id("dateTo")
     private DatePicker dateTo;
     @Id("dateFrom")
     private DatePicker dateFrom;
-
+    @Autowired
+    private DialogService dialogService;
     @Id("selectVehicle")
     private ComboBox<Vehicle> selectVehicle;
-    @Id("selectInsuranceCompany")
-    private ComboBox<InsuranceCompany> selectInsuranceCompany;
     @Id("buttonReset")
     private Button buttonReset;
     @Id("fieldSurname")
@@ -82,9 +88,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
      */
     @PostConstruct
     public void init() {
-        //select pojistovny
-        selectInsuranceCompany.setItems(insuranceCompanyService.getAllInsuranceCompanies());
-        selectInsuranceCompany.setItemLabelGenerator(InsuranceCompany::getCompanyName);
 
         //select vozidla
         selectVehicle.setItems(vehicleService.getAllVehicles());
@@ -109,6 +112,17 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         });
         selectInsurancerEmployee.setItems(insuranceEmployeeService.getAllInsuranceEmployee());
 
+        if(loginService.isLoggedUserInsurer()){
+            //select
+            for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
+                if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
+                    selectInsurancerEmployee.setValue(ie);
+                    break;
+                }
+            }
+            selectInsurancerEmployee.setEnabled(false);
+        }
+
         //tlacitka
         buttonAddInsurance.addClickListener(buttonAddInsuranceListener());
         buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
@@ -116,22 +130,87 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         buttonReset.addClickListener(buttonResetListener());
 
         //grid
-        gridInsurancies.addColumn(insurance -> insurance.getInsurancer()).setHeader("Pojišťovák");
+        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getFromDate())).setHeader("Od");
+        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getToDate())).setHeader("Do");
+        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getVin().getVin()).setHeader("VIN");
+        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getSpz().getSpz()).setHeader("SPZ");
+        gridInsurancies.addColumn(insurance -> insurance.getInsuranceCompany().getCompanyName()).setHeader("Pojišťovna");
+        gridInsurancies.addColumn(insurance -> insurance.getInsurancer().getPerson().getFirstName() + " "
+                + insurance.getInsurancer().getPerson().getLastName()).setHeader("Pojišťovák");
+        gridInsurancies.addColumn(insurance -> insurance.getPerson().getFirstName() + " "
+                + insurance.getPerson().getLastName()).setHeader("Pojistitel");
+        gridInsurancies.addColumn(insurance -> insurance.getPerson().getBornNum()).setHeader("Rodné číslo");
+
+        gridInsurancies.getColumns().forEach(col -> col.setAutoWidth(true));
+        gridInsurancies.addItemClickListener(gridCLickListener());
 
         refreshGrid();
     }
 
+    private ComponentEventListener<ItemClickEvent<Insurance>> gridCLickListener() {
+        return e -> {
+            actualInsurance = e.getItem();
+
+            fieldBornnum.setValue(e.getItem().getPerson().getBornNum());
+            fieldName.setValue(e.getItem().getPerson().getFirstName());
+            fieldSurname.setValue(e.getItem().getPerson().getLastName());
+
+            dateTo.setValue(e.getItem().getFromDate().toLocalDateTime().toLocalDate());
+            dateFrom.setValue(e.getItem().getFromDate().toLocalDateTime().toLocalDate());
+
+            selectVehicle.setValue(e.getItem().getVehicle());
+
+            for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
+                if (e.getItem().getInsurancer().getLogin().equals(ie.getUser().getLogin())) {
+                    selectInsurancerEmployee.setValue(ie);
+                    break;
+                }
+            }
+            if(loginService.isLoggedUserInsurer()){
+                for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
+                    if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
+                        selectInsurancerEmployee.setValue(ie);
+                        break;
+                    }
+                }
+                selectInsurancerEmployee.setEnabled(false);
+            }
+
+        };
+    }
+
+    private String dateBeautify(Timestamp tms) {
+        String day = String.valueOf(tms.toLocalDateTime().getDayOfMonth());
+        String month = String.valueOf(tms.toLocalDateTime().getMonthValue());
+        String year = String.valueOf(tms.toLocalDateTime().getYear());
+        return day + ". " + month + ". " + year;
+    }
+
     private void refreshGrid() {
-        // gridInsurancies.setItems(insuranceService.);
+        gridInsurancies.setItems(insuranceService.getAllInsurance());
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
             dateFrom.setValue(null);
             dateTo.setValue(null);
-            selectInsuranceCompany.setValue(null);
             selectVehicle.setValue(null);
-            selectInsurancerEmployee.setValue(null);
+
+            if(loginService.isLoggedUserInsurer()){
+                //select
+                for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
+                    if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
+                        selectInsurancerEmployee.setValue(ie);
+                        break;
+                    }
+                }
+                selectInsurancerEmployee.setEnabled(false);
+
+            }
+            else{
+                selectInsurancerEmployee.setValue(null);
+            }
+
             fieldName.setValue("");
             fieldSurname.setValue("");
             fieldBornnum.setValue("");
@@ -143,6 +222,29 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
+            //Person
+            Person tmpPerson = actualInsurance.getPerson();
+            tmpPerson.setBornNum(fieldBornnum.getValue());
+            tmpPerson.setFirstName(fieldName.getValue());
+            tmpPerson.setLastName(fieldSurname.getValue());
+            actualInsurance.setPerson(tmpPerson);
+
+            //data
+            actualInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
+            actualInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
+
+            //vozidlo
+            actualInsurance.setVehicle(selectVehicle.getValue());
+
+            //pojistovak
+            actualInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
+
+            //pojistovna
+            actualInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
+
+            insuranceService.addOrUpdateInsurance(actualInsurance);
+            dialogService.showNotification("Pojištění upraveno");
+            refreshGrid();
             //TODO
             try {
                 insuranceService.addOrUpdateInsurance(actualInsurance);
@@ -155,6 +257,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
         return e -> {
             insuranceService.deleteInsurance(actualInsurance);
+            dialogService.showNotification("Pojištění smazáno");
         };
     }
 
@@ -166,11 +269,11 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             tmpInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
             tmpInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
 
-            //pojistovna
-            tmpInsurance.setInsuranceCompany(selectInsuranceCompany.getValue());
-
             //vozidlo
             tmpInsurance.setVehicle(selectVehicle.getValue());
+
+            //pojistovna
+            tmpInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
 
             //pojistovak
             tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
@@ -182,6 +285,9 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             tmpPerson.setFirstName(fieldName.getValue());
             tmpInsurance.setPerson(tmpPerson);
 
+            insuranceService.addOrUpdateInsurance(tmpInsurance);
+            refreshGrid();
+            dialogService.showNotification("Pojištění přidáno");
             try {
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
             } catch (Exception ex) {

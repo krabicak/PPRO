@@ -5,6 +5,8 @@ import cz.uhk.ppro.vehicle.registry.common.entities.Insurance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InsuranceService {
     @Autowired
@@ -13,7 +15,10 @@ public class InsuranceService {
     public void addOrUpdateInsurance(Insurance insurance){
         vehicleRegistry.addOrUpdateInsurance(insurance);
     }
-    public void getAllInsurance(){
-       // vehicleRegistry.getAll
+    public List<Insurance> getAllInsurance(){
+       return vehicleRegistry.getAllInsurancies();
+    }
+    public void deleteInsurance(Insurance insurance){
+        vehicleRegistry.removeInsurance(insurance);
     }
 }

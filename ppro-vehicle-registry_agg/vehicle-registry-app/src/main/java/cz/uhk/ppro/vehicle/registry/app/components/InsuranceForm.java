@@ -2,6 +2,7 @@ package cz.uhk.ppro.vehicle.registry.app.components;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.ItemLabelGenerator;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -21,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Designer generated component for the insurance-form template.
@@ -89,6 +92,20 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
         //select pojistovak
         //TODO predelat na normalni vypis
+        Set<Integer> strings = new HashSet<>();
+        selectInsurancerEmployee.setItemLabelGenerator(new ItemLabelGenerator<InsuranceEmployee>() {
+            @Override
+            public String apply(InsuranceEmployee insuranceEmployee) {
+                Person person = insuranceEmployee.getUser().getPerson();
+                InsuranceCompany company = insuranceEmployee.getInsuranceCompany();
+                String str = company.getCompanyName() + " " + person.getFirstName() + " " + person.getLastName();
+                if (strings.contains(str.hashCode())) {
+                    str += " " + insuranceEmployee.getUser().getLogin();
+                }
+                strings.add(str.hashCode());
+                return str;
+            }
+        });
         selectInsurancerEmployee.setItems(insuranceEmployeeService.getAllInsuranceEmployee());
 
         //tlacitka
@@ -125,13 +142,14 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
-            //TODO dodelat
+            //TODO
+            insuranceService.addOrUpdateInsurance(actualInsurance);
         };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
         return e -> {
-            //TODO dodelat
+            insuranceService.deleteInsurance(actualInsurance);
         };
     }
 

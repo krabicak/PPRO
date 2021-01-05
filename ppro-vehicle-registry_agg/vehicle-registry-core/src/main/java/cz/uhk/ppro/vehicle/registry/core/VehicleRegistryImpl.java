@@ -169,7 +169,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public List<Insurance> getAllInsurancie() {
+    public List<Insurance> getAllInsurancies() {
         return insuranceRepo.findAll();
     }
 

@@ -38,7 +38,7 @@ public interface VehicleRegistry {
 
     List<InsuranceEmployee> getAllInsuranceEmployees();
 
-    List<Insurance> getAllInsurancie();
+    List<Insurance> getAllInsurancies();
 
     void removeInsurance(Insurance insurance);
 

@@ -19,6 +19,7 @@ public class DialogService {
 
     public void showNotification(String message) {
         Notification notification = new Notification(message, 3000);
+        notification.setPosition(Notification.Position.MIDDLE);
         notification.open();
     }
 }

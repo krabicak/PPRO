@@ -164,8 +164,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             vehicleService.addOrUpdateVehicle(actualVehicle);
 
             refreshGrid();
-            Notification notification = new Notification("Vozidlo upraveno", 3000);
-            notification.open();
+            dialogService.showNotification("Vozidlo upraveno");
         };
     }
 
@@ -205,8 +204,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             vehicleService.addOrUpdateVehicle(v1);
 
             refreshGrid();
-            Notification notification = new Notification("Vozidlo přidáno", 3000);
-            notification.open();
+            dialogService.showNotification("Vozidlo přidáno");
         };
 
     }

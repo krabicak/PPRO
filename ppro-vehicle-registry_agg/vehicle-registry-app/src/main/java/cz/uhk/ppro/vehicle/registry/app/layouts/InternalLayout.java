@@ -13,6 +13,7 @@ import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.app.views.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
+import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;

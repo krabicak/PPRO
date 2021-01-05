@@ -2,9 +2,9 @@ package cz.uhk.ppro.vehicle.registry.core;
 
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 import cz.uhk.ppro.vehicle.registry.common.repositories.*;
+import cz.uhk.ppro.vehicle.registry.core.validators.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,15 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private InsuranceEmployeeRepo insuranceEmployeeRepo;
     @Autowired
     private InsuranceRepo insuranceRepo;
+
+    @Autowired
+    private VehicleValidator vehicleValidator;
+    @Autowired
+    private InsuranceCompanyValidator insuranceCompanyValidator;
+    @Autowired
+    private InsuranceEmployeeValidator insuranceEmployeeValidator;
+    @Autowired
+    private InsuranceValidator insuranceValidator;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -94,7 +103,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void addOrUpdateVehicle(Vehicle vehicle) {
+    public void addOrUpdateVehicle(Vehicle vehicle)
+            throws SpzException, PersonException, VinException, DocumentException {
+        vehicleValidator.validate(vehicle);
         Document documentb = vehicle.getbTechnicalCert();
         if (documentb.getIdDocument() != null
                 && documentRepo.getDocumentByDocumentNumber(documentb.getDocumentNumber()) == null)
@@ -107,7 +118,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         documentRepo.save(documents);
         Person person = vehicle.getOwner();
         if (person.getIdPerson() != null
-                && !personRepo.findPersonByIdPerson(person.getIdPerson()).getBornNum().equals(person.getBornNum()))
+                && !personRepo.findByIdPerson(person.getIdPerson()).getBornNum().equals(person.getBornNum()))
             person.setIdPerson(null);
         personRepo.save(person);
         Spz spz = vehicle.getSpz();
@@ -128,7 +139,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) {
+    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany)
+            throws InsuranceCompanyException {
+        insuranceCompanyValidator.validate(insuranceCompany);
         insuranceCompanyRepo.save(insuranceCompany);
     }
 
@@ -138,7 +151,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException {
+    public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee)
+            throws PersonException, InsuranceCompanyException, UserException {
+        insuranceEmployeeValidator.validate(insuranceEmployee);
         addOrUpdateUser(insuranceEmployee.getUser());
         if (insuranceEmployee.getIdUser() == null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
         if (insuranceEmployee.getIdInsuranceCompany() == null)
@@ -153,7 +168,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
 
     @Override
-    public void addOrUpdateInsurance(Insurance insurance) {
+    public void addOrUpdateInsurance(Insurance insurance)
+            throws VinException, SpzException, InsuranceCompanyException, UserException, PersonException, InsuranceException, DocumentException {
+        insuranceValidator.validate(insurance);
         personRepo.save(insurance.getPerson());
         insuranceRepo.save(insurance);
     }

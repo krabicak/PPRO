@@ -17,6 +17,10 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.DocumentException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.SpzException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.VinException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -161,7 +165,11 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             //aktivni
             actualVehicle.setActive(checkBoxActive.getValue());
 
-            vehicleService.addOrUpdateVehicle(actualVehicle);
+            try {
+                vehicleService.addOrUpdateVehicle(actualVehicle);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
             refreshGrid();
             Notification notification = new Notification("Vozidlo upraveno", 3000);
@@ -202,7 +210,11 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
             v1.setbTechnicalCert(docBtech);
             v1.setsTechnicalCert(docStech);
-            vehicleService.addOrUpdateVehicle(v1);
+            try {
+                vehicleService.addOrUpdateVehicle(v1);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
             refreshGrid();
             Notification notification = new Notification("Vozidlo přidáno", 3000);

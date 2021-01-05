@@ -18,6 +18,7 @@ import cz.uhk.ppro.vehicle.registry.app.services.InsuranceEmployeeService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -143,7 +144,11 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
             //TODO
-            insuranceService.addOrUpdateInsurance(actualInsurance);
+            try {
+                insuranceService.addOrUpdateInsurance(actualInsurance);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         };
     }
 
@@ -177,7 +182,11 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             tmpPerson.setFirstName(fieldName.getValue());
             tmpInsurance.setPerson(tmpPerson);
 
-            insuranceService.addOrUpdateInsurance(tmpInsurance);
+            try {
+                insuranceService.addOrUpdateInsurance(tmpInsurance);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         };
     }
 

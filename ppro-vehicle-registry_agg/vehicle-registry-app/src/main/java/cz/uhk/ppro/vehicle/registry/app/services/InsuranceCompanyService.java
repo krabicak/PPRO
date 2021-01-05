@@ -4,6 +4,7 @@ import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceEmployee;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.InsuranceCompanyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class InsuranceCompanyService {
         return vehicleRegistry.getAllInsuranceCompanies();
     }
 
-    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) {
+    public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) throws InsuranceCompanyException {
         vehicleRegistry.addOrUpdateInsuranceCompany(insuranceCompany);
     }
 

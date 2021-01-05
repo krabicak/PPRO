@@ -1,8 +1,7 @@
 package cz.uhk.ppro.vehicle.registry.common;
 
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 
 import java.util.List;
 
@@ -20,19 +19,23 @@ public interface VehicleRegistry {
 
     List<Vehicle> getAllVehicles();
 
-    void addOrUpdateVehicle(Vehicle vehicle);
+    void addOrUpdateVehicle(Vehicle vehicle)
+            throws SpzException, PersonException, VinException, DocumentException;
 
     List<InsuranceCompany> getAllInsuranceCompanies();
 
-    void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany);
+    void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany)
+            throws InsuranceCompanyException;
 
     void removeInsuranceCompany(InsuranceCompany insuranceCompany);
 
-    void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws PersonException;
+    void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee)
+            throws PersonException, InsuranceCompanyException, UserException;
 
     void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee);
 
-    void addOrUpdateInsurance(Insurance insurance);
+    void addOrUpdateInsurance(Insurance insurance)
+            throws VinException, SpzException, InsuranceCompanyException, UserException, PersonException, InsuranceException, DocumentException;
 
     InsuranceEmployee getInsuranceEmployee(User user);
 

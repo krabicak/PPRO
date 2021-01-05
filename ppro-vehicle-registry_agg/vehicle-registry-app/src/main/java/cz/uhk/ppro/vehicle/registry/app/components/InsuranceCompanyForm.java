@@ -14,6 +14,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.InsuranceCompanyException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -78,7 +79,11 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
             actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
-            insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
+            try {
+                insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
+            } catch (InsuranceCompanyException ex) {
+                ex.printStackTrace();
+            }
             refreshGrid();
             Notification notification = new Notification("Pojišťovna upravena", 3000);
             notification.open();
@@ -98,7 +103,11 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         return e -> {
             InsuranceCompany tmp = new InsuranceCompany();
             tmp.setCompanyName(fieldInsurance.getValue());
-            insuranceService.addOrUpdateInsuranceCompany(tmp);
+            try {
+                insuranceService.addOrUpdateInsuranceCompany(tmp);
+            } catch (InsuranceCompanyException ex) {
+                ex.printStackTrace();
+            }
             refreshGrid();
             Notification notification = new Notification("Pojišťovna přidána", 3000);
             notification.open();

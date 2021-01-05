@@ -230,13 +230,13 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     employee.setUser(actualUser);
                     employee.setInsuranceCompany(selectInsuranceCompany.getValue());
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(employee);
-                } catch (PersonException f) {
+                } catch (Exception f) {
                     dialogService.showErrorDialog(f);
                 }
             } else {
                 try {
                     userService.addOrUpdateUser(actualUser);
-                } catch (PersonException f) {
+                } catch (Exception f) {
                     dialogService.showErrorDialog(f);
                 }
             }
@@ -269,8 +269,8 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     ie.setInsuranceCompany(selectInsuranceCompany.getValue());
                     ie.setUser(tmpUser);
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
-                } catch (PersonException personException) {
-                    dialogService.showErrorDialog(personException);
+                } catch (Exception ex) {
+                    dialogService.showErrorDialog(ex);
                 }
             } else {
                 try {

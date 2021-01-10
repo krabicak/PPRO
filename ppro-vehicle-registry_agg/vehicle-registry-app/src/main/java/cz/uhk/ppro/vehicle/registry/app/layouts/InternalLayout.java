@@ -1,8 +1,5 @@
 package cz.uhk.ppro.vehicle.registry.app.layouts;
 
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import cz.uhk.ppro.vehicle.registry.app.components.UserPanel;

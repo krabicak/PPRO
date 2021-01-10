@@ -15,6 +15,8 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.LoginService;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Tag("login-form")
 @JsModule("./src/views/login-form.js")
 public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginForm.class);
 
     @Autowired
     private LoginService loginService;
@@ -57,8 +61,9 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
         return e -> {
             try {
                 loginService.login(username.getValue(), password.getValue());
-            } catch (FaultLoginException faultLoginException) {
-                dialogService.showErrorDialog(faultLoginException);
+            } catch (FaultLoginException ex) {
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
         };
     }

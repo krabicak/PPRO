@@ -16,6 +16,9 @@ import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.InsuranceCompanyException;
+import cz.uhk.ppro.vehicle.registry.core.VehicleRegistryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +32,8 @@ import javax.annotation.PostConstruct;
 @Tag("insurance-company-form")
 @JsModule("./src/views/insurance-company-form.js")
 public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.InsuranceCompanyFormModel> {
+
+    private static final Logger logger = LoggerFactory.getLogger(InsuranceCompanyForm.class);
 
     @Id("gridInsurancies")
     private Grid<InsuranceCompany> gridInsurancies;
@@ -85,7 +90,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             try {
                 insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
             } catch (InsuranceCompanyException ex) {
-                ex.printStackTrace();
+                logger.error("Chyba",ex);
+                dialogService.showErrorDialog(ex);
             }
             refreshGrid();
             dialogService.showNotification("Pojišťovna upravena");
@@ -107,7 +113,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             try {
                 insuranceService.addOrUpdateInsuranceCompany(tmp);
             } catch (InsuranceCompanyException ex) {
-                ex.printStackTrace();
+                logger.error("Chyba",ex);
+                dialogService.showErrorDialog(ex);
             }
             refreshGrid();
             dialogService.showNotification("Pojišťovna přidána");

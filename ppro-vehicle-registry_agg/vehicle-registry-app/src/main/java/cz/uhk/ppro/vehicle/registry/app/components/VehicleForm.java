@@ -20,6 +20,8 @@ import cz.uhk.ppro.vehicle.registry.common.exceptions.DocumentException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.SpzException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.VinException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +38,8 @@ import java.time.LocalDateTime;
 @Tag("vehicle-form")
 @JsModule("./src/views/vehicle-form.js")
 public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
+
+    private static final Logger logger = LoggerFactory.getLogger(VehicleForm.class);
 
     @Autowired
     private DialogService dialogService;
@@ -179,7 +183,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             try {
                 vehicleService.addOrUpdateVehicle(actualVehicle);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
 
             refreshGrid();
@@ -223,7 +228,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             try {
                 vehicleService.addOrUpdateVehicle(v1);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
 
             refreshGrid();

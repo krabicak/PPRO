@@ -1,11 +1,8 @@
 package cz.uhk.ppro.vehicle.registry.app.services;
 
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.dialog.Dialog;
-//import cz.uhk.ppro.vehicle.registry.app.components.PersonForm;
 import com.vaadin.flow.component.notification.Notification;
-import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import org.springframework.stereotype.Service;
 
 @Service

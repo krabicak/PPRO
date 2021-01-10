@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.app.services;
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class UserService {
         return vehicleRegistry.getUserByLogin(login);
     }
 
-    public void addOrUpdateUser(User user) throws PersonException {
+    public void addOrUpdateUser(User user) throws PersonException, UserException {
         vehicleRegistry.addOrUpdateUser(user);
     }
 

@@ -45,6 +45,8 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     private InsuranceEmployeeValidator insuranceEmployeeValidator;
     @Autowired
     private InsuranceValidator insuranceValidator;
+    @Autowired
+    private UserValidator userValidator;
 
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
@@ -63,7 +65,8 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return userRepo.findAllByOrderByPerson();
     }
 
-    public void addOrUpdateUser(User user) throws PersonException {
+    public void addOrUpdateUser(User user) throws PersonException, UserException {
+        userValidator.validate(user);
         if (user.getPerson() == null) throw new PersonException("Neexistují údaje o osobě");
 
         // dělám insert tedy nemůžu dát tma kde je unique

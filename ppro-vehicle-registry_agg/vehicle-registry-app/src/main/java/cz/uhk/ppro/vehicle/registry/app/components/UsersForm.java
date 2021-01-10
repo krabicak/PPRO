@@ -25,7 +25,10 @@ import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceEmployee;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +42,8 @@ import javax.annotation.PostConstruct;
 @Tag("users-form")
 @JsModule("./src/views/users-form.js")
 public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
+
+    private static final Logger logger = LoggerFactory.getLogger(UsersForm.class);
 
     @Autowired
     private DialogService dialogService;
@@ -238,8 +243,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 }
                 userService.removeUser(actualUser);
                 dialogService.showNotification("Uživatel smazán");
-            } catch (PersonException personException) {
-                personException.printStackTrace();
+            } catch (PersonException ex) {
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
             refreshGrid();
         };
@@ -267,14 +273,16 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     employee.setUser(actualUser);
                     employee.setInsuranceCompany(selectInsuranceCompany.getValue());
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(employee);
-                } catch (Exception f) {
-                    dialogService.showErrorDialog(f);
+                } catch (Exception ex) {
+                    logger.error("Chyba", ex);
+                    dialogService.showErrorDialog(ex);
                 }
             } else {
                 try {
                     userService.addOrUpdateUser(actualUser);
-                } catch (Exception f) {
-                    dialogService.showErrorDialog(f);
+                } catch (Exception ex) {
+                    logger.error("Chyba", ex);
+                    dialogService.showErrorDialog(ex);
                 }
             }
             refreshGrid();
@@ -307,14 +315,15 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     ie.setUser(tmpUser);
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
                 } catch (Exception ex) {
+                    logger.error("Chyba", ex);
                     dialogService.showErrorDialog(ex);
                 }
             } else {
                 try {
                     userService.addOrUpdateUser(tmpUser);
-                } catch (PersonException f) {
-                    f.printStackTrace();
-                    dialogService.showErrorDialog(f);
+                } catch (PersonException | UserException ex) {
+                    logger.error("Chyba", ex);
+                    dialogService.showErrorDialog(ex);
                 }
             }
             refreshGrid();

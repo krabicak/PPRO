@@ -60,7 +60,7 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
-    public void addUserTest() throws PersonException {
+    public void addUserTest() throws PersonException, UserException {
         User user = new User();
         user.setEnable(true);
         user.setLogin("test");

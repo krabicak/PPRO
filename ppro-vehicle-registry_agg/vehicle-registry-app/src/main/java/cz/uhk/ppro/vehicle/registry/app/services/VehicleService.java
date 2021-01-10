@@ -32,6 +32,6 @@ public class VehicleService {
     }
 
     public List<Vehicle> getUnsiredVehicles() {
-        return vehicleRegistry.getUnsiredVehicles();
+        return vehicleRegistry.getUninsuredVehicles();
     }
 }

@@ -168,9 +168,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
         return e->{
-            if(!fieldSearch.getValue().isEmpty()||!fieldSearch.getValue().equals("")) {
+
                 gridUsers.setItems(userService.findUsersByKeyWord(fieldSearch.getValue()));
-            }
+
         };
     }
 

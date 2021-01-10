@@ -20,4 +20,11 @@ public interface UserRepo extends JpaRepository<User, Long> {
     User getUserByIdUser(Long idUser);
 
     List<User> findAllByOrderByPerson();
+
+    @Query("select u from User u join u.person p " +
+            "where u.login like %:keyword% or " +
+            "p.firstName like %:keyword% or " +
+            "p.lastName like %:keyword% or " +
+            "p.bornNum like %:keyword%")
+    List<User> findUsersByKeyword(@Param("keyword") String keyword);
 }

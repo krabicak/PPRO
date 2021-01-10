@@ -209,5 +209,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return vehicles;
     }
 
+    @Override
+    public List<User> findUsersByKeyWord(String keyword) {
+        return userRepo.findUsersByKeyword(keyword);
+    }
+
 
 }

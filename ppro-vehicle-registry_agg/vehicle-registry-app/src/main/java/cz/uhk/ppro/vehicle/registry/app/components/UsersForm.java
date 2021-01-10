@@ -150,7 +150,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldBornnum.setRequiredIndicatorVisible(true);
 
         //listenery na not null
-        fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
+        /*fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
         fieldName.setValueChangeMode(ValueChangeMode.EAGER);
         fieldLogin.setValueChangeMode(ValueChangeMode.EAGER);
         fieldSurname.setValueChangeMode(ValueChangeMode.EAGER);
@@ -163,7 +163,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldBornnum.addValueChangeListener(fieldListener());
         fieldName.addValueChangeListener(fieldListener());
         fieldLogin.addValueChangeListener(fieldListener());
-        fieldSurname.addValueChangeListener(fieldListener());
+        fieldSurname.addValueChangeListener(fieldListener());*/
 
         //vyhledavani
         fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);

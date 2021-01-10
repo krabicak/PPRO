@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
@@ -194,5 +195,19 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void removeInsurance(Insurance insurance) {
         insuranceRepo.delete(insurance);
     }
+
+    @Override
+    public List<Vehicle> findVehiclesByKeyWord(String keyword) {
+        return vehicleRepo.findVehiclesByKeyWord(keyword);
+    }
+
+    @Override
+    public List<Vehicle> getUnsiredVehicles() {
+        List<Vehicle> vehicles = vehicleRepo.findVehiclesWithoutInsurance(true);
+        vehicles.addAll(vehicleRepo.findVehiclesWithFailedInsurance(true,
+                new Timestamp(System.currentTimeMillis())));
+        return vehicles;
+    }
+
 
 }

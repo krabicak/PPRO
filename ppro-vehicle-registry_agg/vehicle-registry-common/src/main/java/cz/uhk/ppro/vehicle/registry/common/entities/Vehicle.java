@@ -4,6 +4,7 @@ import cz.uhk.ppro.vehicle.registry.common.converters.BooleanConverter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Entita vozidla
@@ -59,6 +60,9 @@ public class Vehicle implements Serializable {
     @Column(length = 1, nullable = false)
     @Convert(converter = BooleanConverter.class)
     private boolean active;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehicle")
+    private List<Insurance> insurances;
 
     public Vehicle() {
     }

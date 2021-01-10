@@ -45,4 +45,8 @@ public interface VehicleRegistry {
 
     void removeInsurance(Insurance insurance);
 
+    List<Vehicle> findVehiclesByKeyWord(String keyword);
+
+    List<Vehicle> getUnsiredVehicles();
+
 }

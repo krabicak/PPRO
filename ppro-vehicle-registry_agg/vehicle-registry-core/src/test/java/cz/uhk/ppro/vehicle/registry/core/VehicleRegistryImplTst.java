@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.core;
 import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
+import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.DocumentRepo;
@@ -27,7 +28,7 @@ public class VehicleRegistryImplTst {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTst.class);
 
-    @Mock
+    @Autowired
     private VehicleRegistry vehicleRegistry;
 
     @Mock
@@ -103,8 +104,14 @@ public class VehicleRegistryImplTst {
 
     @Test
     public void removeUserTest() throws PersonException {
-        User user = vehicleRegistry.getUserByLogin("test");
+        User user = vehicleRegistry.getUserByLogin("dsadsa");
         vehicleRegistry.removeUser(user);
+    }
+
+    @Test
+    public void searchTest(){
+        List<Vehicle> vehicles = vehicleRegistry.findVehiclesByKeyWord("dsadsa");
+        vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
     }
 
 }

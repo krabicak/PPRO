@@ -205,7 +205,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public List<Vehicle> getUnsiredVehicles() {
+    public List<Vehicle> getUninsuredVehicles() {
         List<Vehicle> vehicles = vehicleRepo.findVehiclesWithoutInsurance(true);
         vehicles.addAll(vehicleRepo.findVehiclesWithFailedInsurance(true,
                 new Timestamp(System.currentTimeMillis())));

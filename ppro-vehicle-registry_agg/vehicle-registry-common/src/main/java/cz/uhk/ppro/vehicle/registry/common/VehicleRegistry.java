@@ -47,7 +47,7 @@ public interface VehicleRegistry {
 
     List<Vehicle> findVehiclesByKeyWord(String keyword);
 
-    List<Vehicle> getUnsiredVehicles();
+    List<Vehicle> getUninsuredVehicles();
 
     List<User> findUsersByKeyWord(String keyword);
 

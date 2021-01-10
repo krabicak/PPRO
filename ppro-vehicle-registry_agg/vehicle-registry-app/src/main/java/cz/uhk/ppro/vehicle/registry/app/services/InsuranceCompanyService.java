@@ -20,6 +20,10 @@ public class InsuranceCompanyService {
         return vehicleRegistry.getAllInsuranceCompanies();
     }
 
+    public List<InsuranceCompany> findInsuranceCompaniesByKeyWord(String keyword) {
+        return vehicleRegistry.findInsuranceCompaniesByKeyWord(keyword);
+    }
+
     public void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany) throws InsuranceCompanyException {
         vehicleRegistry.addOrUpdateInsuranceCompany(insuranceCompany);
     }

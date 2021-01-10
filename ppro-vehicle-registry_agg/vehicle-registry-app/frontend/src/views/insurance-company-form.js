@@ -19,11 +19,14 @@ class InsuranceCompanyForm extends PolymerElement {
             </style>
 <vaadin-horizontal-layout class="content" style="width: 100%; height: 100%;" id="vaadinHorizontalLayoutUsers">
  <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayout" style="width: 80%; padding: var(--lumo-space-m);">
+  <vaadin-text-field placeholder="Hledat" id="fieldSearch">
+   <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
+  </vaadin-text-field>
   <vaadin-grid items="[[items]]" id="gridInsurancies" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
  <vaadin-vertical-layout theme="spacing-s" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-s); margin: var(--lumo-space-s);">
   <vaadin-button id="buttonReset">
-   Reset 
+    Reset 
   </vaadin-button>
   <vaadin-text-field label="Název pojišťovny" placeholder="Název pojišťovny" id="fieldInsurance"></vaadin-text-field>
   <vaadin-button id="buttonEditInsurance">

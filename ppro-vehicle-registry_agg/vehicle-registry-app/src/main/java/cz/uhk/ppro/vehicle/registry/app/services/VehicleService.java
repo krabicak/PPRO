@@ -30,7 +30,8 @@ public class VehicleService {
     public List<Vehicle> findVehiclesByKeyWord(String keyword) {
         return vehicleRegistry.findVehiclesByKeyWord(keyword);
     }
-    public void removeVehicle(Vehicle vehicle){
-        //vehicleRegistry.re
+
+    public List<Vehicle> getUnsiredVehicles() {
+        return vehicleRegistry.getUnsiredVehicles();
     }
 }

@@ -76,6 +76,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private Vehicle actualVehicle;
     @Id("fieldSearch")
     private TextField fieldSearch;
+    @Id("checkBoxNoInsurance")
+    private Checkbox checkBoxNoInsurance;
 
 
     /**
@@ -114,6 +116,20 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         //vyhledavani
         fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
         fieldSearch.addValueChangeListener(fieldSearchListener());
+
+        //checkbox na nepojisteny
+        checkBoxNoInsurance.addClickListener(checkBoxNoInsuranceListener());
+    }
+
+    private ComponentEventListener<ClickEvent<Checkbox>> checkBoxNoInsuranceListener() {
+        return e->{
+            if(checkBoxNoInsurance.getValue().equals(true)){
+                gridVehicles.setItems(vehicleService.getUnsiredVehicles());
+            }
+            else{
+                refreshGrid();
+            }
+        };
     }
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {

@@ -1,11 +1,11 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
-import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
 
 class VehicleForm extends PolymerElement {
@@ -21,14 +21,19 @@ class VehicleForm extends PolymerElement {
             </style>
 <vaadin-horizontal-layout class="content" style="width: 100%; height: 100%;" id="vaadinHorizontalLayoutUsers">
  <vaadin-vertical-layout theme="spacing" id="vaadinVerticalLayout" style="width: 80%; padding: var(--lumo-space-m);">
-  <vaadin-text-field placeholder="Hledat" id="fieldSearch">
-   <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
-  </vaadin-text-field>
+  <vaadin-horizontal-layout theme="spacing">
+   <vaadin-text-field placeholder="Hledat" id="fieldSearch">
+    <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
+   </vaadin-text-field>
+   <vaadin-checkbox id="checkBoxNoInsurance">
+    Zobrazit nepojištěná vozidla
+   </vaadin-checkbox>
+  </vaadin-horizontal-layout>
   <vaadin-grid items="[[items]]" id="gridVehicles" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
  </vaadin-vertical-layout>
  <vaadin-vertical-layout theme="spacing-s" id="vaadinVerticalLayoutUsers" style="width: 20%; height: 100%; padding: var(--lumo-space-s); margin: var(--lumo-space-s);">
   <vaadin-button id="buttonReset">
-   Reset 
+    Reset 
   </vaadin-button>
   <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz" required></vaadin-text-field>
   <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin" required></vaadin-text-field>

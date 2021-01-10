@@ -6,6 +6,7 @@ import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
+import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.DocumentRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,11 +72,11 @@ public class VehicleRegistryImplTst {
         person.setLastName("test");
         user.setPerson(person);
 
-        vehicleRegistry.addOrUpdateUser(user);
+        //vehicleRegistry.addOrUpdateUser(user);
     }
 
     @Test
-    public void updateLoginTest() throws PersonException {
+    public void updateLoginTest() throws PersonException, UserException {
         User user = vehicleRegistry.getUserByLogin("test-edit1");
         User user1 = new User();
         user1.setLogin("test-edit");

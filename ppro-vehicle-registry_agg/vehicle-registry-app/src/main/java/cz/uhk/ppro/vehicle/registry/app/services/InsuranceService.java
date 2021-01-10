@@ -22,4 +22,7 @@ public class InsuranceService {
     public void deleteInsurance(Insurance insurance){
         vehicleRegistry.removeInsurance(insurance);
     }
+    public List<Insurance> findInsurancisByKeyWord(String keyword){
+        return vehicleRegistry.findInsurancisByKeyWord(keyword);
+    }
 }

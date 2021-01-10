@@ -1,8 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
@@ -11,6 +9,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
@@ -53,6 +52,8 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private InsuranceCompany actualInsuranceCompany;
     @Id("buttonReset")
     private Button buttonReset;
+    @Id("fieldSearch")
+    private TextField fieldSearch;
 
     public InsuranceCompanyForm() {
         // You can initialise any data required for the connected UI components here.
@@ -74,6 +75,16 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         buttonDeleteInsurance.addClickListener(buttonDeleteInsuranceListener());
         buttonEditInsurance.addClickListener(buttonEditInsuranceListener());
         buttonReset.addClickListener(buttonResetListener());
+
+        //vyhledavani
+        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSearch.addValueChangeListener(fieldSearchListener());
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
+        return event -> {
+            gridInsurancies.setItems(insuranceService.findInsuranceCompaniesByKeyWord(fieldSearch.getValue()));
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {

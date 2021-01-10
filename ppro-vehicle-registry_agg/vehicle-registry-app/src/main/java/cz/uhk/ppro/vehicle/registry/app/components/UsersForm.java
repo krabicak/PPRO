@@ -139,6 +139,10 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
         buttonReset.addClickListener(buttonResetListener());
 
+        buttonAddUser.setEnabled(false);
+        buttonEditUser.setEnabled(false);
+        buttonDeleteUser.setEnabled(false);
+
         //pole
         fieldName.setRequiredIndicatorVisible(true);
         fieldSurname.setRequiredIndicatorVisible(true);
@@ -168,8 +172,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
         return e->{
-            if(!fieldSearch.getValue().isEmpty()||!fieldSearch.getValue().equals(""))
-          gridUsers.setItems(userService.getUserByLogin(fieldSearch.getValue()));
+            if(!fieldSearch.getValue().isEmpty()||!fieldSearch.getValue().equals("")) {
+                gridUsers.setItems(userService.findUsersByKeyWord(fieldSearch.getValue()));
+            }
         };
     }
 
@@ -219,7 +224,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 selectInsuranceCompany.setValue(null);
             }
             fieldBornnum.setValue(e.getItem().getPerson().getBornNum());
-            //TODO check box nefunguje
             checkBoxActive.setValue(e.getItem().isEnable());
         };
     }

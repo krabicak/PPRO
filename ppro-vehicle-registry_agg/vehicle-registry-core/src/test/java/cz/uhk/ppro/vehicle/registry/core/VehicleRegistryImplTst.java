@@ -109,8 +109,14 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
-    public void searchTest(){
+    public void searchVehicleTest(){
         List<Vehicle> vehicles = vehicleRegistry.findVehiclesByKeyWord("dsadsa");
+        vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
+    }
+
+    @Test
+    public void searchUsersTest(){
+        List<User> vehicles = vehicleRegistry.findUsersByKeyWord("dfdsfdsfs");
         vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
     }
 

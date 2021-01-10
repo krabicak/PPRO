@@ -214,5 +214,15 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return userRepo.findUsersByKeyword(keyword);
     }
 
+    @Override
+    public List<InsuranceCompany> findInsuranceCompaniesByKeyWord(String keyword) {
+        return insuranceCompanyRepo.findInsuranceCompaniesByKeyword(keyword);
+    }
+
+    @Override
+    public List<Insurance> findInsurancisByKeyWord(String keyword) {
+        return insuranceRepo.findInsurancesByKeyword(keyword);
+    }
+
 
 }

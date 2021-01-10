@@ -51,4 +51,8 @@ public interface VehicleRegistry {
 
     List<User> findUsersByKeyWord(String keyword);
 
+    List<InsuranceCompany> findInsuranceCompaniesByKeyWord(String keyword);
+
+    List<Insurance> findInsurancisByKeyWord(String keyword);
+
 }

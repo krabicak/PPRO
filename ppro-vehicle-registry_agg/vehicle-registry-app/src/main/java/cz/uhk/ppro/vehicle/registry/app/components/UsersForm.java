@@ -139,10 +139,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         buttonDeleteUser.addClickListener(buttonDeletUserListener());
         buttonReset.addClickListener(buttonResetListener());
 
-        buttonAddUser.setEnabled(false);
-        buttonEditUser.setEnabled(false);
-        buttonDeleteUser.setEnabled(false);
-
         //pole
         fieldName.setRequiredIndicatorVisible(true);
         fieldSurname.setRequiredIndicatorVisible(true);

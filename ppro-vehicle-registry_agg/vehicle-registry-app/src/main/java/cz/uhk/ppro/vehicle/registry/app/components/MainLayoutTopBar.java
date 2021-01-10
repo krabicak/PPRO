@@ -1,5 +1,8 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -15,11 +18,18 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 @JsModule("./src/views/main-layout-top-bar.js")
 public class MainLayoutTopBar extends PolymerTemplate<MainLayoutTopBar.MainLayoutTopBarModel> {
 
+    @Id("vaadinHorizontalLayout")
+    private HorizontalLayout vaadinHorizontalLayout;
+
     /**
      * Creates a new MainLayoutTopBar.
      */
     public MainLayoutTopBar() {
         // You can initialise any data required for the connected UI components here.
+    }
+
+    public void addComponent(Component component){
+        vaadinHorizontalLayout.add(component);
     }
 
     /**

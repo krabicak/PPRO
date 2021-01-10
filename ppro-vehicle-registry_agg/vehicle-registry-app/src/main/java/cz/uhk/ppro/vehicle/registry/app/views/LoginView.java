@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 @Route(value = "login", layout = MainLayout.class)
 @PageTitle("Login")
 @RouteAlias(value = "login-page", layout = MainLayout.class)
-public class LoginView extends LoginForm {
+public class LoginView extends LoginForm implements BeforeEnterObserver{
 
     @Autowired
     private SessionService sessionService;
@@ -39,6 +39,13 @@ public class LoginView extends LoginForm {
                 navigatorService.navigateToMain();
             }
         });
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (sessionService.isLogged()) {
+            navigatorService.rerouteToMain(event);
+        }
     }
 
     /**

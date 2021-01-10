@@ -42,6 +42,8 @@ public class MainLayout
     @Autowired
     private NavigatorService navigatorService;
 
+    private MainLayoutTopBar mainLayoutTopBar;
+
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         if (!sessionService.isLogged()) {
@@ -56,8 +58,13 @@ public class MainLayout
         this.setPadding(false);
         HorizontalLayout topbar = new HorizontalLayout();
         topbar.setWidthFull();
-        topbar.add(new MainLayoutTopBar());
+        mainLayoutTopBar = new MainLayoutTopBar();
+        topbar.add(mainLayoutTopBar);
         add(topbar);
+    }
+
+    public MainLayoutTopBar getMainLayoutTopBar() {
+        return mainLayoutTopBar;
     }
 
     @Override

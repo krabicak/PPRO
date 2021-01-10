@@ -60,7 +60,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     public void init() {
 
         //grid
-        gridInsurancies.addColumn(InsuranceCompany::getCompanyName).setHeader("Jméno");
+        gridInsurancies.addColumn(InsuranceCompany::getCompanyName).setHeader("Jméno").setSortable(true);
         gridInsurancies.addItemClickListener(gridInsuranciesListener());
         refreshGrid();
 

@@ -25,12 +25,6 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A Designer generated component for the insurance-form template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("insurance-form")
 @JsModule("./src/views/insurance-form.js")
 public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormModel> {
@@ -39,10 +33,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     private LoginService loginService;
     @Autowired
     private SessionService sessionService;
-
-
-
-
     @Id("dateTo")
     private DatePicker dateTo;
     @Id("dateFrom")
@@ -130,16 +120,16 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         buttonReset.addClickListener(buttonResetListener());
 
         //grid
-        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getFromDate())).setHeader("Od");
-        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getToDate())).setHeader("Do");
-        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getVin().getVin()).setHeader("VIN");
-        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getSpz().getSpz()).setHeader("SPZ");
-        gridInsurancies.addColumn(insurance -> insurance.getInsuranceCompany().getCompanyName()).setHeader("Pojišťovna");
+        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getFromDate())).setHeader("Od").setSortable(true);
+        gridInsurancies.addColumn(insurance -> dateBeautify(insurance.getToDate())).setHeader("Do").setSortable(true);
+        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getVin().getVin()).setHeader("VIN").setSortable(true);
+        gridInsurancies.addColumn(insurance -> insurance.getVehicle().getSpz().getSpz()).setHeader("SPZ").setSortable(true);
+        gridInsurancies.addColumn(insurance -> insurance.getInsuranceCompany().getCompanyName()).setHeader("Pojišťovna").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getInsurancer().getPerson().getFirstName() + " "
-                + insurance.getInsurancer().getPerson().getLastName()).setHeader("Pojišťovák");
+                + insurance.getInsurancer().getPerson().getLastName()).setHeader("Pojišťovák").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getPerson().getFirstName() + " "
-                + insurance.getPerson().getLastName()).setHeader("Pojistitel");
-        gridInsurancies.addColumn(insurance -> insurance.getPerson().getBornNum()).setHeader("Rodné číslo");
+                + insurance.getPerson().getLastName()).setHeader("Pojistitel").setSortable(true);
+        gridInsurancies.addColumn(insurance -> insurance.getPerson().getBornNum()).setHeader("Rodné číslo").setSortable(true);
 
         gridInsurancies.getColumns().forEach(col -> col.setAutoWidth(true));
         gridInsurancies.addItemClickListener(gridCLickListener());
@@ -242,7 +232,23 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             //pojistovna
             actualInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
 
-            insuranceService.addOrUpdateInsurance(actualInsurance);
+            try {
+                insuranceService.addOrUpdateInsurance(actualInsurance);
+            } catch (PersonException personException) {
+                personException.printStackTrace();
+            } catch (DocumentException documentException) {
+                documentException.printStackTrace();
+            } catch (InsuranceCompanyException insuranceCompanyException) {
+                insuranceCompanyException.printStackTrace();
+            } catch (SpzException spzException) {
+                spzException.printStackTrace();
+            } catch (VinException vinException) {
+                vinException.printStackTrace();
+            } catch (InsuranceException insuranceException) {
+                insuranceException.printStackTrace();
+            } catch (UserException userException) {
+                userException.printStackTrace();
+            }
             dialogService.showNotification("Pojištění upraveno");
             refreshGrid();
             //TODO
@@ -285,7 +291,23 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             tmpPerson.setFirstName(fieldName.getValue());
             tmpInsurance.setPerson(tmpPerson);
 
-            insuranceService.addOrUpdateInsurance(tmpInsurance);
+            try {
+                insuranceService.addOrUpdateInsurance(tmpInsurance);
+            } catch (PersonException personException) {
+                personException.printStackTrace();
+            } catch (DocumentException documentException) {
+                documentException.printStackTrace();
+            } catch (InsuranceCompanyException insuranceCompanyException) {
+                insuranceCompanyException.printStackTrace();
+            } catch (SpzException spzException) {
+                spzException.printStackTrace();
+            } catch (VinException vinException) {
+                vinException.printStackTrace();
+            } catch (InsuranceException insuranceException) {
+                insuranceException.printStackTrace();
+            } catch (UserException userException) {
+                userException.printStackTrace();
+            }
             refreshGrid();
             dialogService.showNotification("Pojištění přidáno");
             try {

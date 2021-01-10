@@ -83,16 +83,16 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     @PostConstruct
     public void init() {
         //grid
-        gridVehicles.addColumn(vehicle -> vehicle.getSpz().getSpz()).setHeader("SPZ");
-        gridVehicles.addColumn(vehicle -> vehicle.getVin().getVin()).setHeader("VIN");
-        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getFirstName()).setHeader("Jméno");
-        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getLastName()).setHeader("Přijmení");
-        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getBornNum()).setHeader("Rodné číslo");
-        gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getDocumentNumber()).setHeader("Číslo v. TP");
-        gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getToDate()).setHeader("Splatnost v. TP");
-        gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP");
-        gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getToDate()).setHeader("Splatnost m. TP");
-        gridVehicles.addColumn(vehicle -> vehicle.isActive()).setHeader("Aktivní");
+        gridVehicles.addColumn(vehicle -> vehicle.getSpz().getSpz()).setHeader("SPZ").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getVin().getVin()).setHeader("VIN").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getFirstName()).setHeader("Jméno").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getLastName()).setHeader("Přijmení").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getOwner().getBornNum()).setHeader("Rodné číslo").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getDocumentNumber()).setHeader("Číslo v. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getToDate()).setHeader("Splatnost v. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getToDate()).setHeader("Splatnost m. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> vehicle.isActive()).setHeader("Aktivní").setSortable(true);
 
         //tlacitka
         buttonAddVehicle.addClickListener(buttonAddVehicleListener());

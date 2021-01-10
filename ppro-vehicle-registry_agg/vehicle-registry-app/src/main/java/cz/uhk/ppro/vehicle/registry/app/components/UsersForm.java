@@ -101,17 +101,17 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldSearch.addValueChangeListener(e -> updateList());
 
         //grid
-        gridUsers.addColumn(User::getRole).setHeader("Role");
-        gridUsers.addColumn(User::getLogin).setHeader("Login");
-        gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno");
-        gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení");
-        gridUsers.addColumn(User::isEnable).setHeader("Aktivní");
-        gridUsers.addColumn(user -> user.getPerson().getBornNum()).setHeader("Rodné číslo");
+        gridUsers.addColumn(User::getRole).setHeader("Role").setSortable(true);
+        gridUsers.addColumn(User::getLogin).setHeader("Login").setSortable(true);
+        gridUsers.addColumn(user -> user.getPerson().getFirstName()).setHeader("Jméno").setSortable(true);
+        gridUsers.addColumn(user -> user.getPerson().getLastName()).setHeader("Příjmení").setSortable(true);
+        gridUsers.addColumn(User::isEnable).setHeader("Aktivní").setSortable(true);
+        gridUsers.addColumn(user -> user.getPerson().getBornNum()).setHeader("Rodné číslo").setSortable(true);
         gridUsers.addColumn(user -> {
             InsuranceCompany company = insuranceCompanyService.getInsuranceCompany(user);
             if (company == null) return null;
             return company.getCompanyName();
-        }).setHeader("Pojišťovna");
+        }).setHeader("Pojišťovna").setSortable(true);
 
         gridUsers.getColumns().forEach(col -> col.setAutoWidth(true));
         refreshGrid();
@@ -142,6 +142,35 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldSurname.setRequiredIndicatorVisible(true);
         fieldLogin.setRequiredIndicatorVisible(true);
         fieldBornnum.setRequiredIndicatorVisible(true);
+
+        //listenery na not null
+        fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldName.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldLogin.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSurname.setValueChangeMode(ValueChangeMode.EAGER);
+
+        fieldBornnum.addValueChangeListener(fieldListener());
+        fieldName.addValueChangeListener(fieldListener());
+        fieldLogin.addValueChangeListener(fieldListener());
+        fieldSurname.addValueChangeListener(fieldListener());
+
+        fieldBornnum.addValueChangeListener(fieldListener());
+        fieldName.addValueChangeListener(fieldListener());
+        fieldLogin.addValueChangeListener(fieldListener());
+        fieldSurname.addValueChangeListener(fieldListener());
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldListener() {
+        return e -> {
+            if (fieldBornnum.isEmpty()||fieldName.isEmpty()||fieldLogin.isEmpty()||fieldSurname.isEmpty()) {
+                buttonEditUser.setEnabled(false);
+                buttonAddUser.setEnabled(false);
+            } else {
+                buttonEditUser.setEnabled(true);
+                buttonAddUser.setEnabled(true);
+            }
+
+        };
     }
 
 

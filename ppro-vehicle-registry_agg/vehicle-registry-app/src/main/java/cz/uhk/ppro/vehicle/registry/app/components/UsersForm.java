@@ -96,9 +96,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
      */
     @PostConstruct
     public void init() {
-        //hledat
-        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
-        fieldSearch.addValueChangeListener(e -> updateList());
 
         //grid
         gridUsers.addColumn(User::getRole).setHeader("Role").setSortable(true);

@@ -176,7 +176,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldListener() {
         return e -> {
-            if (fieldBornnum.isEmpty()||fieldName.isEmpty()||fieldLogin.isEmpty()||fieldSurname.isEmpty()) {
+            if (fieldBornnum.isEmpty() || fieldName.isEmpty() || fieldLogin.isEmpty() || fieldSurname.isEmpty()) {
                 buttonEditUser.setEnabled(false);
                 buttonAddUser.setEnabled(false);
             } else {

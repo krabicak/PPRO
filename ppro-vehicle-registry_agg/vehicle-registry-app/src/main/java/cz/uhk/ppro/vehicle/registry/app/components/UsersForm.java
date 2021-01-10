@@ -158,6 +158,17 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldName.addValueChangeListener(fieldListener());
         fieldLogin.addValueChangeListener(fieldListener());
         fieldSurname.addValueChangeListener(fieldListener());
+
+        //vyhledavani
+        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSearch.addValueChangeListener(fieldSearchListener());
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
+        return e->{
+            if(!fieldSearch.getValue().isEmpty()||!fieldSearch.getValue().equals(""))
+          gridUsers.setItems(userService.getUserByLogin(fieldSearch.getValue()));
+        };
     }
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldListener() {

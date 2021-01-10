@@ -27,6 +27,9 @@ public class VehicleService {
         vehicleRegistry.addOrUpdateVehicle(vehicle);
     }
 
+    public List<Vehicle> findVehiclesByKeyWord(String keyword) {
+        return vehicleRegistry.findVehiclesByKeyWord(keyword);
+    }
     public void removeVehicle(Vehicle vehicle){
         //vehicleRegistry.re
     }

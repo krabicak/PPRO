@@ -29,4 +29,8 @@ public class UserService {
     public List<User> getAllUsers() {
         return vehicleRegistry.getAllUsers();
     }
+
+    public List<User> findUsersByKeyWord(String keyword) {
+        return vehicleRegistry.findUsersByKeyWord(keyword);
+    }
 }

@@ -1,8 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -13,6 +11,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
@@ -71,6 +70,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     @Id("buttonEditVehicle")
     private Button buttonEditVehicle;
     private Vehicle actualVehicle;
+    @Id("fieldSearch")
+    private TextField fieldSearch;
 
 
     /**
@@ -105,10 +106,20 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
         //listener na grid
         gridVehicles.addItemClickListener(gridVehiclesListener());
+
+        //vyhledavani
+        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSearch.addValueChangeListener(fieldSearchListener());
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
+        return e -> {
+            gridVehicles.setItems(vehicleService.findVehiclesByKeyWord(fieldSearch.getValue()));
+        };
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
-        return e->{
+        return e -> {
             fieldSpz.setValue("");
             fieldVin.setValue("");
             fieldSmallTechnical.setValue("");

@@ -1,0 +1,1 @@
+docker build -t vreg:1.0 .

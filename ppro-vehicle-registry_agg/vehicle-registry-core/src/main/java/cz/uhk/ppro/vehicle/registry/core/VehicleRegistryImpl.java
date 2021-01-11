@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.management.relation.Role;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Controller
 public class VehicleRegistryImpl implements VehicleRegistry {
@@ -69,8 +72,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         userValidator.validate(user);
         if (user.getRole() != User.UserRole.INSURER) {
             InsuranceEmployee employee = getInsuranceEmployee(user);
-            if (employee != null)
+            if (employee != null) {
                 insuranceEmployeeRepo.delete(employee);
+                insuranceEmployeeRepo.flush();
+            }
         }
 
         personRepo.save(user.getPerson());
@@ -85,6 +90,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void removeUser(User user) throws PersonException {
         if (user == null) throw new PersonException("Neexistující uživatel");
         if (user.getIdUser() == null) throw new PersonException("Zadaný uživatel, nebyl dosud zapsán do databáze");
+        insuranceEmployeeRepo.delete(insuranceEmployeeRepo.getByUser(user));
         userRepo.delete(user);
     }
 
@@ -168,12 +174,14 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
     @Override
     public InsuranceEmployee getInsuranceEmployee(User user) {
+        if (user.getRole() != User.UserRole.INSURER) return null;
         return insuranceEmployeeRepo.getByUser(user);
     }
 
     @Override
     public List<InsuranceEmployee> getAllInsuranceEmployees() {
-        return insuranceEmployeeRepo.findAll();
+        return insuranceEmployeeRepo.findAll().stream().filter(insuranceEmployee ->
+                insuranceEmployee.getUser().getRole() == User.UserRole.INSURER).collect(Collectors.toList());
     }
 
     @Override

@@ -25,7 +25,6 @@ public class InsuranceEmployee implements Serializable {
   /**
    * Pojišťovna
    */
-  @Id
   @Column(nullable = false, updatable = false)
   private Long idInsuranceCompany;
 

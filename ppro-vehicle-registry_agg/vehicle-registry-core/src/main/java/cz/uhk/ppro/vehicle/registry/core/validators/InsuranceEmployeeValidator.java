@@ -18,6 +18,7 @@ public class InsuranceEmployeeValidator extends Validator{
 
     public void validate(InsuranceEmployee insuranceEmployee)
             throws PersonException, UserException, InsuranceCompanyException {
+        if (insuranceEmployee==null) throw new UserException("Pojistitel není vyplněn");
         userValidator.validate(insuranceEmployee.getUser());
         insuranceCompanyValidator.validate(insuranceEmployee.getInsuranceCompany());
     }

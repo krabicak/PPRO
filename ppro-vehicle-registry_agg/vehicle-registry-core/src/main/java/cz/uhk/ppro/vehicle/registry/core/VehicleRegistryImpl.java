@@ -67,19 +67,6 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
     public void addOrUpdateUser(User user) throws PersonException, UserException {
         userValidator.validate(user);
-        if (user.getPerson() == null) throw new PersonException("Neexistují údaje o osobě");
-
-        // dělám insert tedy nemůžu dát tma kde je unique
-        if (user.getIdUser() == null && getUserByLogin(user.getLogin()) != null)
-            throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
-            //dělám update, kontroluji jestli se měnil login, pokud ano tak kontroluji unique
-        else if (user.getIdUser() != null) {
-            User oldUser = userRepo.getUserByIdUser(user.getIdUser());
-            if (!oldUser.getLogin().equals(user.getLogin())
-                    && userRepo.getUserByLoginAndIdUserIsNot(user.getLogin(), user.getIdUser()) != null)
-                throw new PersonException("Login \"" + user.getLogin() + "\" již v systému existuje");
-        }
-
         if (user.getRole() != User.UserRole.INSURER) {
             InsuranceEmployee employee = getInsuranceEmployee(user);
             if (employee != null)

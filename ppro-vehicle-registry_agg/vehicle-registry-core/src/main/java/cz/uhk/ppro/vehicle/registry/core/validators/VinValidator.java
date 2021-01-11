@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 public class VinValidator extends Validator{
 
     public void validate(Vin vin) throws VinException {
+        if (vin==null) throw new VinException("VIN není vyplněno!");
         if (isNullOrEmpty(vin.getVin()))
-            throw new VinException("Není vyplněno číslo VIN");
+            throw new VinException("Není vyplněno číslo VIN;");
     }
 }

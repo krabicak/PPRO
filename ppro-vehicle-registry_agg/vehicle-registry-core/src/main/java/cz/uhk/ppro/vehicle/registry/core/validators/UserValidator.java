@@ -17,6 +17,7 @@ public class UserValidator extends Validator {
     private PersonValidator personValidator;
 
     public void validate(User user) throws UserException, PersonException {
+        if (user == null) throw new UserException("Uživatel není vyplněn!");
         if (isNullOrEmpty(user.getLogin()))
             throw new UserException("Není vyplněno přihlašovací jméno!");
         if (userRepo.getUserByLogin(user.getLogin()) != null) {
@@ -29,6 +30,13 @@ public class UserValidator extends Validator {
             if (user.getIdUser() == null)
                 throw new UserException("Není vyplněno heslo!");
         }
-        personValidator.validate(user.getPerson());
+
+        if (user.getIdUser() != null) {
+            User oldUser = userRepo.getUserByIdUser(user.getIdUser());
+            if (!oldUser.getLogin().equals(user.getLogin())
+                    && userRepo.getUserByLoginAndIdUserIsNot(user.getLogin(), user.getIdUser()) != null)
+                throw new UserException("Vyplněno již existující přihlašovací jméno!");
+            personValidator.validate(user.getPerson());
+        }
     }
 }

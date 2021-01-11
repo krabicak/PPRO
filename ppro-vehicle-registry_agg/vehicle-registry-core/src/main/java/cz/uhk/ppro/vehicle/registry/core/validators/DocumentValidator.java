@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class DocumentValidator extends Validator{
 
     public void validate(Document document) throws DocumentException {
+        if (document==null) throw new DocumentException("Doklad není vyplněn!");
         if (isNullOrEmpty(document.getDocumentNumber()))
             throw new DocumentException("Není vyplněno číslo dokladu!");
     }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VehicleValidator extends Validator{
+public class VehicleValidator extends Validator {
 
     @Autowired
     private VinValidator vinValidator;
@@ -25,6 +25,7 @@ public class VehicleValidator extends Validator{
 
     public void validate(Vehicle vehicle)
             throws VinException, SpzException, DocumentException, PersonException {
+        if (vehicle == null) throw new DocumentException("Vozidlo není vyplněno!");
         vinValidator.validate(vehicle.getVin());
         spzValidator.validate(vehicle.getSpz());
         documentValidator.validate(vehicle.getbTechnicalCert());

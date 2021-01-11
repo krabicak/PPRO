@@ -22,6 +22,7 @@ public class InsuranceValidator extends Validator {
 
     public void validate(Insurance insurance)
             throws PersonException, InsuranceException, InsuranceCompanyException, UserException, DocumentException, SpzException, VinException {
+        if (insurance==null) throw new InsuranceException("Pojištění není vyplněno!");
         personValidator.validate(insurance.getPerson());
         if (insurance.getFromDate() == null)
             throw new InsuranceException("Není vyplněn datum počátku pojištění!");

@@ -167,9 +167,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
-        return e->{
+        return e -> {
 
-                gridUsers.setItems(userService.findUsersByKeyWord(fieldSearch.getValue()));
+            gridUsers.setItems(userService.findUsersByKeyWord(fieldSearch.getValue()));
 
         };
     }
@@ -238,12 +238,13 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
         return e -> {
             try {
+                if (actualUser == null) throw new RuntimeException("Není vybrán žádný uživatel");
                 if (actualUser.getRole() == User.UserRole.INSURER) {
                     insuranceEmployeeService.removeInsuranceEmployee(actualUser);
                 }
                 userService.removeUser(actualUser);
                 dialogService.showNotification("Uživatel smazán");
-            } catch (PersonException ex) {
+            } catch (Exception ex) {
                 logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
@@ -253,40 +254,36 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditUserListener() {
         return e -> {
-            String login = fieldLogin.getValue();
-            if (!actualUser.getLogin().equals(login))
-                actualUser.setLogin(fieldLogin.getValue());
-            if (!fieldPassword.getValue().isEmpty()) {
-                actualUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
-            }
+            try {
+                if (actualUser == null) throw new RuntimeException("Není vybrán žádný uživatel");
+                String login = fieldLogin.getValue();
+                if (!actualUser.getLogin().equals(login))
+                    actualUser.setLogin(fieldLogin.getValue());
+                if (!fieldPassword.getValue().isEmpty()) {
+                    actualUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
+                }
 
-            actualUser.setRole(radioRole.getValue());
+                actualUser.setRole(radioRole.getValue());
 
-            actualUser.getPerson().setFirstName(fieldName.getValue());
-            actualUser.getPerson().setLastName(fieldSurname.getValue());
-            actualUser.setEnable(checkBoxActive.getValue());
-            actualUser.getPerson().setBornNum(fieldBornnum.getValue());
+                actualUser.getPerson().setFirstName(fieldName.getValue());
+                actualUser.getPerson().setLastName(fieldSurname.getValue());
+                actualUser.setEnable(checkBoxActive.getValue());
+                actualUser.getPerson().setBornNum(fieldBornnum.getValue());
 
-            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                try {
+                if (radioRole.getValue().equals(User.UserRole.INSURER)) {
                     InsuranceEmployee employee = new InsuranceEmployee();
                     employee.setUser(actualUser);
                     employee.setInsuranceCompany(selectInsuranceCompany.getValue());
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(employee);
-                } catch (Exception ex) {
-                    logger.error("Chyba", ex);
-                    dialogService.showErrorDialog(ex);
-                }
-            } else {
-                try {
+                } else {
                     userService.addOrUpdateUser(actualUser);
-                } catch (Exception ex) {
-                    logger.error("Chyba", ex);
-                    dialogService.showErrorDialog(ex);
                 }
+                refreshGrid();
+                dialogService.showNotification("Uživatel upraven");
+            } catch (Exception ex) {
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
-            refreshGrid();
-            dialogService.showNotification("Uživatel upraven");
         };
     }
 
@@ -296,38 +293,34 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddUserListener() {
         return e -> {
-            User tmpUser = new User();
-            tmpUser.setLogin(fieldLogin.getValue());
-            tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
-            tmpUser.setRole(radioRole.getValue());
+            try {
+                User tmpUser = new User();
+                tmpUser.setLogin(fieldLogin.getValue());
+                tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
+                tmpUser.setRole(radioRole.getValue());
 
-            Person tmpPerson = new Person();
-            tmpPerson.setFirstName(fieldName.getValue());
-            tmpPerson.setLastName(fieldSurname.getValue());
-            tmpPerson.setBornNum(fieldBornnum.getValue());
+                Person tmpPerson = new Person();
+                tmpPerson.setFirstName(fieldName.getValue());
+                tmpPerson.setLastName(fieldSurname.getValue());
+                tmpPerson.setBornNum(fieldBornnum.getValue());
 
-            tmpUser.setPerson(tmpPerson);
+                tmpUser.setPerson(tmpPerson);
 
-            if (radioRole.getValue().equals(User.UserRole.INSURER)) {
-                try {
+                if (radioRole.getValue().equals(User.UserRole.INSURER)) {
+
                     InsuranceEmployee ie = new InsuranceEmployee();
                     ie.setInsuranceCompany(selectInsuranceCompany.getValue());
                     ie.setUser(tmpUser);
                     insuranceEmployeeService.addOrUpdateInsuranceEmployee(ie);
-                } catch (Exception ex) {
-                    logger.error("Chyba", ex);
-                    dialogService.showErrorDialog(ex);
-                }
-            } else {
-                try {
+                } else {
                     userService.addOrUpdateUser(tmpUser);
-                } catch (PersonException | UserException ex) {
-                    logger.error("Chyba", ex);
-                    dialogService.showErrorDialog(ex);
                 }
+                refreshGrid();
+                dialogService.showNotification("Uživatel přidán");
+            } catch (Exception ex) {
+                logger.error("Chyba", ex);
+                dialogService.showErrorDialog(ex);
             }
-            refreshGrid();
-            dialogService.showNotification("Uživatel přidán");
         };
     }
 

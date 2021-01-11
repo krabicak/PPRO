@@ -231,10 +231,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
 
-    private void updateList() {
-    }
-
-
     private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
         return e -> {
             try {

@@ -122,11 +122,10 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     }
 
     private ComponentEventListener<ClickEvent<Checkbox>> checkBoxNoInsuranceListener() {
-        return e->{
-            if(checkBoxNoInsurance.getValue().equals(true)){
+        return e -> {
+            if (checkBoxNoInsurance.getValue().equals(true)) {
                 gridVehicles.setItems(vehicleService.getUnsiredVehicles());
-            }
-            else{
+            } else {
                 refreshGrid();
             }
         };
@@ -158,98 +157,135 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditVehicleListener() {
         return e -> {
-            actualVehicle.setActive(checkBoxActive.getValue());
-
-            //spz
-            Spz tmpSpz = actualVehicle.getSpz();
-            tmpSpz.setSpz(fieldSpz.getValue());
-            actualVehicle.setSpz(tmpSpz);
-
-            //vin
-            Vin tmpVin = actualVehicle.getVin();
-            tmpVin.setVin(fieldVin.getValue());
-            actualVehicle.setVin(tmpVin);
-
-            //malej technicak
-            Document tmpSmallDocument = actualVehicle.getsTechnicalCert();
-            tmpSmallDocument.setDocumentNumber(fieldSmallTechnical.getValue());
-            //TODO zmenil bych tostring aby se to vypisovalo lip
-            tmpSmallDocument.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
-            actualVehicle.setsTechnicalCert(tmpSmallDocument);
-
-
-            //velkej technicka
-            Document tmpBigDocument = actualVehicle.getbTechnicalCert();
-            tmpBigDocument.setDocumentNumber(fieldBigTechnical.getValue());
-
-            tmpBigDocument.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
-
-            actualVehicle.setbTechnicalCert(tmpBigDocument);
-
-            //majitel
-            Person tmpPerson = actualVehicle.getOwner();
-            tmpPerson.setFirstName(fieldName.getValue());
-            tmpPerson.setLastName(fieldSurname.getValue());
-            tmpPerson.setBornNum(fieldBornnum.getValue());
-            actualVehicle.setOwner(tmpPerson);
-
-            //aktivni
-            actualVehicle.setActive(checkBoxActive.getValue());
-
             try {
-                vehicleService.addOrUpdateVehicle(actualVehicle);
+                if (actualVehicle == null) {
+                    throw new RuntimeException("Není vybráno žádné vozidlo");
+                }
+                actualVehicle.setActive(checkBoxActive.getValue());
+
+                //spz
+                Spz tmpSpz = actualVehicle.getSpz();
+                tmpSpz.setSpz(fieldSpz.getValue());
+                actualVehicle.setSpz(tmpSpz);
+
+                //vin
+                Vin tmpVin = actualVehicle.getVin();
+                tmpVin.setVin(fieldVin.getValue());
+                actualVehicle.setVin(tmpVin);
+
+                //malej technicak
+                Document tmpSmallDocument = actualVehicle.getsTechnicalCert();
+                tmpSmallDocument.setDocumentNumber(fieldSmallTechnical.getValue());
+                tmpSmallDocument.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
+                actualVehicle.setsTechnicalCert(tmpSmallDocument);
+
+
+                //velkej technicka
+                Document tmpBigDocument = actualVehicle.getbTechnicalCert();
+                tmpBigDocument.setDocumentNumber(fieldBigTechnical.getValue());
+
+                tmpBigDocument.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
+
+                actualVehicle.setbTechnicalCert(tmpBigDocument);
+
+                //majitel
+                Person tmpPerson = actualVehicle.getOwner();
+                tmpPerson.setFirstName(fieldName.getValue());
+                tmpPerson.setLastName(fieldSurname.getValue());
+                tmpPerson.setBornNum(fieldBornnum.getValue());
+                actualVehicle.setOwner(tmpPerson);
+
+                //aktivni
+                actualVehicle.setActive(checkBoxActive.getValue());
+
+                try {
+                    vehicleService.addOrUpdateVehicle(actualVehicle);
+                } catch (Exception ex) {
+                    logger.error("Chyba", ex);
+                    dialogService.showErrorDialog(ex);
+                }
+
+                refreshGrid();
+                dialogService.showNotification("Vozidlo upraveno");
             } catch (Exception ex) {
                 logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
-
-            refreshGrid();
-            dialogService.showNotification("Vozidlo upraveno");
         };
+
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddVehicleListener() {
         return e -> {
-            //TODO k tomuhle dodelat exception
-
-            Vehicle v1 = new Vehicle();
-
-            v1.setActive(checkBoxActive.getValue());
-
-            Spz spz1 = new Spz();
-            spz1.setSpz(fieldSpz.getValue());
-            v1.setSpz(spz1);
-
-            Vin vin1 = new Vin();
-            vin1.setVin(fieldVin.getValue());
-            v1.setVin(vin1);
-
-            Person p1 = new Person();
-            p1.setFirstName(fieldName.getValue());
-            p1.setLastName(fieldSurname.getValue());
-            p1.setBornNum(fieldBornnum.getValue());
-
-            v1.setOwner(p1);
-
-            Document docBtech = new Document();
-            docBtech.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
-            docBtech.setDocumentNumber(fieldBigTechnical.getValue());
-
-            Document docStech = new Document();
-            docStech.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
-            docStech.setDocumentNumber(fieldSmallTechnical.getValue());
-
-            v1.setbTechnicalCert(docBtech);
-            v1.setsTechnicalCert(docStech);
             try {
-                vehicleService.addOrUpdateVehicle(v1);
+                Vehicle vehicle1 = new Vehicle();
+
+                vehicle1.setActive(checkBoxActive.getValue());
+
+                Spz spz1 = new Spz();
+                if(!fieldSpz.isEmpty()) {
+                    spz1.setSpz(fieldSpz.getValue());
+                    vehicle1.setSpz(spz1);
+                }
+                else{
+                    vehicle1.setSpz(null);
+                }
+
+                Vin vin1 = new Vin();
+                if(!fieldVin.isEmpty()) {
+                    vin1.setVin(fieldVin.getValue());
+                    vehicle1.setVin(vin1);
+                }
+                else{
+                    vin1.setVin(null);
+                }
+
+                Person p1 = new Person();
+
+                if (!fieldName.isEmpty()) {
+                    p1.setFirstName(fieldName.getValue());
+                } else {
+                    p1.setFirstName(null);
+                }
+                if(!fieldSurname.isEmpty()) {
+                    p1.setLastName(fieldSurname.getValue());
+                }else{
+                    p1.setLastName(null);
+                }
+                if(!fieldBornnum.isEmpty()) {
+                    p1.setBornNum(fieldBornnum.getValue());
+                }
+                else{
+                    p1.setBornNum(null);
+                }
+                vehicle1.setOwner(p1);
+
+
+                Document docBtech = new Document();
+                if (!fieldBigTechnical.getValue().isEmpty()) {
+                    docBtech.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
+                    docBtech.setDocumentNumber(fieldBigTechnical.getValue());
+                }
+
+                Document docStech = new Document();
+                if (!fieldSmallTechnical.getValue().isEmpty()) {
+                    docStech.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
+                    docStech.setDocumentNumber(fieldSmallTechnical.getValue());
+                }
+
+                vehicle1.setbTechnicalCert(docBtech);
+                vehicle1.setsTechnicalCert(docStech);
+
+
+                    vehicleService.addOrUpdateVehicle(new Vehicle());
+
+
+                refreshGrid();
+                dialogService.showNotification("Vozidlo přidáno");
             } catch (Exception ex) {
                 logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
-
-            refreshGrid();
-            dialogService.showNotification("Vozidlo přidáno");
         };
 
     }

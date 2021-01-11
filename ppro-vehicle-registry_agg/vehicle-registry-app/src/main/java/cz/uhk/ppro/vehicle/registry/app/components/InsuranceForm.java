@@ -18,8 +18,6 @@ import cz.uhk.ppro.vehicle.registry.app.layouts.InternalLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -30,8 +28,6 @@ import java.util.Set;
 @Tag("insurance-form")
 @JsModule("./src/views/insurance-form.js")
 public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormModel> {
-
-    private static final Logger logger = LoggerFactory.getLogger(InsuranceForm.class);
 
     @Autowired
     private LoginService loginService;
@@ -106,7 +102,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         });
         selectInsurancerEmployee.setItems(insuranceEmployeeService.getAllInsuranceEmployee());
 
-        if (loginService.isLoggedUserInsurer()) {
+        if(loginService.isLoggedUserInsurer()){
             //select
             for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                 if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
@@ -160,7 +156,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                     break;
                 }
             }
-            if (loginService.isLoggedUserInsurer()) {
+            if(loginService.isLoggedUserInsurer()){
                 for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                     if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
                         selectInsurancerEmployee.setValue(ie);
@@ -190,7 +186,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             dateTo.setValue(null);
             selectVehicle.setValue(null);
 
-            if (loginService.isLoggedUserInsurer()) {
+            if(loginService.isLoggedUserInsurer()){
                 //select
                 for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                     if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
@@ -200,7 +196,8 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 }
                 selectInsurancerEmployee.setEnabled(false);
 
-            } else {
+            }
+            else{
                 selectInsurancerEmployee.setValue(null);
             }
 
@@ -237,9 +234,20 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
             try {
                 insuranceService.addOrUpdateInsurance(actualInsurance);
-            } catch (Exception ex) {
-                logger.error("Chyba", ex);
-                dialogService.showErrorDialog(ex);
+            } catch (PersonException personException) {
+                personException.printStackTrace();
+            } catch (DocumentException documentException) {
+                documentException.printStackTrace();
+            } catch (InsuranceCompanyException insuranceCompanyException) {
+                insuranceCompanyException.printStackTrace();
+            } catch (SpzException spzException) {
+                spzException.printStackTrace();
+            } catch (VinException vinException) {
+                vinException.printStackTrace();
+            } catch (InsuranceException insuranceException) {
+                insuranceException.printStackTrace();
+            } catch (UserException userException) {
+                userException.printStackTrace();
             }
             dialogService.showNotification("Pojištění upraveno");
             refreshGrid();
@@ -247,8 +255,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             try {
                 insuranceService.addOrUpdateInsurance(actualInsurance);
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
-                dialogService.showErrorDialog(ex);
+                ex.printStackTrace();
             }
         };
     }
@@ -286,17 +293,27 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
             try {
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
-            } catch (Exception ex) {
-                logger.error("Chyba", ex);
-                dialogService.showErrorDialog(ex);
+            } catch (PersonException personException) {
+                personException.printStackTrace();
+            } catch (DocumentException documentException) {
+                documentException.printStackTrace();
+            } catch (InsuranceCompanyException insuranceCompanyException) {
+                insuranceCompanyException.printStackTrace();
+            } catch (SpzException spzException) {
+                spzException.printStackTrace();
+            } catch (VinException vinException) {
+                vinException.printStackTrace();
+            } catch (InsuranceException insuranceException) {
+                insuranceException.printStackTrace();
+            } catch (UserException userException) {
+                userException.printStackTrace();
             }
             refreshGrid();
             dialogService.showNotification("Pojištění přidáno");
             try {
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
-                dialogService.showErrorDialog(ex);
+                ex.printStackTrace();
             }
         };
     }

@@ -4,10 +4,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="classpath:/cz/uhk/ppro/vehicle/registry/core/spring-vehicle-registry-common-Services.xml"/>
+    <bean id="vehicleRegistry" class="cz.uhk.ppro.vehicle.registry.core.VehicleRegistryImpl" />
 
-    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-        <property name="locations" value="classpath:/application.properties"/>
-    </bean>
+    <context:component-scan base-package="cz.uhk.ppro.vehicle.registry.core"/>
 
 </beans>

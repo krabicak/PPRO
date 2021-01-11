@@ -1,49 +1,66 @@
 package cz.uhk.ppro.vehicle.registry.core;
 
-import cz.uhk.ppro.vehicle.registry.common.VehicleRegistry;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
-import cz.uhk.ppro.vehicle.registry.common.repositories.DocumentRepo;
+import cz.uhk.ppro.vehicle.registry.common.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration("classpath:/spring-vehicle-registry-common-test-AplicationContext.xml")
+@ContextConfiguration("classpath:/spring-vehicle-registry-core-test-AplicationContext.xml")
 public class VehicleRegistryImplTst {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTst.class);
 
-    @Autowired
-    private VehicleRegistry vehicleRegistry;
+    @InjectMocks
+    private VehicleRegistryImpl vehicleRegistry;
 
     @Mock
+    private UserRepo userRepo;
+    @Mock
+    private PersonRepo personRepo;
+    @Mock
+    private VehicleRepo vehicleRepo;
+    @Mock
+    private InsuranceCompanyRepo insuranceCompanyRepo;
+    @Mock
     private DocumentRepo documentRepo;
+    @Mock
+    private SpzRepo spzRepo;
+    @Mock
+    private VinRepo vinRepo;
+    @Mock
+    private InsuranceEmployeeRepo insuranceEmployeeRepo;
+    @Mock
+    private InsuranceRepo insuranceRepo;
 
     @BeforeEach
     void init() {
-
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void loginUserTest() throws FaultLoginException {
-        User user = vehicleRegistry.loginUser("hotov", "94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
-        logger.info(user.toString());
+
     }
 
     @Test
@@ -121,4 +138,107 @@ public class VehicleRegistryImplTst {
         vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
     }
 
+
+    @Test
+    void loginUser() throws FaultLoginException {
+        User userMock = new User();
+        userMock.setLogin("hotov");
+        userMock.setEnable(true);
+        userMock.setPassword("94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
+        userMock.setRole(User.UserRole.ADMIN);
+        Person person = new Person();
+        person.setFirstName("Petr");
+        person.setLastName("Hotovec");
+        person.setBornNum("rodnecislo");
+        userMock.setPerson(person);
+        Mockito.when(vehicleRegistry.loginUser("hotov", "94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2")).thenReturn(userMock);
+
+
+        User user = vehicleRegistry.loginUser("hotov", "94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
+        assertEquals(user,userMock);
+    }
+
+    @Test
+    void getUserByLogin() {
+    }
+
+    @Test
+    void getAllUsers() {
+    }
+
+    @Test
+    void addOrUpdateUser() {
+    }
+
+    @Test
+    void removeUser() {
+    }
+
+    @Test
+    void getAllVehicles() {
+    }
+
+    @Test
+    void addOrUpdateVehicle() {
+    }
+
+    @Test
+    void getAllInsuranceCompanies() {
+    }
+
+    @Test
+    void addOrUpdateInsuranceCompany() {
+    }
+
+    @Test
+    void removeInsuranceCompany() {
+    }
+
+    @Test
+    void addOrUpdateInsuranceEmployee() {
+    }
+
+    @Test
+    void removeInsuranceEmployee() {
+    }
+
+    @Test
+    void addOrUpdateInsurance() {
+    }
+
+    @Test
+    void getInsuranceEmployee() {
+    }
+
+    @Test
+    void getAllInsuranceEmployees() {
+    }
+
+    @Test
+    void getAllInsurancies() {
+    }
+
+    @Test
+    void removeInsurance() {
+    }
+
+    @Test
+    void findVehiclesByKeyWord() {
+    }
+
+    @Test
+    void getUninsuredVehicles() {
+    }
+
+    @Test
+    void findUsersByKeyWord() {
+    }
+
+    @Test
+    void findInsuranceCompaniesByKeyWord() {
+    }
+
+    @Test
+    void findInsurancisByKeyWord() {
+    }
 }

@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VinRepo extends JpaRepository<Vin, Long> {
     Vin findByVin(String vin);
+
+    Vin getVinByVin(String vin);
 }

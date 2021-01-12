@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import javax.management.relation.Role;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
@@ -51,6 +49,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Autowired
     private UserValidator userValidator;
 
+    @Override
     public User loginUser(String login, String password) throws FaultLoginException {
         User user = userRepo.getUserByLoginAndPassword(login, password);
         if (user == null) throw new FaultLoginException("Neplatný login nebo heslo!");
@@ -60,14 +59,17 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         return user;
     }
 
+    @Override
     public User getUserByLogin(String login) {
         return userRepo.getUserByLogin(login);
     }
 
+    @Override
     public List<User> getAllUsers() {
         return userRepo.findAllByOrderByPerson();
     }
 
+    @Override
     public void addOrUpdateUser(User user) throws PersonException, UserException {
         userValidator.validate(user);
         if (user.getRole() != User.UserRole.INSURER) {
@@ -87,6 +89,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         userRepo.save(user);
     }
 
+    @Override
     public void removeUser(User user) throws PersonException {
         if (user == null) throw new PersonException("Neexistující uživatel");
         if (user.getIdUser() == null) throw new PersonException("Zadaný uživatel, nebyl dosud zapsán do databáze");

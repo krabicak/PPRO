@@ -198,12 +198,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 //aktivni
                 actualVehicle.setActive(checkBoxActive.getValue());
 
-                try {
-                    vehicleService.addOrUpdateVehicle(actualVehicle);
-                } catch (Exception ex) {
-                    logger.error("Chyba", ex);
-                    dialogService.showErrorDialog(ex);
-                }
+                vehicleService.addOrUpdateVehicle(actualVehicle);
 
                 refreshGrid();
                 dialogService.showNotification("Vozidlo upraveno");
@@ -223,40 +218,29 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 vehicle1.setActive(checkBoxActive.getValue());
 
                 Spz spz1 = new Spz();
-                if(!fieldSpz.isEmpty()) {
+                if (!fieldSpz.isEmpty()) {
                     spz1.setSpz(fieldSpz.getValue());
                     vehicle1.setSpz(spz1);
                 }
-                else{
-                    vehicle1.setSpz(null);
-                }
+                vehicle1.setSpz(spz1);
 
                 Vin vin1 = new Vin();
-                if(!fieldVin.isEmpty()) {
+                if (!fieldVin.isEmpty()) {
                     vin1.setVin(fieldVin.getValue());
                     vehicle1.setVin(vin1);
                 }
-                else{
-                    vin1.setVin(null);
-                }
+                vehicle1.setVin(vin1);
 
                 Person p1 = new Person();
 
                 if (!fieldName.isEmpty()) {
                     p1.setFirstName(fieldName.getValue());
-                } else {
-                    p1.setFirstName(null);
                 }
-                if(!fieldSurname.isEmpty()) {
+                if (!fieldSurname.isEmpty()) {
                     p1.setLastName(fieldSurname.getValue());
-                }else{
-                    p1.setLastName(null);
                 }
-                if(!fieldBornnum.isEmpty()) {
+                if (!fieldBornnum.isEmpty()) {
                     p1.setBornNum(fieldBornnum.getValue());
-                }
-                else{
-                    p1.setBornNum(null);
                 }
                 vehicle1.setOwner(p1);
 
@@ -277,8 +261,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 vehicle1.setsTechnicalCert(docStech);
 
 
-                    vehicleService.addOrUpdateVehicle(new Vehicle());
-
+                vehicleService.addOrUpdateVehicle(vehicle1);
 
                 refreshGrid();
                 dialogService.showNotification("Vozidlo přidáno");

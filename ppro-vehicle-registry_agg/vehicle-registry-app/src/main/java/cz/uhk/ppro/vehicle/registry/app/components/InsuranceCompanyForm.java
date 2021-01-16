@@ -97,8 +97,9 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
-            actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
             try {
+                if (actualInsuranceCompany==null) throw new RuntimeException("Není vybrána žádná pojišťovna");
+                actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
                 insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
                 refreshGrid();
                 dialogService.showNotification("Pojišťovna upravena");

@@ -209,6 +209,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
             try {
+                if (actualInsurance == null) throw new RuntimeException("Není vybráno žádné pojištění");
                 //Person
                 Person tmpPerson = actualInsurance.getPerson();
                 tmpPerson.setBornNum(fieldBornnum.getValue());
@@ -240,8 +241,13 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
         return e -> {
-            insuranceService.deleteInsurance(actualInsurance);
-            dialogService.showNotification("Pojištění smazáno");
+            try {
+                if (actualInsurance == null) throw new RuntimeException("Není vybráno žádné pojištění");
+                insuranceService.deleteInsurance(actualInsurance);
+                dialogService.showNotification("Pojištění smazáno");
+            } catch (Exception ex) {
+                dialogService.showErrorDialog(ex);
+            }
         };
     }
 

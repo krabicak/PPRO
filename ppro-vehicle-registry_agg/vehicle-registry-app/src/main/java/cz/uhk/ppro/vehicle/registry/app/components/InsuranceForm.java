@@ -284,7 +284,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
                 refreshGrid();
                 dialogService.showNotification("Pojištění přidáno");
-                insuranceService.addOrUpdateInsurance(tmpInsurance);
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
             }

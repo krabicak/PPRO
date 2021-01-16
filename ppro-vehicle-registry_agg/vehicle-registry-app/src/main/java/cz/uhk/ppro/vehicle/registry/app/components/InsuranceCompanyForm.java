@@ -88,7 +88,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
-        return e ->{
+        return e -> {
             fieldInsurance.setValue("");
             actualInsuranceCompany = new InsuranceCompany();
             gridInsurancies.deselectAll();
@@ -100,12 +100,11 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
             try {
                 insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
+                refreshGrid();
+                dialogService.showNotification("Pojišťovna upravena");
             } catch (InsuranceCompanyException ex) {
-                logger.error("Chyba",ex);
                 dialogService.showErrorDialog(ex);
             }
-            refreshGrid();
-            dialogService.showNotification("Pojišťovna upravena");
         };
     }
 
@@ -123,12 +122,11 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             tmp.setCompanyName(fieldInsurance.getValue());
             try {
                 insuranceService.addOrUpdateInsuranceCompany(tmp);
+                refreshGrid();
+                dialogService.showNotification("Pojišťovna přidána");
             } catch (InsuranceCompanyException ex) {
-                logger.error("Chyba",ex);
                 dialogService.showErrorDialog(ex);
             }
-            refreshGrid();
-            dialogService.showNotification("Pojišťovna přidána");
         };
     }
 

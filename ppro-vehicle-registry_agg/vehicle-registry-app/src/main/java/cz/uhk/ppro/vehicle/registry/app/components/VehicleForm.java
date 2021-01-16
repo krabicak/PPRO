@@ -203,7 +203,6 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 refreshGrid();
                 dialogService.showNotification("Vozidlo upraveno");
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
         };
@@ -266,7 +265,6 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 refreshGrid();
                 dialogService.showNotification("Vozidlo přidáno");
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
         };

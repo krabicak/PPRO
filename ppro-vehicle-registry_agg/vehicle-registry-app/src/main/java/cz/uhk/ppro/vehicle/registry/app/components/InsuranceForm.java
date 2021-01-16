@@ -87,22 +87,19 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         //select pojistovak
         //TODO predelat na normalni vypis
         Set<Integer> strings = new HashSet<>();
-        selectInsurancerEmployee.setItemLabelGenerator(new ItemLabelGenerator<InsuranceEmployee>() {
-            @Override
-            public String apply(InsuranceEmployee insuranceEmployee) {
-                Person person = insuranceEmployee.getUser().getPerson();
-                InsuranceCompany company = insuranceEmployee.getInsuranceCompany();
-                String str = company.getCompanyName() + " " + person.getFirstName() + " " + person.getLastName();
-                if (strings.contains(str.hashCode())) {
-                    str += " " + insuranceEmployee.getUser().getLogin();
-                }
-                strings.add(str.hashCode());
-                return str;
+        selectInsurancerEmployee.setItemLabelGenerator((ItemLabelGenerator<InsuranceEmployee>) insuranceEmployee -> {
+            Person person = insuranceEmployee.getUser().getPerson();
+            InsuranceCompany company = insuranceEmployee.getInsuranceCompany();
+            String str = company.getCompanyName() + " " + person.getFirstName() + " " + person.getLastName();
+            if (strings.contains(str.hashCode())) {
+                str += " " + insuranceEmployee.getUser().getLogin();
             }
+            strings.add(str.hashCode());
+            return str;
         });
         selectInsurancerEmployee.setItems(insuranceEmployeeService.getAllInsuranceEmployee());
 
-        if(loginService.isLoggedUserInsurer()){
+        if (loginService.isLoggedUserInsurer()) {
             //select
             for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                 if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
@@ -156,7 +153,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                     break;
                 }
             }
-            if(loginService.isLoggedUserInsurer()){
+            if (loginService.isLoggedUserInsurer()) {
                 for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                     if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
                         selectInsurancerEmployee.setValue(ie);
@@ -186,7 +183,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             dateTo.setValue(null);
             selectVehicle.setValue(null);
 
-            if(loginService.isLoggedUserInsurer()){
+            if (loginService.isLoggedUserInsurer()) {
                 //select
                 for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                     if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
@@ -196,8 +193,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 }
                 selectInsurancerEmployee.setEnabled(false);
 
-            }
-            else{
+            } else {
                 selectInsurancerEmployee.setValue(null);
             }
 
@@ -212,50 +208,32 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
-            //Person
-            Person tmpPerson = actualInsurance.getPerson();
-            tmpPerson.setBornNum(fieldBornnum.getValue());
-            tmpPerson.setFirstName(fieldName.getValue());
-            tmpPerson.setLastName(fieldSurname.getValue());
-            actualInsurance.setPerson(tmpPerson);
-
-            //data
-            actualInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
-            actualInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
-
-            //vozidlo
-            actualInsurance.setVehicle(selectVehicle.getValue());
-
-            //pojistovak
-            actualInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
-
-            //pojistovna
-            actualInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
-
             try {
+                //Person
+                Person tmpPerson = actualInsurance.getPerson();
+                tmpPerson.setBornNum(fieldBornnum.getValue());
+                tmpPerson.setFirstName(fieldName.getValue());
+                tmpPerson.setLastName(fieldSurname.getValue());
+                actualInsurance.setPerson(tmpPerson);
+
+                //data
+                actualInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
+                actualInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
+
+                //vozidlo
+                actualInsurance.setVehicle(selectVehicle.getValue());
+
+                //pojistovak
+                actualInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
+
+                //pojistovna
+                actualInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
+
                 insuranceService.addOrUpdateInsurance(actualInsurance);
-            } catch (PersonException personException) {
-                personException.printStackTrace();
-            } catch (DocumentException documentException) {
-                documentException.printStackTrace();
-            } catch (InsuranceCompanyException insuranceCompanyException) {
-                insuranceCompanyException.printStackTrace();
-            } catch (SpzException spzException) {
-                spzException.printStackTrace();
-            } catch (VinException vinException) {
-                vinException.printStackTrace();
-            } catch (InsuranceException insuranceException) {
-                insuranceException.printStackTrace();
-            } catch (UserException userException) {
-                userException.printStackTrace();
-            }
-            dialogService.showNotification("Pojištění upraveno");
-            refreshGrid();
-            //TODO
-            try {
-                insuranceService.addOrUpdateInsurance(actualInsurance);
+                dialogService.showNotification("Pojištění upraveno");
+                refreshGrid();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                dialogService.showErrorDialog(ex);
             }
         };
     }
@@ -269,51 +247,35 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonAddInsuranceListener() {
         return e -> {
-            Insurance tmpInsurance = new Insurance();
-
-            //data
-            tmpInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
-            tmpInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
-
-            //vozidlo
-            tmpInsurance.setVehicle(selectVehicle.getValue());
-
-            //pojistovna
-            tmpInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
-
-            //pojistovak
-            tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
-
-            //nova osoba
-            Person tmpPerson = new Person();
-            tmpPerson.setBornNum(fieldBornnum.getValue());
-            tmpPerson.setLastName(fieldSurname.getValue());
-            tmpPerson.setFirstName(fieldName.getValue());
-            tmpInsurance.setPerson(tmpPerson);
-
             try {
+                Insurance tmpInsurance = new Insurance();
+
+                //data
+                tmpInsurance.setFromDate(Timestamp.valueOf(dateFrom.getValue().atStartOfDay()));
+                tmpInsurance.setToDate(Timestamp.valueOf(dateTo.getValue().atStartOfDay()));
+
+                //vozidlo
+                tmpInsurance.setVehicle(selectVehicle.getValue());
+
+                //pojistovna
+                tmpInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
+
+                //pojistovak
+                tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
+
+                //nova osoba
+                Person tmpPerson = new Person();
+                tmpPerson.setBornNum(fieldBornnum.getValue());
+                tmpPerson.setLastName(fieldSurname.getValue());
+                tmpPerson.setFirstName(fieldName.getValue());
+                tmpInsurance.setPerson(tmpPerson);
+
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
-            } catch (PersonException personException) {
-                personException.printStackTrace();
-            } catch (DocumentException documentException) {
-                documentException.printStackTrace();
-            } catch (InsuranceCompanyException insuranceCompanyException) {
-                insuranceCompanyException.printStackTrace();
-            } catch (SpzException spzException) {
-                spzException.printStackTrace();
-            } catch (VinException vinException) {
-                vinException.printStackTrace();
-            } catch (InsuranceException insuranceException) {
-                insuranceException.printStackTrace();
-            } catch (UserException userException) {
-                userException.printStackTrace();
-            }
-            refreshGrid();
-            dialogService.showNotification("Pojištění přidáno");
-            try {
+                refreshGrid();
+                dialogService.showNotification("Pojištění přidáno");
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                dialogService.showErrorDialog(ex);
             }
         };
     }

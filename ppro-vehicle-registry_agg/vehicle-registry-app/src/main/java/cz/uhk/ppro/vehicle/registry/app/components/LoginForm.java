@@ -62,7 +62,6 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
             try {
                 loginService.login(username.getValue(), password.getValue());
             } catch (FaultLoginException ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
         };

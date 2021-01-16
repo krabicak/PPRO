@@ -241,7 +241,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 userService.removeUser(actualUser);
                 dialogService.showNotification("Uživatel smazán");
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
             refreshGrid();
@@ -277,7 +276,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 refreshGrid();
                 dialogService.showNotification("Uživatel upraven");
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
         };
@@ -314,7 +312,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 refreshGrid();
                 dialogService.showNotification("Uživatel přidán");
             } catch (Exception ex) {
-                logger.error("Chyba", ex);
                 dialogService.showErrorDialog(ex);
             }
         };

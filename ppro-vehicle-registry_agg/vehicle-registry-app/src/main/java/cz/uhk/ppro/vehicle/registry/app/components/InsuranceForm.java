@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -78,6 +79,10 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
      */
     @PostConstruct
     public void init() {
+
+        //default hodnoty
+        dateTo.setValue(LocalDate.now());
+        dateFrom.setValue(LocalDate.now());
 
         //select vozidla
         selectVehicle.setItems(vehicleService.getAllVehicles());

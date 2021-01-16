@@ -87,6 +87,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         };
     }
 
+
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
             fieldInsurance.setValue("");
@@ -98,12 +99,12 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
             try {
-                if (actualInsuranceCompany==null) throw new RuntimeException("Není vybrána žádná pojišťovna");
+                if (actualInsuranceCompany == null) throw new RuntimeException("Není vybrána žádná pojišťovna");
                 actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
                 insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
                 refreshGrid();
                 dialogService.showNotification("Pojišťovna upravena");
-            } catch (InsuranceCompanyException ex) {
+            } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
             }
         };
@@ -111,9 +112,14 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
 
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteInsuranceListener() {
         return e -> {
-            insuranceService.removeInsuranceCompany(actualInsuranceCompany);
-            refreshGrid();
-            dialogService.showNotification("Pojišťovna smazána");
+            try {
+                if (actualInsuranceCompany == null) throw new RuntimeException("Není vybrána žádná pojišťovna");
+                insuranceService.removeInsuranceCompany(actualInsuranceCompany);
+                refreshGrid();
+                dialogService.showNotification("Pojišťovna smazána");
+            } catch (Exception ex) {
+                dialogService.showErrorDialog(ex);
+            }
         };
     }
 

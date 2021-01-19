@@ -71,6 +71,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
 
     @Override
     public void addOrUpdateUser(User user) throws PersonException, UserException {
+        Person person = user.getPerson();
+        person = personRepo.findByBornNum(person.getBornNum());
+        if (person != null) user.setPerson(person);
         userValidator.validate(user);
         if (user.getRole() != User.UserRole.INSURER) {
             InsuranceEmployee employee = getInsuranceEmployee(user);
@@ -107,6 +110,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateVehicle(Vehicle vehicle)
             throws SpzException, PersonException, VinException, DocumentException {
+        Person person = vehicle.getOwner();
+        person = personRepo.findByBornNum(person.getBornNum());
+        if (person != null) vehicle.setOwner(person);
         vehicleValidator.validate(vehicle);
         Document documentb = vehicle.getbTechnicalCert();
         if (documentb.getIdDocument() != null
@@ -118,11 +124,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
                 && documentRepo.getDocumentByDocumentNumber(documents.getDocumentNumber()) == null)
             documents.setIdDocument(null);
         documentRepo.save(documents);
-        Person person = vehicle.getOwner();
-        if (person.getIdPerson() != null
-                && !personRepo.findByIdPerson(person.getIdPerson()).getBornNum().equals(person.getBornNum()))
-            person.setIdPerson(null);
-        personRepo.save(person);
+        Person person1 = vehicle.getOwner();
+        if (person1.getIdPerson() != null
+                && !personRepo.findByIdPerson(person1.getIdPerson()).getBornNum().equals(person1.getBornNum()))
+            person1.setIdPerson(null);
+        personRepo.save(person1);
         Spz spz = vehicle.getSpz();
         if (spz.getIdSpz() != null
                 && spzRepo.findBySpz(spz.getSpz()) == null)
@@ -155,6 +161,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee)
             throws PersonException, InsuranceCompanyException, UserException {
+        User user = insuranceEmployee.getUser();
+        Person person = user.getPerson();
+        person = personRepo.findByBornNum(person.getBornNum());
+        if (person != null) user.setPerson(person);
         insuranceEmployeeValidator.validate(insuranceEmployee);
         addOrUpdateUser(insuranceEmployee.getUser());
         if (insuranceEmployee.getIdUser() == null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
@@ -172,6 +182,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateInsurance(Insurance insurance)
             throws VinException, SpzException, InsuranceCompanyException, UserException, PersonException, InsuranceException, DocumentException {
+        Person person = insurance.getPerson();
+        person = personRepo.findByBornNum(person.getBornNum());
+        if (person != null) insurance.setPerson(person);
         insuranceValidator.validate(insurance);
         personRepo.save(insurance.getPerson());
         insuranceRepo.save(insurance);
@@ -225,6 +238,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public List<Insurance> findInsurancisByKeyWord(String keyword) {
         return insuranceRepo.findInsurancesByKeyword(keyword);
+    }
+
+    @Override
+    public Person findPersonByBornNum(String bornNum) {
+        return personRepo.findByBornNum(bornNum);
     }
 
 

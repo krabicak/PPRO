@@ -12,4 +12,6 @@ public interface PersonRepo extends JpaRepository<Person, Long> {
     Person findByBornNum(String bornNum);
 
     Person getPersonByBornNumAndIdPersonIsNot(String bornNum, Long idPerson);
+
+    Person findByBornNumAndFirstNameAndLastName(String bornNum, String firstName, String lastName);
 }

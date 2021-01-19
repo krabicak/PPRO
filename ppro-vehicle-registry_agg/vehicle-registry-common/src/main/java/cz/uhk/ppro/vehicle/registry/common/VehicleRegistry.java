@@ -55,4 +55,6 @@ public interface VehicleRegistry {
 
     List<Insurance> findInsurancisByKeyWord(String keyword);
 
+    Person findPersonByBornNum(String bornNum);
+
 }

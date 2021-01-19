@@ -36,7 +36,7 @@ public class UserValidator extends Validator {
             if (!oldUser.getLogin().equals(user.getLogin())
                     && userRepo.getUserByLoginAndIdUserIsNot(user.getLogin(), user.getIdUser()) != null)
                 throw new UserException("Vyplněno již existující přihlašovací jméno!");
-            personValidator.validate(user.getPerson());
         }
+        personValidator.validate(user.getPerson());
     }
 }

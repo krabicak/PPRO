@@ -39,8 +39,6 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private Element vaadinVerticalLayout;
     @Id("verticalLayout")
     private Element verticalLayout;
-    @Id("tabNavigation")
-    private Tabs tabNavigation;
 
 
     @PostConstruct

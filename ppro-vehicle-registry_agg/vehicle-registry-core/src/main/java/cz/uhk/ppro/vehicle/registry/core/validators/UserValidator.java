@@ -20,12 +20,16 @@ public class UserValidator extends Validator {
         if (user == null) throw new UserException("Uživatel není vyplněn!");
         if (isNullOrEmpty(user.getLogin()))
             throw new UserException("Není vyplněno přihlašovací jméno!");
+        if (user.getLogin().length() > 45)
+            throw new UserException("Přihlašovací jméno je příliš dlouhé!");
         if (userRepo.getUserByLogin(user.getLogin()) != null) {
             if (user.getIdUser() == null)
                 throw new UserException("Vyplněno již existující přihlašovací jméno!");
         }
         if (user.getRole() == null)
             throw new UserException("Není vyplněna role uživatele!");
+        if (user.getLogin().length() > 512)
+            throw new UserException("Heslo je příliš dlouhé!");
         if (isNullOrEmpty(user.getPassword())) {
             if (user.getIdUser() == null)
                 throw new UserException("Není vyplněno heslo!");

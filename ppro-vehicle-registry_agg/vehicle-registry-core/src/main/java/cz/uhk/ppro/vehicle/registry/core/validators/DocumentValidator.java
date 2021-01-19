@@ -16,8 +16,9 @@ public class DocumentValidator extends Validator {
         if (document == null) throw new DocumentException("Doklad není vyplněn!");
         if (isNullOrEmpty(document.getDocumentNumber()))
             throw new DocumentException("Není vyplněno číslo dokladu!");
+        if (document.getDocumentNumber().length() > 45) throw new DocumentException("Číslo dokladu je příliš dlouhé!");
         if (document.getIdDocument() == null) {
-            if (documentRepo.getDocumentByDocumentNumber(document.getDocumentNumber()) != null){
+            if (documentRepo.getDocumentByDocumentNumber(document.getDocumentNumber()) != null) {
                 throw new DocumentException("Zadáno již existující číslo dokladu!");
             }
         }

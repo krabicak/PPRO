@@ -73,7 +73,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void addOrUpdateUser(User user) throws PersonException, UserException {
         Person person = user.getPerson();
         person = personRepo.findByBornNum(person.getBornNum());
-        if (person != null) user.setPerson(person);
+        if (person != null) user.getPerson().setIdPerson(person.getIdPerson());
         userValidator.validate(user);
         if (user.getRole() != User.UserRole.INSURER) {
             InsuranceEmployee employee = getInsuranceEmployee(user);
@@ -112,7 +112,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
             throws SpzException, PersonException, VinException, DocumentException {
         Person person = vehicle.getOwner();
         person = personRepo.findByBornNum(person.getBornNum());
-        if (person != null) vehicle.setOwner(person);
+        if (person != null) vehicle.getOwner().setIdPerson(person.getIdPerson());
         vehicleValidator.validate(vehicle);
         Document documentb = vehicle.getbTechnicalCert();
         if (documentb.getIdDocument() != null
@@ -164,7 +164,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
         User user = insuranceEmployee.getUser();
         Person person = user.getPerson();
         person = personRepo.findByBornNum(person.getBornNum());
-        if (person != null) user.setPerson(person);
+        if (person != null) user.getPerson().setIdPerson(person.getIdPerson());
         insuranceEmployeeValidator.validate(insuranceEmployee);
         addOrUpdateUser(insuranceEmployee.getUser());
         if (insuranceEmployee.getIdUser() == null) insuranceEmployee.setIdUser(insuranceEmployee.getUser().getIdUser());
@@ -184,7 +184,7 @@ public class VehicleRegistryImpl implements VehicleRegistry {
             throws VinException, SpzException, InsuranceCompanyException, UserException, PersonException, InsuranceException, DocumentException {
         Person person = insurance.getPerson();
         person = personRepo.findByBornNum(person.getBornNum());
-        if (person != null) insurance.setPerson(person);
+        if (person != null) insurance.getPerson().setIdPerson(person.getIdPerson());
         insuranceValidator.validate(insurance);
         personRepo.save(insurance.getPerson());
         insuranceRepo.save(insurance);

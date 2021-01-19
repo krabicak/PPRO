@@ -17,6 +17,7 @@ public class VinValidator extends Validator{
         if (vin==null) throw new VinException("VIN není vyplněno!");
         if (isNullOrEmpty(vin.getVin()))
             throw new VinException("Není vyplněno číslo VIN!");
+        if (vin.getVin().length() > 40) throw new VinException("Číslo VIN je příliš dlouhé!");
         if (vin.getIdvin() == null) {
             if (vinRepo.getVinByVin(vin.getVin()) != null){
                 throw new VinException("Zadáno již existující VIN!");

@@ -24,8 +24,6 @@ import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceEmployee;
 import cz.uhk.ppro.vehicle.registry.common.entities.Person;
 import cz.uhk.ppro.vehicle.registry.common.entities.User;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,7 +134,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         //tlacitka
         buttonAddUser.addClickListener(buttonAddUserListener());
         buttonEditUser.addClickListener(buttonEditUserListener());
-        buttonDeleteUser.addClickListener(buttonDeletUserListener());
+        buttonDeleteUser.addClickListener(buttonDeleteUserListener());
         buttonReset.addClickListener(buttonResetListener());
 
         //pole
@@ -144,22 +142,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
         fieldSurname.setRequiredIndicatorVisible(true);
         fieldLogin.setRequiredIndicatorVisible(true);
         fieldBornnum.setRequiredIndicatorVisible(true);
-
-        //listenery na not null
-        /*fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
-        fieldName.setValueChangeMode(ValueChangeMode.EAGER);
-        fieldLogin.setValueChangeMode(ValueChangeMode.EAGER);
-        fieldSurname.setValueChangeMode(ValueChangeMode.EAGER);
-
-        fieldBornnum.addValueChangeListener(fieldListener());
-        fieldName.addValueChangeListener(fieldListener());
-        fieldLogin.addValueChangeListener(fieldListener());
-        fieldSurname.addValueChangeListener(fieldListener());
-
-        fieldBornnum.addValueChangeListener(fieldListener());
-        fieldName.addValueChangeListener(fieldListener());
-        fieldLogin.addValueChangeListener(fieldListener());
-        fieldSurname.addValueChangeListener(fieldListener());*/
 
         //vyhledavani
         fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
@@ -190,18 +172,23 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
-            gridUsers.select(null);
-            fieldSurname.setValue("");
-            fieldName.setValue("");
-            fieldLogin.setValue("");
-            fieldPassword.setValue("");
-            fieldBornnum.setValue("");
-            selectInsuranceCompany.setValue(null);
-
-            actualUser = new User();
-            gridUsers.deselectAll();
+            resetForm();
         };
     }
+
+    private void resetForm() {
+        gridUsers.select(null);
+        fieldSurname.setValue("");
+        fieldName.setValue("");
+        fieldLogin.setValue("");
+        fieldPassword.setValue("");
+        fieldBornnum.setValue("");
+        selectInsuranceCompany.setValue(null);
+
+        actualUser = null;
+        gridUsers.deselectAll();
+    }
+
 
     private ComponentEventListener<ItemClickEvent<User>> gridCLickListener() {
         return e -> {
@@ -231,10 +218,12 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     }
 
 
-    private ComponentEventListener<ClickEvent<Button>> buttonDeletUserListener() {
+    private ComponentEventListener<ClickEvent<Button>> buttonDeleteUserListener() {
         return e -> {
             try {
-                if (actualUser == null) throw new RuntimeException("Není vybrán žádný uživatel");
+                if (actualUser == null){
+                    throw new RuntimeException("Není vybrán žádný uživatel");
+                }
                 if (actualUser.getRole() == User.UserRole.INSURER) {
                     insuranceEmployeeService.removeInsuranceEmployee(actualUser);
                 }
@@ -250,8 +239,11 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonEditUserListener() {
         return e -> {
             try {
-                if (actualUser == null) throw new RuntimeException("Není vybrán žádný uživatel");
+                if (actualUser == null){
+                    throw new RuntimeException("Není vybrán žádný uživatel");
+                }
                 String login = fieldLogin.getValue();
+
                 if (!actualUser.getLogin().equals(login))
                     actualUser.setLogin(fieldLogin.getValue());
                 if (!fieldPassword.getValue().isEmpty()) {
@@ -275,6 +267,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 }
                 refreshGrid();
                 dialogService.showNotification("Uživatel upraven");
+
+                resetForm();
+
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
             }
@@ -291,6 +286,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 User tmpUser = new User();
                 tmpUser.setLogin(fieldLogin.getValue());
                 tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
+                //TODO kdyz je heslo praydne vyhodit error
                 tmpUser.setRole(radioRole.getValue());
 
                 Person tmpPerson = new Person();

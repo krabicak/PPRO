@@ -29,12 +29,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * A Designer generated component for the vehicle-form template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("vehicle-form")
 @JsModule("./src/views/vehicle-form.js")
 public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {

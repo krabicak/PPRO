@@ -93,7 +93,9 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     public void removeUser(User user) throws PersonException {
         if (user == null) throw new PersonException("Neexistující uživatel");
         if (user.getIdUser() == null) throw new PersonException("Zadaný uživatel, nebyl dosud zapsán do databáze");
-        insuranceEmployeeRepo.delete(insuranceEmployeeRepo.getByUser(user));
+        InsuranceEmployee employee = insuranceEmployeeRepo.getByUser(user);
+        if (employee != null)
+            insuranceEmployeeRepo.delete(employee);
         userRepo.delete(user);
     }
 

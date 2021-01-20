@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Tag("vehicle-form")
 @JsModule("./src/views/vehicle-form.js")
@@ -295,10 +296,12 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             fieldVin.setValue(e.getItem().getVin().getVin());
 
             //TP
-            LocalDate localDateBigTechnical = e.getItem().getbTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
-            LocalDate localDateSmallTechnical = e.getItem().getsTechnicalCert().getToDate().toLocalDateTime().toLocalDate();
-            dateBigTechnical.setValue(localDateBigTechnical);
-            dateSmallTechnical.setValue(localDateSmallTechnical);
+            Timestamp localDateBigTechnical = e.getItem().getbTechnicalCert().getToDate();
+            Timestamp localDateSmallTechnical = e.getItem().getsTechnicalCert().getToDate();
+            if (localDateBigTechnical != null)
+                dateBigTechnical.setValue(localDateBigTechnical.toLocalDateTime().toLocalDate());
+            if (localDateSmallTechnical != null)
+                dateSmallTechnical.setValue(localDateSmallTechnical.toLocalDateTime().toLocalDate());
             fieldBigTechnical.setValue(e.getItem().getbTechnicalCert().getDocumentNumber());
             fieldSmallTechnical.setValue(e.getItem().getsTechnicalCert().getDocumentNumber());
 

@@ -10,7 +10,10 @@ public class DialogService {
 
     public void showErrorDialog(Exception e) {
         Dialog dialog = new Dialog();
-        dialog.add(new Text(e.getLocalizedMessage()));
+        if (e.getLocalizedMessage() == null)
+            dialog.add(new Text(e.toString()));
+        else
+            dialog.add(new Text(e.getLocalizedMessage()));
         dialog.open();
     }
 

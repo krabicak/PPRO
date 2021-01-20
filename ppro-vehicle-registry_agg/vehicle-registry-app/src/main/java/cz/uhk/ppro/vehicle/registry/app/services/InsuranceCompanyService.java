@@ -28,7 +28,7 @@ public class InsuranceCompanyService {
         vehicleRegistry.addOrUpdateInsuranceCompany(insuranceCompany);
     }
 
-    public void removeInsuranceCompany(InsuranceCompany insuranceCompany) {
+    public void removeInsuranceCompany(InsuranceCompany insuranceCompany) throws InsuranceCompanyException{
         vehicleRegistry.removeInsuranceCompany(insuranceCompany);
     }
 

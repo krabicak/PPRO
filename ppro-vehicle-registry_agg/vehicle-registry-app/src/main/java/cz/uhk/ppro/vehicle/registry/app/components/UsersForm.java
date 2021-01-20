@@ -276,7 +276,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 User tmpUser = new User();
                 tmpUser.setLogin(fieldLogin.getValue());
                 tmpUser.setPassword(DigestUtils.sha256Hex(fieldPassword.getValue()));
-                //TODO kdyz je heslo praydne vyhodit error
                 tmpUser.setRole(radioRole.getValue());
 
                 Person tmpPerson = new Person();
@@ -285,6 +284,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 tmpPerson.setBornNum(fieldBornnum.getValue());
 
                 tmpUser.setPerson(tmpPerson);
+                tmpUser.setEnable(checkBoxActive.getValue());
 
                 if (radioRole.getValue().equals(User.UserRole.INSURER)) {
 

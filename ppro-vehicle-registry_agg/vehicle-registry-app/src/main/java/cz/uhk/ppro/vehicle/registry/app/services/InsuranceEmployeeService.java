@@ -24,7 +24,7 @@ public class InsuranceEmployeeService {
         return vehicleRegistry.getAllInsuranceEmployees();
     }
 
-    public void removeInsuranceEmployee(User user) {
+    public void removeInsuranceEmployee(User user) throws UserException {
         InsuranceEmployee employee = vehicleRegistry.getInsuranceEmployee(user);
         vehicleRegistry.removeInsuranceEmployee(employee);
     }

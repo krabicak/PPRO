@@ -145,7 +145,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
             fieldName.setValue(e.getItem().getPerson().getFirstName());
             fieldSurname.setValue(e.getItem().getPerson().getLastName());
 
-            dateTo.setValue(e.getItem().getFromDate().toLocalDateTime().toLocalDate());
+            dateTo.setValue(e.getItem().getToDate().toLocalDateTime().toLocalDate());
             dateFrom.setValue(e.getItem().getFromDate().toLocalDateTime().toLocalDate());
 
             selectVehicle.setValue(e.getItem().getVehicle());

@@ -87,9 +87,9 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getLastName()).setHeader("Přijmení").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getBornNum()).setHeader("Rodné číslo").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getDocumentNumber()).setHeader("Číslo v. TP").setSortable(true);
-        gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getbTechnicalCert().getToDate())).setHeader("Splatnost v. TP").setSortable(true);
+        //gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getbTechnicalCert().getToDate())).setHeader("Splatnost v. TP").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP").setSortable(true);
-        gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getsTechnicalCert().getToDate())).setHeader("Splatnost m. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getsTechnicalCert().getToDate())).setHeader("Datum první registrace").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.isActive()).setHeader("Aktivní").setSortable(true);
 
         //tlacitka
@@ -261,10 +261,12 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
 
                 Document docBtech = new Document();
+                docBtech.setDocumentNumber(fieldBigTechnical.getValue());
+                /*
                 if (!fieldBigTechnical.getValue().isEmpty()) {
                     docBtech.setToDate(Timestamp.valueOf(dateBigTechnical.getValue().atStartOfDay()));
                     docBtech.setDocumentNumber(fieldBigTechnical.getValue());
-                }
+                }*/
 
                 Document docStech = new Document();
                 if (!fieldSmallTechnical.getValue().isEmpty()) {
@@ -272,7 +274,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                     docStech.setDocumentNumber(fieldSmallTechnical.getValue());
                 }
 
-                vehicle1.setbTechnicalCert(docBtech);
+                //vehicle1.setbTechnicalCert(docBtech);
                 vehicle1.setsTechnicalCert(docStech);
 
 

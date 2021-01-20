@@ -15,6 +15,9 @@ import cz.uhk.ppro.vehicle.registry.app.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @CssImport("./styles/moje.css")
 public class MainLayout
@@ -45,6 +48,7 @@ public class MainLayout
         mainLayoutTopBar = new MainLayoutTopBar();
         topbar.add(mainLayoutTopBar);
         add(topbar);
+
     }
 
     public MainLayoutTopBar getMainLayoutTopBar() {

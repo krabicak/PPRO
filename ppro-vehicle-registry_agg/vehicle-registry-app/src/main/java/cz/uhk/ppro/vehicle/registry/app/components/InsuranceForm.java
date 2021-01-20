@@ -1,9 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.app.components;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.ItemLabelGenerator;
-import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -13,6 +10,7 @@ import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
@@ -32,6 +30,8 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     private LoginService loginService;
     @Autowired
     private SessionService sessionService;
+    @Autowired
+    private UserService userService;
     @Id("dateTo")
     private DatePicker dateTo;
     @Id("dateFrom")
@@ -85,7 +85,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 + vehicle.getsTechnicalCert().getDocumentNumber());
 
         //select pojistovak
-        //TODO predelat na normalni vypis
         Set<Integer> strings = new HashSet<>();
         selectInsurancerEmployee.setItemLabelGenerator((ItemLabelGenerator<InsuranceEmployee>) insuranceEmployee -> {
             Person person = insuranceEmployee.getUser().getPerson();
@@ -131,6 +130,10 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         gridInsurancies.getColumns().forEach(col -> col.setAutoWidth(true));
         gridInsurancies.addItemClickListener(gridCLickListener());
 
+        //listener na rc
+        fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldBornnum.addValueChangeListener(fieldBornnumListener());
+
         refreshGrid();
     }
 
@@ -153,6 +156,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                     break;
                 }
             }
+
             if (loginService.isLoggedUserInsurer()) {
                 for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
                     if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
@@ -210,6 +214,19 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         actualInsurance = null;
     }
 
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldBornnumListener() {
+        return e -> {
+            Person tmpPerson = userService.findPersonByBornNum(fieldBornnum.getValue());
+            if (tmpPerson != null) {
+                fieldSurname.setValue(tmpPerson.getLastName());
+                fieldName.setValue(tmpPerson.getFirstName());
+            } else {
+                fieldSurname.setValue("");
+                fieldName.setValue("");
+            }
+        };
+    }
+
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
         return e -> {
             try {
@@ -249,6 +266,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 if (actualInsurance == null) throw new RuntimeException("Není vybráno žádné pojištění");
                 insuranceService.deleteInsurance(actualInsurance);
                 dialogService.showNotification("Pojištění smazáno");
+                refreshGrid();
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
             }
@@ -292,9 +310,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         };
     }
 
-    /**
-     * This model binds properties between InsuranceForm and insurance-form
-     */
     public interface InsuranceFormModel extends TemplateModel {
         // Add setters and getters for template properties here.
     }

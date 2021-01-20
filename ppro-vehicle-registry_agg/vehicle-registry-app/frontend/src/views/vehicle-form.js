@@ -38,9 +38,9 @@ class VehicleForm extends PolymerElement {
   <vaadin-text-field label="SPZ" placeholder="SPZ" id="fieldSpz" required></vaadin-text-field>
   <vaadin-text-field label="VIN" placeholder="VIN" id="fieldVin" required></vaadin-text-field>
   <vaadin-text-field label="Číslo malého TP" placeholder="Číslo malého TP" id="fieldSmallTechnical" required></vaadin-text-field>
-  <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical" required></vaadin-date-picker>
+  <vaadin-date-picker label="Datum první registrace" placeholder="Vyber datum" id="dateSmallTechnical" required invalid></vaadin-date-picker>
   <vaadin-text-field label="Číslo velkého TP" placeholder="Číslo velkého TP" id="fieldBigTechnical" required></vaadin-text-field>
-  <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical" required></vaadin-date-picker>
+  <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical" required invalid visible="false" hidden="true"></vaadin-date-picker>
   <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum" required invalid></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName" required></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname" required></vaadin-text-field>

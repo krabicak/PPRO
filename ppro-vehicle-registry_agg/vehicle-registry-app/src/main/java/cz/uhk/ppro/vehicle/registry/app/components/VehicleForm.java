@@ -272,7 +272,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 Document docStech = new Document();
                 if (dateSmallTechnical.getValue() != null) {
                     docStech.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
-                }
+                } else throw new RuntimeException("Není vyplněno datum první registrace");
 
                 docStech.setDocumentNumber(fieldSmallTechnical.getValue());
 

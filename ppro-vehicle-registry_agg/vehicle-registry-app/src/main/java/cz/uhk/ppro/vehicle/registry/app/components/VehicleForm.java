@@ -7,7 +7,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
@@ -17,10 +16,6 @@ import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.DocumentException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.SpzException;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.VinException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Tag("vehicle-form")
 @JsModule("./src/views/vehicle-form.js")
@@ -93,9 +87,9 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getLastName()).setHeader("Přijmení").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getOwner().getBornNum()).setHeader("Rodné číslo").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getDocumentNumber()).setHeader("Číslo v. TP").setSortable(true);
-        gridVehicles.addColumn(vehicle -> vehicle.getbTechnicalCert().getToDate()).setHeader("Splatnost v. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getbTechnicalCert().getToDate())).setHeader("Splatnost v. TP").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getDocumentNumber()).setHeader("Číslo m. TP").setSortable(true);
-        gridVehicles.addColumn(vehicle -> vehicle.getsTechnicalCert().getToDate()).setHeader("Splatnost m. TP").setSortable(true);
+        gridVehicles.addColumn(vehicle -> dateBeautify(vehicle.getsTechnicalCert().getToDate())).setHeader("Splatnost m. TP").setSortable(true);
         gridVehicles.addColumn(vehicle -> vehicle.isActive()).setHeader("Aktivní").setSortable(true);
 
         //tlacitka
@@ -123,14 +117,20 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
     }
 
+    private String dateBeautify(Timestamp tms) {
+        String day = String.valueOf(tms.toLocalDateTime().getDayOfMonth());
+        String month = String.valueOf(tms.toLocalDateTime().getMonthValue());
+        String year = String.valueOf(tms.toLocalDateTime().getYear());
+        return day + ". " + month + ". " + year;
+    }
+
     private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldBornnumListener() {
-        return e ->{
+        return e -> {
             Person tmpPerson = userService.findPersonByBornNum(fieldBornnum.getValue());
-            if(tmpPerson!=null){
+            if (tmpPerson != null) {
                 fieldSurname.setValue(tmpPerson.getLastName());
                 fieldName.setValue(tmpPerson.getFirstName());
-            }
-            else{
+            } else {
                 fieldSurname.setValue("");
                 fieldName.setValue("");
             }
@@ -313,9 +313,6 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
         gridVehicles.setItems(vehicleService.getAllVehicles());
     }
 
-    /**
-     * This model binds properties between VehicleForm and vehicle-form
-     */
     public interface VehicleFormModel extends TemplateModel {
         // Add setters and getters for template properties here.
     }

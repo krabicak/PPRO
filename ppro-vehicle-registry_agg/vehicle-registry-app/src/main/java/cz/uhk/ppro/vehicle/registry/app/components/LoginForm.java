@@ -45,9 +45,6 @@ public class LoginForm extends PolymerTemplate<LoginForm.LoginFormModel> {
     @Id("vaadinVerticalLayout")
     private Element vaadinVerticalLayout;
 
-    /**
-     * Creates a new LoginForm.
-     */
     public LoginForm() {
         login.addClickListener(getOnClickLoginListener());
         login.addClickShortcut(Key.ENTER);

@@ -14,10 +14,8 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import cz.uhk.ppro.vehicle.registry.app.layouts.InternalLayout;
 import cz.uhk.ppro.vehicle.registry.app.services.*;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
-import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -74,9 +72,6 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         // You can initialise any data required for the connected UI components here.
     }
 
-    /**
-     * Creates a new InsuranceForm.
-     */
     @PostConstruct
     public void init() {
 
@@ -184,31 +179,35 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
-            dateFrom.setValue(null);
-            dateTo.setValue(null);
-            selectVehicle.setValue(null);
-
-            if (loginService.isLoggedUserInsurer()) {
-                //select
-                for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
-                    if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
-                        selectInsurancerEmployee.setValue(ie);
-                        break;
-                    }
-                }
-                selectInsurancerEmployee.setEnabled(false);
-
-            } else {
-                selectInsurancerEmployee.setValue(null);
-            }
-
-            fieldName.setValue("");
-            fieldSurname.setValue("");
-            fieldBornnum.setValue("");
-
-            gridInsurancies.deselectAll();
-            actualInsurance = new Insurance();
+            resetForm();
         };
+    }
+
+    private void resetForm() {
+        dateFrom.setValue(null);
+        dateTo.setValue(null);
+        selectVehicle.setValue(null);
+
+        if (loginService.isLoggedUserInsurer()) {
+            //select
+            for (InsuranceEmployee ie : insuranceEmployeeService.getAllInsuranceEmployee()) {
+                if (sessionService.getLogin().equals(ie.getUser().getLogin())) {
+                    selectInsurancerEmployee.setValue(ie);
+                    break;
+                }
+            }
+            selectInsurancerEmployee.setEnabled(false);
+
+        } else {
+            selectInsurancerEmployee.setValue(null);
+        }
+
+        fieldName.setValue("");
+        fieldSurname.setValue("");
+        fieldBornnum.setValue("");
+
+        gridInsurancies.deselectAll();
+        actualInsurance = null;
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {

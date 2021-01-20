@@ -5,7 +5,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemClickEvent;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.TextField;
@@ -15,19 +14,12 @@ import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
 import cz.uhk.ppro.vehicle.registry.app.services.InsuranceCompanyService;
 import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.InsuranceCompanyException;
-import cz.uhk.ppro.vehicle.registry.core.VehicleRegistryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-/**
- * A Designer generated component for the insurance-form template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("insurance-company-form")
 @JsModule("./src/views/insurance-company-form.js")
 public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.InsuranceCompanyFormModel> {
@@ -59,9 +51,6 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         // You can initialise any data required for the connected UI components here.
     }
 
-    /**
-     * Creates a new InsuranceForm.
-     */
     @PostConstruct
     public void init() {
 
@@ -90,10 +79,14 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
 
     private ComponentEventListener<ClickEvent<Button>> buttonResetListener() {
         return e -> {
-            fieldInsurance.setValue("");
-            actualInsuranceCompany = new InsuranceCompany();
-            gridInsurancies.deselectAll();
+            resetForm();
         };
+    }
+
+    private void resetForm() {
+        fieldInsurance.setValue("");
+        actualInsuranceCompany = null;
+        gridInsurancies.deselectAll();
     }
 
     private ComponentEventListener<ClickEvent<Button>> buttonEditInsuranceListener() {
@@ -103,6 +96,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
                 actualInsuranceCompany.setCompanyName(fieldInsurance.getValue());
                 insuranceService.addOrUpdateInsuranceCompany(actualInsuranceCompany);
                 refreshGrid();
+                resetForm();
                 dialogService.showNotification("Pojišťovna upravena");
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
@@ -116,6 +110,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
                 if (actualInsuranceCompany == null) throw new RuntimeException("Není vybrána žádná pojišťovna");
                 insuranceService.removeInsuranceCompany(actualInsuranceCompany);
                 refreshGrid();
+                resetForm();
                 dialogService.showNotification("Pojišťovna smazána");
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
@@ -130,6 +125,7 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
             try {
                 insuranceService.addOrUpdateInsuranceCompany(tmp);
                 refreshGrid();
+                resetForm();
                 dialogService.showNotification("Pojišťovna přidána");
             } catch (InsuranceCompanyException ex) {
                 dialogService.showErrorDialog(ex);
@@ -148,10 +144,6 @@ public class InsuranceCompanyForm extends PolymerTemplate<InsuranceCompanyForm.I
         gridInsurancies.setItems(insuranceService.getAllInsuranceCompanies());
     }
 
-    /**
-     * This model binds properties between InsuranceForm and insurance-form
-     */
     public interface InsuranceCompanyFormModel extends TemplateModel {
-        // Add setters and getters for template properties here.
     }
 }

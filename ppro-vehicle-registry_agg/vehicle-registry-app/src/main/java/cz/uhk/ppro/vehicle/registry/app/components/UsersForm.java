@@ -31,12 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
-/**
- * A Designer generated component for the users-form template.
- * <p>
- * Designer will add and remove fields with @Id mappings but
- * does not overwrite or otherwise change this file.
- */
 @Tag("users-form")
 @JsModule("./src/views/users-form.js")
 public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
@@ -92,11 +86,6 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     @Id("buttonReset")
     private Button buttonReset;
 
-    //private CustomerService service = CustomerService.getInstance();
-
-    /**
-     * Creates a new UsersForm.
-     */
     @PostConstruct
     public void init() {
 
@@ -221,7 +210,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonDeleteUserListener() {
         return e -> {
             try {
-                if (actualUser == null){
+                if (actualUser == null) {
                     throw new RuntimeException("Není vybrán žádný uživatel");
                 }
                 if (actualUser.getRole() == User.UserRole.INSURER) {
@@ -240,7 +229,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
     private ComponentEventListener<ClickEvent<Button>> buttonEditUserListener() {
         return e -> {
             try {
-                if (actualUser == null){
+                if (actualUser == null) {
                     throw new RuntimeException("Není vybrán žádný uživatel");
                 }
                 String login = fieldLogin.getValue();

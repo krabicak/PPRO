@@ -167,7 +167,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
             fieldBornnum.setValue("");
 
             checkBoxActive.setValue(false);
-            actualVehicle = new Vehicle();
+            actualVehicle = null;
             gridVehicles.deselectAll();
         };
     }

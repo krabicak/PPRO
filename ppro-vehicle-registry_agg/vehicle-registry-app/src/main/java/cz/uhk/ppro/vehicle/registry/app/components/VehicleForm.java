@@ -274,7 +274,7 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                     docStech.setDocumentNumber(fieldSmallTechnical.getValue());
                 }
 
-                //vehicle1.setbTechnicalCert(docBtech);
+                vehicle1.setbTechnicalCert(docBtech);
                 vehicle1.setsTechnicalCert(docStech);
 
 

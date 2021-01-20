@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
  * does not overwrite or otherwise change this file.
  */
 @Route(value = "login", layout = MainLayout.class)
-@PageTitle("Login")
+@PageTitle("Přihlášení")
 @RouteAlias(value = "login-page", layout = MainLayout.class)
 public class LoginView extends LoginForm implements BeforeEnterObserver{
 

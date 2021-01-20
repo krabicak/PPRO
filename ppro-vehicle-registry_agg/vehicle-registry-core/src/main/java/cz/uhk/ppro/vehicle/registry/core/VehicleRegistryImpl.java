@@ -72,8 +72,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     @Override
     public void addOrUpdateUser(User user) throws PersonException, UserException {
         Person person = user.getPerson();
-        person = personRepo.findByBornNum(person.getBornNum());
-        if (person != null) user.getPerson().setIdPerson(person.getIdPerson());
+        if (person != null) {
+            person = personRepo.findByBornNum(person.getBornNum());
+            if (person != null) user.getPerson().setIdPerson(person.getIdPerson());
+        }
         userValidator.validate(user);
         if (user.getRole() != User.UserRole.INSURER) {
             InsuranceEmployee employee = getInsuranceEmployee(user);

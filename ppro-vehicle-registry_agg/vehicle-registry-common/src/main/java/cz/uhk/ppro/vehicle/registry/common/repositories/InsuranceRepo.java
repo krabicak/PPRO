@@ -1,6 +1,8 @@
 package cz.uhk.ppro.vehicle.registry.common.repositories;
 
 import cz.uhk.ppro.vehicle.registry.common.entities.Insurance;
+import cz.uhk.ppro.vehicle.registry.common.entities.InsuranceCompany;
+import cz.uhk.ppro.vehicle.registry.common.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,4 +35,8 @@ public interface InsuranceRepo extends JpaRepository<Insurance, Long> {
             "o.bornNum like %:keyword% or " +
             "o.lastName like %:keyword%")
     List<Insurance> findInsurancesByKeyword(@Param("keyword") String keyword);
+
+    List<Insurance> findByInsurancer(User user);
+
+    List<Insurance> findByInsuranceCompany(InsuranceCompany insuranceCompany);
 }

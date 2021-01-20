@@ -156,7 +156,11 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void removeInsuranceCompany(InsuranceCompany insuranceCompany) {
+    public void removeInsuranceCompany(InsuranceCompany insuranceCompany) throws InsuranceCompanyException {
+        if (insuranceEmployeeRepo.findByInsuranceCompany(insuranceCompany).size() != 0)
+            throw new InsuranceCompanyException("Nelze odstranit pojišťovnu, která má uživatele");
+        if (insuranceRepo.findByInsuranceCompany(insuranceCompany).size() != 0)
+            throw new InsuranceCompanyException("Nelze odstranit pojišťovnu, která má aktivní pojištění");
         insuranceCompanyRepo.delete(insuranceCompany);
     }
 
@@ -176,8 +180,10 @@ public class VehicleRegistryImpl implements VehicleRegistry {
     }
 
     @Override
-    public void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee) {
-        insuranceEmployeeRepo.delete(insuranceEmployee);
+    public void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws UserException {
+        if (insuranceRepo.findByInsurancer(insuranceEmployee.getUser()).size() != 0)
+                throw new UserException("Nelze odstranit uživatele, který zřídil aktivní pojištění");
+            insuranceEmployeeRepo.delete(insuranceEmployee);
     }
 
 

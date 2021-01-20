@@ -3,6 +3,7 @@ package cz.uhk.ppro.vehicle.registry.common.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Entity pro pojištění na určité vozidlo

@@ -27,12 +27,12 @@ public interface VehicleRegistry {
     void addOrUpdateInsuranceCompany(InsuranceCompany insuranceCompany)
             throws InsuranceCompanyException;
 
-    void removeInsuranceCompany(InsuranceCompany insuranceCompany);
+    void removeInsuranceCompany(InsuranceCompany insuranceCompany) throws InsuranceCompanyException;
 
     void addOrUpdateInsuranceEmployee(InsuranceEmployee insuranceEmployee)
             throws PersonException, InsuranceCompanyException, UserException;
 
-    void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee);
+    void removeInsuranceEmployee(InsuranceEmployee insuranceEmployee) throws UserException;
 
     void addOrUpdateInsurance(Insurance insurance)
             throws VinException, SpzException, InsuranceCompanyException, UserException, PersonException, InsuranceException, DocumentException;

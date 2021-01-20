@@ -270,10 +270,11 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
                 }*/
 
                 Document docStech = new Document();
-                if (!fieldSmallTechnical.getValue().isEmpty()) {
+                if (dateSmallTechnical.getValue() != null) {
                     docStech.setToDate(Timestamp.valueOf(dateSmallTechnical.getValue().atStartOfDay()));
-                    docStech.setDocumentNumber(fieldSmallTechnical.getValue());
                 }
+
+                docStech.setDocumentNumber(fieldSmallTechnical.getValue());
 
                 vehicle1.setbTechnicalCert(docBtech);
                 vehicle1.setsTechnicalCert(docStech);

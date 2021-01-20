@@ -5,8 +5,8 @@ import '@vaadin/vaadin-grid/src/vaadin-grid.js';
 import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-checkbox/src/vaadin-checkbox.js';
-import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '@polymer/iron-icon/iron-icon.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 
 class VehicleForm extends PolymerElement {
 
@@ -26,7 +26,7 @@ class VehicleForm extends PolymerElement {
     <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
    </vaadin-text-field>
    <vaadin-checkbox id="checkBoxNoInsurance">
-    Zobrazit nepojištěná vozidla
+     Zobrazit nepojištěná vozidla 
    </vaadin-checkbox>
   </vaadin-horizontal-layout>
   <vaadin-grid items="[[items]]" id="gridVehicles" style="flex-shrink: 0; width: 100%;"></vaadin-grid>
@@ -41,9 +41,9 @@ class VehicleForm extends PolymerElement {
   <vaadin-date-picker label="Splatnost malého TP" placeholder="Vyber datum" id="dateSmallTechnical" required></vaadin-date-picker>
   <vaadin-text-field label="Číslo velkého TP" placeholder="Číslo velkého TP" id="fieldBigTechnical" required></vaadin-text-field>
   <vaadin-date-picker label="Splatnost velkého TP" placeholder="Vyber datum" id="dateBigTechnical" required></vaadin-date-picker>
+  <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum" required invalid></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName" required></vaadin-text-field>
   <vaadin-text-field label="Přijmení" placeholder="Přijmení" id="fieldSurname" required></vaadin-text-field>
-  <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum" required></vaadin-text-field>
   <vaadin-checkbox id="checkBoxActive">
     Aktivní 
   </vaadin-checkbox>

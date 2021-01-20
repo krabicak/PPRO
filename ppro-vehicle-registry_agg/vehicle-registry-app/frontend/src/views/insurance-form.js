@@ -2,11 +2,11 @@ import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-grid/src/vaadin-grid.js';
+import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
+import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-button/src/vaadin-button.js';
-import '@vaadin/vaadin-date-picker/src/vaadin-date-picker.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
-import '@vaadin/vaadin-combo-box/src/vaadin-combo-box.js';
 
 class InsuranceForm extends PolymerElement {
 
@@ -34,9 +34,9 @@ class InsuranceForm extends PolymerElement {
   <vaadin-date-picker label="Do" placeholder="Do" id="dateTo"></vaadin-date-picker>
   <vaadin-combo-box id="selectVehicle" label="Vozidlo" clear-button-visible></vaadin-combo-box>
   <vaadin-combo-box id="selectInsurancerEmployee" label="Pojišťovák"></vaadin-combo-box>
+  <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Příjmení" placeholder="Příjmení" id="fieldSurname"></vaadin-text-field>
-  <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum"></vaadin-text-field>
   <vaadin-button id="buttonEditInsurance">
    <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Upravit 
   </vaadin-button>

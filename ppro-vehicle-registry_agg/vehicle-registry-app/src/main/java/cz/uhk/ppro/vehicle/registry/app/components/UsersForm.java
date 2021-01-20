@@ -233,6 +233,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                 dialogService.showErrorDialog(ex);
             }
             refreshGrid();
+            resetForm();
         };
     }
 
@@ -266,9 +267,9 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     userService.addOrUpdateUser(actualUser);
                 }
                 refreshGrid();
+                resetForm();
                 dialogService.showNotification("Uživatel upraven");
 
-                resetForm();
 
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);
@@ -306,6 +307,7 @@ public class UsersForm extends PolymerTemplate<UsersForm.UsersFormModel> {
                     userService.addOrUpdateUser(tmpUser);
                 }
                 refreshGrid();
+                resetForm();
                 dialogService.showNotification("Uživatel přidán");
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);

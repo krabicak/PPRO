@@ -14,6 +14,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import cz.uhk.ppro.vehicle.registry.app.services.DialogService;
+import cz.uhk.ppro.vehicle.registry.app.services.UserService;
 import cz.uhk.ppro.vehicle.registry.app.services.VehicleService;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.DocumentException;
@@ -39,6 +40,8 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
     private DialogService dialogService;
     @Autowired
     private VehicleService vehicleService;
+    @Autowired
+    private UserService userService;
     @Id("gridVehicles")
     private Grid<Vehicle> gridVehicles;
     @Id("fieldSpz")
@@ -113,6 +116,25 @@ public class VehicleForm extends PolymerTemplate<VehicleForm.VehicleFormModel> {
 
         //checkbox na nepojisteny
         checkBoxNoInsurance.addClickListener(checkBoxNoInsuranceListener());
+
+        //listener na rc
+        fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldBornnum.addValueChangeListener(fieldBornnumListener());
+
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldBornnumListener() {
+        return e ->{
+            Person tmpPerson = userService.findPersonByBornNum(fieldBornnum.getValue());
+            if(tmpPerson!=null){
+                fieldSurname.setValue(tmpPerson.getLastName());
+                fieldName.setValue(tmpPerson.getFirstName());
+            }
+            else{
+                fieldSurname.setValue("");
+                fieldName.setValue("");
+            }
+        };
     }
 
     private ComponentEventListener<ClickEvent<Checkbox>> checkBoxNoInsuranceListener() {

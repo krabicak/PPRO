@@ -268,10 +268,13 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
                 tmpInsurance.setVehicle(selectVehicle.getValue());
 
                 //pojistovna
-                tmpInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
-
+                if (selectInsurancerEmployee.getValue() != null)
+                    tmpInsurance.setInsuranceCompany(selectInsurancerEmployee.getValue().getInsuranceCompany());
+                else tmpInsurance.setInsuranceCompany(new InsuranceCompany());
                 //pojistovak
-                tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
+                if (selectInsurancerEmployee.getValue() != null)
+                    tmpInsurance.setInsurancer(selectInsurancerEmployee.getValue().getUser());
+                else tmpInsurance.setInsurancer(new User());
 
                 //nova osoba
                 Person tmpPerson = new Person();

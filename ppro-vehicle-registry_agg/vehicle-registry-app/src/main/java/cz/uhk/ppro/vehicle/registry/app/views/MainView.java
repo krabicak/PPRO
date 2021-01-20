@@ -2,6 +2,7 @@ package cz.uhk.ppro.vehicle.registry.app.views;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -39,10 +40,27 @@ public class MainView extends PolymerTemplate<MainView.MainViewModel> {
     private Element vaadinVerticalLayout;
     @Id("verticalLayout")
     private Element verticalLayout;
+    @Id("usersManagement")
+    private Div usersManagement;
+    @Id("insuranceCompanyManagement")
+    private Div insuranceCompanyManagement;
+    @Id("vehiclesManagement")
+    private Div vehiclesManagement;
+    @Id("insuranceManagement")
+    private Div insuranceManagement;
 
 
     @PostConstruct
     public void init() {
+        if (loginService.isLoggedUserClerk()) {
+            insuranceManagement.setVisible(false);
+            insuranceCompanyManagement.setVisible(false);
+            usersManagement.setVisible(false);
+        } else if (loginService.isLoggedUserInsurer()) {
+            vehiclesManagement.setVisible(false);
+            insuranceCompanyManagement.setVisible(false);
+            usersManagement.setVisible(false);
+        }
     }
 
 

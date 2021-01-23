@@ -1,8 +1,6 @@
 package cz.uhk.ppro.vehicle.registry.core;
 
-import cz.uhk.ppro.vehicle.registry.common.entities.Person;
-import cz.uhk.ppro.vehicle.registry.common.entities.User;
-import cz.uhk.ppro.vehicle.registry.common.entities.Vehicle;
+import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
@@ -20,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +58,13 @@ public class VehicleRegistryImplTest {
 
     private User userMock;
     private Person personMock;
+    private Vin vinMock;
+    private Spz spzMock;
+    private Document documentMock;
+    private Vehicle vehicleMock;
+    private Insurance insuranceMock;
+    private InsuranceCompany insuranceCompanyMock;
+    private InsuranceEmployee insuranceEmployeeMock;
 
     @Before
     public void init() {
@@ -75,6 +81,50 @@ public class VehicleRegistryImplTest {
         personMock.setLastName("Lopata");
         personMock.setFirstName("František");
         userMock.setPerson(personMock);
+
+        //hotovo
+        vinMock = new Vin();
+        vinMock.setIdvin(1L);
+        vinMock.setVin("TMBLJ7NS0J8086958");
+
+        //hotovo
+        spzMock = new Spz();
+        spzMock.setSpz("9A99999");
+        spzMock.setIdSpz(1L);
+
+        //hotovo
+        insuranceCompanyMock = new InsuranceCompany();
+        insuranceCompanyMock.setCompanyName("Kooperativa");
+
+        //hotovo
+        documentMock = new Document();
+        documentMock.setDocumentNumber("UAC123456");
+        documentMock.setToDate(new Timestamp(System.currentTimeMillis()));
+        documentMock.setIdDocument(1L);
+
+        //hotovo
+        vehicleMock = new Vehicle();
+        vehicleMock.setSpz(spzMock);
+        vehicleMock.setVin(vinMock);
+        vehicleMock.setbTechnicalCert(documentMock);
+        vehicleMock.setsTechnicalCert(documentMock);
+        vehicleMock.setActive(true);
+        vehicleMock.setOwner(personMock);
+
+        //hotovo
+        insuranceMock = new Insurance();
+        insuranceMock.setInsuranceCompany(insuranceCompanyMock);
+        insuranceMock.setVehicle(vehicleMock);
+        insuranceMock.setToDate(new Timestamp(System.currentTimeMillis()));
+        insuranceMock.setFromDate(new Timestamp(System.currentTimeMillis()));
+        insuranceMock.setPerson(personMock);
+        insuranceMock.setInsurancer(userMock);
+
+        //hotovo
+        insuranceEmployeeMock = new InsuranceEmployee();
+        insuranceEmployeeMock.setUser(userMock);
+        insuranceEmployeeMock.setInsuranceCompany(insuranceCompanyMock);
+        insuranceEmployeeMock.setIdInsuranceCompany(1L);
 
     }
 

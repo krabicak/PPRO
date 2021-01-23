@@ -7,7 +7,6 @@ import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.*;
-import cz.uhk.ppro.vehicle.registry.core.validators.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -86,6 +86,11 @@ public class VehicleRegistryImplTest {
 
     @Test
     public void getAllUsers() {
+        List<User> allUsers = new ArrayList<>();
+        allUsers.add(userMock);
+        when(userRepo.findAllByOrderByPerson()).thenReturn(allUsers);
+        List<User> allUsers1 = vehicleRegistry.getAllUsers();
+        assertEquals(userMock, allUsers1);
     }
 
     @Test
@@ -105,7 +110,8 @@ public class VehicleRegistryImplTest {
     }
 
     @Test
-    public void removeUser() {
+    public void removeUser() throws PersonException {
+        vehicleRegistry.removeUser(userMock);
     }
 
     @Test

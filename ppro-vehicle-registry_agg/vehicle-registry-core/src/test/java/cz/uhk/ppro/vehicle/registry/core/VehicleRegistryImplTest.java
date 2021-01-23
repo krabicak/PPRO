@@ -16,6 +16,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -32,7 +33,8 @@ public class VehicleRegistryImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTest.class);
 
-    @Spy
+    @InjectMocks
+    @Autowired
     private VehicleRegistryImpl vehicleRegistry;
 
     @Mock
@@ -53,34 +55,6 @@ public class VehicleRegistryImplTest {
     private InsuranceEmployeeRepo insuranceEmployeeRepo;
     @Mock
     private InsuranceRepo insuranceRepo;
-
-/*    @InjectMocks
-    @Spy
-    private DocumentValidator documentValidator;
-    @InjectMocks
-    @Spy
-    private InsuranceCompanyValidator insuranceCompanyValidator;
-    @InjectMocks
-    @Spy
-    private InsuranceEmployeeValidator insuranceEmployeeValidator;
-    @InjectMocks
-    @Spy
-    private InsuranceValidator insuranceValidator;
-    @InjectMocks
-    @Spy
-    private PersonValidator personValidator;
-    @InjectMocks
-    @Spy
-    private SpzValidator spzValidator;
-    @InjectMocks
-    @Spy
-    private UserValidator userValidator;
-    @InjectMocks
-    @Spy
-    private VehicleValidator vehicleValidator;
-    @InjectMocks
-    @Spy
-    private VinValidator vinValidator;*/
 
     private User userMock;
     private Person personMock;
@@ -107,7 +81,7 @@ public class VehicleRegistryImplTest {
     public void getUserByLogin() {
         when(userRepo.getUserByLogin("TESTLOGIN")).thenReturn(userMock);
         User usr = vehicleRegistry.getUserByLogin("TESTLOGIN");
-        assertEquals(userMock,usr);
+        assertEquals(userMock, usr);
     }
 
     @Test
@@ -120,14 +94,14 @@ public class VehicleRegistryImplTest {
             vehicleRegistry.addOrUpdateUser(new User());
         });
 
-        assertEquals(exception.getMessage(),(new UserException("Není vyplněno přihlašovací jméno!")).getMessage());
+        assertEquals((new UserException("Není vyplněno přihlašovací jméno!")).getMessage(), exception.getMessage());
 
         PersonException exception1 = assertThrows(PersonException.class, () -> {
             userMock.setPerson(null);
             vehicleRegistry.addOrUpdateUser(userMock);
         });
 
-        assertEquals(exception1.getMessage(),(new PersonException("Není vyplněno přihlašovací jméno!")).getMessage());
+        assertEquals((new PersonException("Údaje o osobě nejsou vyplěny!")).getMessage(), exception1.getMessage());
     }
 
     @Test
@@ -267,14 +241,14 @@ public class VehicleRegistryImplTest {
 
     @Test
     @Disabled
-    public void searchVehicleTest(){
+    public void searchVehicleTest() {
         List<Vehicle> vehicles = vehicleRegistry.findVehiclesByKeyWord("dsadsa");
         vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
     }
 
     @Test
     @Disabled
-    public void searchUsersTest(){
+    public void searchUsersTest() {
         List<User> vehicles = vehicleRegistry.findUsersByKeyWord("dfdsfdsfs");
         vehicles.forEach(vehicle -> logger.info(vehicle.toString()));
     }
@@ -297,6 +271,6 @@ public class VehicleRegistryImplTest {
 
 
         User user = vehicleRegistry.loginUser("hotov", "94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
-        assertEquals(user,userMock);
+        assertEquals(user, userMock);
     }
 }

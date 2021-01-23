@@ -16,7 +16,6 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -24,17 +23,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration("classpath:/spring-vehicle-registry-core-test-AplicationContext.xml")
-public class VehicleRegistryImplTst {
+public class VehicleRegistryImplTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTst.class);
+    private static final Logger logger = LoggerFactory.getLogger(VehicleRegistryImplTest.class);
 
-    @InjectMocks
+    @Spy
     private VehicleRegistryImpl vehicleRegistry;
 
     @Mock
@@ -56,22 +54,39 @@ public class VehicleRegistryImplTst {
     @Mock
     private InsuranceRepo insuranceRepo;
 
+/*    @InjectMocks
     @Spy
-    private VehicleValidator vehicleValidator;
+    private DocumentValidator documentValidator;
+    @InjectMocks
     @Spy
     private InsuranceCompanyValidator insuranceCompanyValidator;
+    @InjectMocks
     @Spy
     private InsuranceEmployeeValidator insuranceEmployeeValidator;
+    @InjectMocks
     @Spy
     private InsuranceValidator insuranceValidator;
+    @InjectMocks
+    @Spy
+    private PersonValidator personValidator;
+    @InjectMocks
+    @Spy
+    private SpzValidator spzValidator;
+    @InjectMocks
     @Spy
     private UserValidator userValidator;
+    @InjectMocks
+    @Spy
+    private VehicleValidator vehicleValidator;
+    @InjectMocks
+    @Spy
+    private VinValidator vinValidator;*/
 
     private User userMock;
     private Person personMock;
 
     @BeforeEach
-    void init() {
+    public void init() {
         userMock = new User();
         userMock.setRole(User.UserRole.ADMIN);
         userMock.setPassword("94EE059335E587E501CC4BF90613E0814F00A7B08BC7C648FD865A2AF6A22CC2");
@@ -89,18 +104,18 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
-    void getUserByLogin() {
+    public void getUserByLogin() {
         when(userRepo.getUserByLogin("TESTLOGIN")).thenReturn(userMock);
         User usr = vehicleRegistry.getUserByLogin("TESTLOGIN");
         assertEquals(userMock,usr);
     }
 
     @Test
-    void getAllUsers() {
+    public void getAllUsers() {
     }
 
     @Test
-    void addOrUpdateUser() {
+    public void addOrUpdateUser() {
         UserException exception = assertThrows(UserException.class, () -> {
             vehicleRegistry.addOrUpdateUser(new User());
         });
@@ -116,75 +131,75 @@ public class VehicleRegistryImplTst {
     }
 
     @Test
-    void removeUser() {
+    public void removeUser() {
     }
 
     @Test
-    void getAllVehicles() {
+    public void getAllVehicles() {
     }
 
     @Test
-    void addOrUpdateVehicle() {
+    public void addOrUpdateVehicle() {
     }
 
     @Test
-    void getAllInsuranceCompanies() {
+    public void getAllInsuranceCompanies() {
     }
 
     @Test
-    void addOrUpdateInsuranceCompany() {
+    public void addOrUpdateInsuranceCompany() {
     }
 
     @Test
-    void removeInsuranceCompany() {
+    public void removeInsuranceCompany() {
     }
 
     @Test
-    void addOrUpdateInsuranceEmployee() {
+    public void addOrUpdateInsuranceEmployee() {
     }
 
     @Test
-    void removeInsuranceEmployee() {
+    public void removeInsuranceEmployee() {
     }
 
     @Test
-    void addOrUpdateInsurance() {
+    public void addOrUpdateInsurance() {
     }
 
     @Test
-    void getInsuranceEmployee() {
+    public void getInsuranceEmployee() {
     }
 
     @Test
-    void getAllInsuranceEmployees() {
+    public void getAllInsuranceEmployees() {
     }
 
     @Test
-    void getAllInsurancies() {
+    public void getAllInsurancies() {
     }
 
     @Test
-    void removeInsurance() {
+    public void removeInsurance() {
     }
 
     @Test
-    void findVehiclesByKeyWord() {
+    public void findVehiclesByKeyWord() {
     }
 
     @Test
-    void getUninsuredVehicles() {
+    public void getUninsuredVehicles() {
     }
 
     @Test
-    void findUsersByKeyWord() {
+    public void findUsersByKeyWord() {
     }
 
     @Test
-    void findInsuranceCompaniesByKeyWord() {
+    public void findInsuranceCompaniesByKeyWord() {
     }
 
     @Test
-    void findInsurancisByKeyWord() {
+    public void findInsurancisByKeyWord() {
     }
 
     @Test
@@ -267,7 +282,7 @@ public class VehicleRegistryImplTst {
 
     @Test
     @Disabled
-    void loginUser() throws FaultLoginException {
+    public void loginUser() throws FaultLoginException {
         User userMock = new User();
         userMock.setLogin("hotov");
         userMock.setEnable(true);

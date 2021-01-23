@@ -2,6 +2,9 @@ version: '3'
 
 services: 
   database: 
+    build:
+      context: .
+      dockerfile: Dockerfile_mysql
     image: 'mysql_vreg:8.0.22'
     restart: always
     container_name: vreg_db
@@ -13,6 +16,9 @@ services:
     ports:
       - '3306:3306'
   vreg:
+    build:
+      context: .
+      dockerfile: Dockerfile_vreg
     image: 'vreg:1.0'
     restart: on-failure
     depends_on:

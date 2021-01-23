@@ -7,6 +7,7 @@ import cz.uhk.ppro.vehicle.registry.common.exceptions.FaultLoginException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.PersonException;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.UserException;
 import cz.uhk.ppro.vehicle.registry.common.repositories.*;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ public class VehicleRegistryImplTest {
     private User userMock;
     private Person personMock;
 
-    @BeforeEach
+    @Before
     public void init() {
         userMock = new User();
         userMock.setRole(User.UserRole.ADMIN);

@@ -11,6 +11,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -30,6 +31,7 @@ import java.util.Date;
 @RouteAlias(value = "main", layout = InternalLayout.class)
 @RouteAlias(value = "main-page", layout = InternalLayout.class)
 @Tag("main-view")
+@PageTitle("Vítejte")
 @JsModule("./src/views/main-view.js")
 public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 

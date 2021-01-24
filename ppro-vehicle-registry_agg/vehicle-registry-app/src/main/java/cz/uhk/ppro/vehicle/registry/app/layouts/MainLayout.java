@@ -60,6 +60,7 @@ public class MainLayout
         LoadingIndicatorConfiguration conf = initialPageSettings.getLoadingIndicatorConfiguration();
 
         conf.setApplyDefaultTheme(false);
+        initialPageSettings.addFavIcon("icon", "icons/icon.png", "256x256");
 
     }
 }

@@ -33,7 +33,7 @@ class InsuranceForm extends PolymerElement {
   <vaadin-date-picker label="Od" placeholder="Od" id="dateFrom"></vaadin-date-picker>
   <vaadin-date-picker label="Do" placeholder="Do" id="dateTo"></vaadin-date-picker>
   <vaadin-combo-box id="selectVehicle" label="Vozidlo" clear-button-visible></vaadin-combo-box>
-  <vaadin-combo-box id="selectInsurancerEmployee" label="Pojišťovák"></vaadin-combo-box>
+  <vaadin-combo-box id="selectInsurancerEmployee" label="Pojistitel"></vaadin-combo-box>
   <vaadin-text-field label="Rodné číslo" placeholder="Rodné číslo" id="fieldBornnum"></vaadin-text-field>
   <vaadin-text-field label="Jméno" placeholder="Jméno" id="fieldName"></vaadin-text-field>
   <vaadin-text-field label="Příjmení" placeholder="Příjmení" id="fieldSurname"></vaadin-text-field>

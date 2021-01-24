@@ -122,9 +122,9 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         gridInsurancies.addColumn(insurance -> insurance.getVehicle().getSpz().getSpz()).setHeader("SPZ").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getInsuranceCompany().getCompanyName()).setHeader("Pojišťovna").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getInsurancer().getPerson().getFirstName() + " "
-                + insurance.getInsurancer().getPerson().getLastName()).setHeader("Pojišťovák").setSortable(true);
+                + insurance.getInsurancer().getPerson().getLastName()).setHeader("Pojistitel").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getPerson().getFirstName() + " "
-                + insurance.getPerson().getLastName()).setHeader("Pojistitel").setSortable(true);
+                + insurance.getPerson().getLastName()).setHeader("Zákazník").setSortable(true);
         gridInsurancies.addColumn(insurance -> insurance.getPerson().getBornNum()).setHeader("Rodné číslo").setSortable(true);
 
         gridInsurancies.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -303,6 +303,7 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
 
                 insuranceService.addOrUpdateInsurance(tmpInsurance);
                 refreshGrid();
+                dialogService.showNotification("Pojištění přidáno");
                 dialogService.showNotification("Pojištění přidáno");
             } catch (Exception ex) {
                 dialogService.showErrorDialog(ex);

@@ -3,7 +3,6 @@ package cz.uhk.ppro.vehicle.registry.core;
 import cz.uhk.ppro.vehicle.registry.common.entities.*;
 import cz.uhk.ppro.vehicle.registry.common.exceptions.*;
 import cz.uhk.ppro.vehicle.registry.common.repositories.*;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -139,7 +139,7 @@ public class VehicleRegistryImplTest {
         allUsers.add(userMock);
         when(userRepo.findAllByOrderByPerson()).thenReturn(allUsers);
         List<User> allUsers1 = vehicleRegistry.getAllUsers();
-        assertEquals(userMock, allUsers1);
+        assertEquals(allUsers, allUsers1);
     }
 
     @Test
@@ -172,17 +172,6 @@ public class VehicleRegistryImplTest {
     }
 
     @Test
-    public void addOrUpdateVehicle() {
-        //when(personRepo.findByBornNum("123456789")).thenReturn(personMock);
-        VinException exception = assertThrows(VinException.class, () -> {
-            vehicleRegistry.addOrUpdateVehicle(new Vehicle());
-        });
-
-        assertEquals((new VinException("Není vyplněno přihlašovací jméno!")).getMessage(), exception.getMessage());
-
-    }
-
-    @Test
     public void getAllInsuranceCompanies() {
         List<InsuranceCompany> insuranceCompanies = new ArrayList<>();
         insuranceCompanies.add(insuranceCompanyMock);
@@ -191,29 +180,13 @@ public class VehicleRegistryImplTest {
     }
 
     @Test
-    public void addOrUpdateInsuranceCompany() {
-    }
-
-    @Test
     public void removeInsuranceCompany() throws InsuranceCompanyException {
         vehicleRegistry.removeInsuranceCompany(insuranceCompanyMock);
     }
 
     @Test
-    public void addOrUpdateInsuranceEmployee() {
-    }
-
-    @Test
     public void removeInsuranceEmployee() throws UserException {
         vehicleRegistry.removeInsuranceEmployee(insuranceEmployeeMock);
-    }
-
-    @Test
-    public void addOrUpdateInsurance() {
-    }
-
-    @Test
-    public void getInsuranceEmployee() {
     }
 
     @Test
@@ -237,24 +210,36 @@ public class VehicleRegistryImplTest {
 
     @Test
     public void findVehiclesByKeyWord() {
-    }
-
-    @Test
-    public void getUninsuredVehicles() {
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(vehicleMock);
+        when(vehicleRepo.findVehiclesByKeyWord("A")).thenReturn(vehicles);
+        assertEquals(vehicles,vehicleRegistry.findVehiclesByKeyWord("A"));
     }
 
     @Test
     public void findUsersByKeyWord() {
+        List<User> allUsers = new ArrayList<>();
+        allUsers.add(userMock);
+        when(userRepo.findUsersByKeyword("A")).thenReturn(allUsers);
+        List<User> allUsers1 = vehicleRegistry.findUsersByKeyWord("A");
+        assertEquals(allUsers, allUsers1);
     }
 
     @Test
     public void findInsuranceCompaniesByKeyWord() {
+        List<InsuranceCompany> insuranceCompanies = new ArrayList<>();
+        insuranceCompanies.add(insuranceCompanyMock);
+        when(insuranceCompanyRepo.findInsuranceCompaniesByKeyword("A")).thenReturn(insuranceCompanies);
+        assertEquals(insuranceCompanies,vehicleRegistry.findInsuranceCompaniesByKeyWord("A"));
     }
 
     @Test
     public void findInsurancisByKeyWord() {
+        List<Insurance> insurances = new ArrayList<>();
+        when(insuranceRepo.findInsurancesByKeyword("A")).thenReturn(insurances);
+        assertEquals(insurances,vehicleRegistry.findInsurancisByKeyWord("A"));
     }
-    
+
     @Test
     @Disabled
     public void getAllUsersTest() {

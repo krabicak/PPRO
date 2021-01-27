@@ -67,6 +67,8 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
     @Autowired
     private InsuranceService insuranceService;
     private Insurance actualInsurance;
+    @Id("fieldSearch")
+    private TextField fieldSearch;
 
     public InsuranceForm() {
         // You can initialise any data required for the connected UI components here.
@@ -134,7 +136,17 @@ public class InsuranceForm extends PolymerTemplate<InsuranceForm.InsuranceFormMo
         fieldBornnum.setValueChangeMode(ValueChangeMode.EAGER);
         fieldBornnum.addValueChangeListener(fieldBornnumListener());
 
+        //vyhledavani
+        fieldSearch.setValueChangeMode(ValueChangeMode.EAGER);
+        fieldSearch.addValueChangeListener(fieldSearchListener());
+
         refreshGrid();
+    }
+
+    private HasValue.ValueChangeListener<? super AbstractField.ComponentValueChangeEvent<TextField, String>> fieldSearchListener() {
+        return event -> {
+            gridInsurancies.setItems(insuranceService.findInsurancisByKeyWord(fieldSearch.getValue()));
+        };
     }
 
     private ComponentEventListener<ItemClickEvent<Insurance>> gridCLickListener() {
